@@ -25,7 +25,7 @@ function Frame() {
     }, []);
 
     return (
-        <>
+        <div className="back_gray">
             <Header />
             <main id="external-medium">
                 <Card variant="outlined" id="start-frame" className="p-25">
@@ -164,7 +164,7 @@ function Frame() {
                 </Card>
             </main>
             <Footer />
-        </>
+        </div>
     )
 }
 

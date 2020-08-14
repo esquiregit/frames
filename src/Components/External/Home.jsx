@@ -18,7 +18,7 @@ function Home() {
     ];
 
     return (
-        <>
+        <div className="back_gray">
             <Header />
             <main id="external">
                 <Card variant="outlined">
@@ -70,7 +70,7 @@ function Home() {
                 </Card>
             </main>
             <Footer />
-        </>
+        </div>
     )
 }
 
