@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
 import Axios from 'axios';
-import Tippy from '@tippy.js/react';
+import Tippy from '@tippyjs/react';
 import Button from '@material-ui/core/Button';
 import Footer from './Layout/Footer';
 import Header from './Layout/Header';
@@ -22,7 +22,7 @@ import { isPrefixValid, toCapitalCase } from '../Extras/Functions';
 import { FormikTextField } from 'formik-material-fields';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
-import 'tippy.js/dist/tippy.css';
+import 'tippyjs/dist/tippy.css';
 
 const validationSchema = Yup.object().shape({
     first_name: Yup

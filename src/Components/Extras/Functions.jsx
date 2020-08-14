@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export const getGenderOptions = () => {
     return [
         { label: 'Male', value: 'Male' },
@@ -14,6 +16,9 @@ export const getMaxDate = () => {
     const year  = date.getFullYear();
     
     return year+'-'+month+'-'+day;
+}
+export const getMinBookingDate = () => {
+    return moment().add(7, 'days').format('YYYY[-]MM[-]DD');
 }
 export const toCapitalCase = (string) => {
     const array    = string.split(' ');

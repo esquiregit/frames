@@ -523,6 +523,11 @@ img:hover {
 }
 
 /* gallery */
+form#consultation_form 
+.MuiDialogContent-root {
+    padding-left: 100px;
+    padding-right: 100px;
+}
 .MuiCard-root .gallery_banner {
     background-image: url(./assets/gallery-wall.webp);
     background-repeat: no-repeat;
@@ -1239,6 +1244,13 @@ footer#internal {
     .MuiCard-root .testimonials .MuiGrid-grid-xs-12:nth-child(2) ul {
         margin-top: -20px;
         margin-left: -50px;
+    }
+}
+@media(max-width: 650px) {
+    form#consultation_form 
+    .MuiDialogContent-root {
+        padding-left: 30px;
+        padding-right: 30px;
     }
 }
 @media(max-width: 960px) {
