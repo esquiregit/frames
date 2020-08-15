@@ -1,24 +1,26 @@
 import React from 'react';
 import md5 from 'md5';
 import Card from '@material-ui/core/Card';
+import Grid from '@material-ui/core/Grid';
 import Axios from 'axios';
 import Tippy from '@tippyjs/react';
 import Footer from './../Layout/Footer';
 import Header from './../Layout/Header';
-import styles from '../Extras/styles';
+import styles from '../../Extras/styles';
 import Button from '@material-ui/core/Button';
 import Toastrr from '../../Extras/Toastrr';
 import Backdrop from '@material-ui/core/Backdrop';
-import ConfirmDialogue from '../Extras/ConfirmDialogue';
+import MenuItem from '@material-ui/core/MenuItem';
+import ConfirmDialogue from '../../Extras/ConfirmDialogue';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { update } from '../../Store/Actions/AuthActions';
-import { getBaseURL } from '../Extras/server';
+import { update } from '../../../Store/Actions/AuthActions';
+import { getBaseURL } from '../../Extras/server';
 import { Form, Formik } from 'formik';
-import { isPrefixValid, toCapitalCase } from '../Extras/Functions';
+import { isPrefixValid, toCapitalCase, getRegions } from '../../Extras/Functions';
 import { FormikTextField } from 'formik-material-fields';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
-import 'tippyjs/dist/tippy.css';
+import 'tippy.js/dist/tippy.css';
 
 const validationSchema = Yup.object().shape({
     first_name: Yup
@@ -106,7 +108,10 @@ function Profile({ history }) {
     }, []);
     
     const closeConfirm = result => {
-        setShowConfirm(false);
+        setState({
+            ...state,
+            showConfirm : false,
+        });
         result.toLowerCase() === 'yes' && onSubmit();
     };
     const onConfirm    = values => {
@@ -131,30 +136,31 @@ function Profile({ history }) {
 
         const data = {
             ...state.values,
-            password         : values.password.trim() ? md5(values.password) : '',
-            confirm_password : values.confirm_password.trim() ? md5(values.confirm_password) : '',
+            password         : state.values.password.trim() ? md5(state.values.password) : '',
+            confirm_password : state.values.confirm_password.trim() ? md5(state.values.confirm_password) : '',
         };
         
         if(user) {
             Axios.post(getBaseURL()+'update_customer', data, { signal: signal })
                 .then(response => {
                     if(response.data[0].status.toLowerCase() === 'success') {
-                        let first_name = toCapitalCase(values.first_name);
-                        let last_name  = toCapitalCase(values.last_name);
+                        let first_name = toCapitalCase(state.values.first_name);
+                        let last_name  = toCapitalCase(state.values.last_name);
 
                         const newStaff = {
                             ...user,
                             first_name       : first_name,
                             last_name        : last_name,
-                            email_address    : values.email_address.toLowerCase(),
-                            phone_number     : values.phone_number,
-                            phone_number_two : values.phone_number_two,
+                            email_address    : state.values.email_address.toLowerCase(),
+                            phone_number     : state.values.phone_number,
+                            phone_number_two : state.values.phone_number_two,
                             name             : first_name+' '+last_name
                         };
                         setState({
                             ...state,
                             message : response.data[0].message,
                             success : true,
+                            backdrop: false,
                         });
                         dispatch(update(newStaff));
                     } else if(response.data[0].status.toLowerCase() === 'warning') {
@@ -162,15 +168,16 @@ function Profile({ history }) {
                             ...state,
                             message : response.data[0].message,
                             warning : true,
+                            backdrop: false,
                         });
                     } else {
                         setState({
                             ...state,
                             error   : true,
                             message : response.data[0].message,
+                            backdrop: false,
                         });
                     }
-                    setBackdrop(false);
                 })
                 .catch(error => {
                     setState({
@@ -197,7 +204,168 @@ function Profile({ history }) {
             <Header user={user} />
             <main id="external">
                 <Card variant="outlined">
-                    
+                    <Formik
+                        initialValues={initialValues}
+                        validationSchema={validationSchema}
+                        onSubmit={onConfirm} >
+                        {({ isValid, dirty }) => (
+                            <Form>
+                                <Grid container spacing={4}>
+                                    <Grid item xs={6}>
+                                        <FormikTextField
+                                            size="small"
+                                            variant="outlined"
+                                            margin="normal"
+                                            fullWidth
+                                            id="first_name"
+                                            label="First Name"
+                                            placeholder="First Name"
+                                            name="first_name" />
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <FormikTextField
+                                            size="small"
+                                            variant="outlined"
+                                            margin="normal"
+                                            fullWidth
+                                            id="last_name"
+                                            label="Last Name"
+                                            placeholder="Last Name"
+                                            name="last_name" />
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <FormikTextField
+                                            size="small"
+                                            variant="outlined"
+                                            margin="normal"
+                                            fullWidth
+                                            id="email_address"
+                                            label="Email Address"
+                                            placeholder="Email Address"
+                                            name="email_address" />
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <FormikTextField
+                                            size="small"
+                                            variant="outlined"
+                                            margin="normal"
+                                            fullWidth
+                                            id="phone_number"
+                                            label="Phone Number"
+                                            placeholder="Phone Number"
+                                            name="phone_number" />
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <FormikTextField
+                                            size="small"
+                                            variant="outlined"
+                                            margin="normal"
+                                            fullWidth
+                                            id="phone_number_two"
+                                            label="Alternate Phone Number"
+                                            placeholder="Alternate Phone Number - Optional"
+                                            name="phone_number_two" />
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <FormikTextField
+                                            multiline
+                                            rows={2}
+                                            variant="outlined"
+                                            margin="normal"
+                                            fullWidth
+                                            id="address"
+                                            label="Address"
+                                            placeholder="Address"
+                                            name="address" />
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <FormikTextField
+                                            size="small"
+                                            variant="outlined"
+                                            margin="normal"
+                                            fullWidth
+                                            id="district"
+                                            label="District"
+                                            placeholder="District"
+                                            name="district" />
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <FormikTextField
+                                            size="small"
+                                            variant="outlined"
+                                            margin="normal"
+                                            fullWidth
+                                            id="city"
+                                            label="City"
+                                            placeholder="City"
+                                            name="city" />
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <FormikTextField
+                                            select
+                                            size="small"
+                                            variant="outlined"
+                                            margin="normal"
+                                            fullWidth
+                                            label="Region"
+                                            id="region"
+                                            name="region">
+                                            {getRegions().map((region, index) => (
+                                                <MenuItem key={index} value={region}>
+                                                    {region}
+                                                </MenuItem>
+                                            ))}
+                                        </FormikTextField>
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <FormikTextField
+                                            size="small"
+                                            type="password"
+                                            variant="outlined"
+                                            margin="normal"
+                                            fullWidth
+                                            id="password"
+                                            label="Password"
+                                            placeholder="Password"
+                                            name="password" />
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <FormikTextField
+                                            size="small"
+                                            type="password"
+                                            variant="outlined"
+                                            margin="normal"
+                                            fullWidth
+                                            id="confirm_password"
+                                            label="Re-enter Password"
+                                            placeholder="Re-enter Password"
+                                            name="confirm_password" />
+                                    </Grid>
+                                    <Grid className="text-centre mb--20" item xs={12}>
+                                        <Tippy content="Reset">
+                                            <Button
+                                                className="mr-5"
+                                                type="reset"
+                                                size="large"
+                                                color="secondary">
+                                                Reset
+                                            </Button>
+                                        </Tippy>
+                                        <Tippy content="Update Profile">
+                                            <Button
+                                                disabled={!(isValid && dirty)}
+                                                className="ml-5"
+                                                size="large"
+                                                type="submit"
+                                                color="primary">
+                                                Save
+                                            </Button>
+                                        </Tippy>
+                                    </Grid>
+                                </Grid>
+                            </Form>
+                        )}
+                    </Formik>
                 </Card>
             </main>
             <Footer />

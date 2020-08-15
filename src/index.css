@@ -614,7 +614,6 @@ li.slide div p:last-child {
     width: 80%;
     margin: auto auto 50px auto;
 }
-
 /* SIDEBAR */
 /* .MuiDrawer-paper {
     height: 100vh !important;
@@ -624,43 +623,33 @@ li.slide div p:last-child {
     margin-top: 65px;
     box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
 }
-
 .MuiIconButton-root, .MuiSvgIcon-root, .MuiListItemText-primary {
     color: #334455;
 }
-
 .MuiListItem-root:hover {
     background-color: rgba(51, 68, 85, 0.7) !important;
 }
-
 .MuiListItem-root:hover .MuiSvgIcon-root, .MuiListItem-root:hover .MuiListItemText-primary, .MuiAlert-icon .MuiSvgIcon-root, .MuiAlert-action .MuiButtonBase-root.MuiIconButton-root .MuiIconButton-label .MuiSvgIcon-root {
     color: #fff;
 }
-
 ul.MuiList-root.MuiList-padding:first-of-type {
     padding-top: 0 !important;
 }
-
 ul.MuiList-root a {
     text-decoration: none;
 }
-
 ul.MuiList-root a.active .MuiButtonBase-root.MuiListItem-root.MuiListItem-gutters.MuiListItem-button {
     background-color: #334455 !important;
 }
-
 ul.MuiList-root a.active .MuiButtonBase-root.MuiListItem-root.MuiListItem-gutters.MuiListItem-button .MuiListItemIcon-root .MuiSvgIcon-root {
     color: #fff !important;
 }
-
 ul.MuiList-root a.active .MuiButtonBase-root.MuiListItem-root.MuiListItem-gutters.MuiListItem-button .MuiListItemText-root .MuiTypography-root {
     color: #fff !important;
 }
-
 .MuiDivider-root {
     background-color: #d0dff0 !important;
 }
-
 /* END OF SIDEBAR */
 
 /* BREADCRUMB */
@@ -672,54 +661,44 @@ ul.MuiList-root a.active .MuiButtonBase-root.MuiListItem-root.MuiListItem-gutter
     padding: 12px 20px;
     margin: 40px -30px 20px -24px;
 }
-
 .breadcrumb-bar a {
     font-size: 18px;
     text-decoration: none;
     color: #ddd;
 }
-
 .MuiBreadcrumbs-li p {
     font-size: 18px;
     color: #fff;
     /* font-style: italic; */
 }
-
 .MuiBreadcrumbs-separator {
     font-size: 18px;
     color: #fff;
 }
-
 /* END OF BREADCRUMB */
 
 /* CARD */
-
 .MuiCard-root {
     border: 1px solid #abc !important;
     box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
 }
-
 .MuiCardContent-root {
     display: flex;
     justify-content: center;
     width: 100%;
 }
-
 .MuiCardContent-root div {
     display: flex;
     flex-direction: column;
     justify-content: center;
     width: 50%;
 }
-
 .MuiCardContent-root div:first-child {
     align-items: flex-start;
 }
-
 .MuiCardContent-root div:last-child {
     align-items: flex-end;
 }
-
 .MuiCardContent-root div:last-child p {
     font-weight: 700;
     margin-top: 15px;
@@ -1120,6 +1099,10 @@ main#external-medium {
 }
 main#internal {
     margin-bottom: 55px;
+}
+main#external form {
+    width: 90%;
+    margin: 40px auto;
 }
 /* END OF CALENDAR */
 
