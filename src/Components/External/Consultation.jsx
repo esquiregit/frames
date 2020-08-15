@@ -63,6 +63,7 @@ function Consultation({ closeModal, closeExpandable }) {
         phone_number  : user.phone_number || '',
         date          : '',
         time          : '',
+        is_customer   : user !== null ? true : false
     };
 
     const [state, setState] = useState({
