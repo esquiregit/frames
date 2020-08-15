@@ -16,6 +16,7 @@ import UploadImage from './Modals/UploadImage';
 import CloudUploadOutlinedIcon from '@material-ui/icons/CloudUploadOutlined';
 import { getBaseURL } from '../Extras/server';
 import { makeStyles } from '@material-ui/core/styles';
+import { useSelector } from 'react-redux';
 import { getMailInMethods, getServices, getQuantities, getMatSize, getMatStyle, getMatMaterial, getMountingMethod, getAcrylicType, getSpacer, getHangingHardware, getFrameModel } from '../Extras/Functions';
 
 const styles = makeStyles((theme) => ({
@@ -31,6 +32,7 @@ function Selection({ match }) {
     const classes  = styles();
     const MAX_SIZE = 1024*1024;
     const frame_id = match.params.frame_id;
+    const user     = useSelector(state => state.authReducer.user);
     
     const [state, setState] = useState({
         frame               : [],
@@ -193,7 +195,7 @@ function Selection({ match }) {
                 fileWidth={state.fileWidth}
                 fileHeight={state.fileHeight}
                 closeUploadImageModal={closeUploadImageModal} /> }
-            <Header />
+            <Header user={user} />
             <div style={{marginTop: 65}}>
                 <Card variant="outlined" className="selection-pane">
                     <Grid container spacing={3}>

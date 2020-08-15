@@ -73,7 +73,7 @@ const Login = ({ history }) => {
                         message : response.data[0].message,
                     });
                     dispatch(logIn(response.data[0].user, response.data[0].permissions));
-                    setTimeout(() => history.push('/dashboard/'), 2000);
+                    setTimeout(() => history.push('/admin/dashboard/'), 2000);
                 } else {
                     setState({
                         ...state,

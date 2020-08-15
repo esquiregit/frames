@@ -18,15 +18,17 @@ import OnlineArticle from '../../assets/online-article.png';
 import PersonalPhoto from '../../assets/personal-photo.jpg';
 import UnstretchedCanvas from '../../assets/canvas.jpg';
 import { NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 function Frame() {
     React.useEffect(() => {
         document.title = 'Start A Frame | Frames';
     }, []);
+    const user = useSelector(state => state.authReducer.user);
 
     return (
         <div className="back_gray">
-            <Header />
+            <Header user={user} />
             <main id="external-medium">
                 <Card variant="outlined" id="start-frame" className="p-25">
                     <p>what do you want to frame?</p>

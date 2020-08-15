@@ -37,11 +37,11 @@ function App() {
                     <Route path='/login/'                     component={ Login }          exact />
                     <Route path='/sign-up/'                   component={ Register }       exact />
                     <Route path='/recovery/'                  component={ Recovery }       exact />
-                    <Route path='/dashboard/'                 component={ Dashboard }      exact />
                     <Route path='/activities/'                component={ AuditTrail }     exact />
                     <Route path='/gallery-wall/'              component={ GalleryWall }    exact />
                     <Route path='/start-a-frame/'             component={ StartAFrame }    exact />
                     <Route path='/refer-a-friend/'            component={ ReferFriend }    exact />
+                    <Route path='/admin/dashboard/'           component={ Dashboard }      exact />
                     <Route path='/design/:frame_id'           component={ Design }         exact />
                     <Route path='/password-recovery/'         component={ Recovery }       exact />
                     <Route path='/start-a-frame/:type/'       component={ FrameType }      exact />

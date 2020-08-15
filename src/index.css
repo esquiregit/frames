@@ -155,7 +155,7 @@ div.MuiToolbar-root.MuiToolbar-regular.header.MuiToolbar-gutters
 }
 header 
 div.MuiToolbar-root.MuiToolbar-regular.header.MuiToolbar-gutters 
-.nav-links:last-child {
+.nav-links a#cart {
     flex: 1 1 5%;
     display: flex;
     justify-content: flex-end;
@@ -163,8 +163,11 @@ div.MuiToolbar-root.MuiToolbar-regular.header.MuiToolbar-gutters
 }
 header 
 div.MuiToolbar-root.MuiToolbar-regular.header.MuiToolbar-gutters 
-.nav-links:last-child a:last-child:hover {
-    border-radius: 50px;
+.nav-links a#cart:hover,
+header 
+div.MuiToolbar-root.MuiToolbar-regular.header.MuiToolbar-gutters 
+.nav-links a#cart ~ button:hover {
+    border-radius: 50px !important;
 }
 
 .header a {
@@ -1196,6 +1199,8 @@ footer#internal {
         padding-left: 30px;
         padding-right: 30px;
     }
+}
+@media(max-width: 700px) {
     header 
     div.MuiToolbar-root.MuiToolbar-regular.header.MuiToolbar-gutters 
     .nav-links.centre {

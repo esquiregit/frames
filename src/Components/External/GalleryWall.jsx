@@ -7,11 +7,13 @@ import Footer from './Layout/Footer';
 import Header from './Layout/Header';
 import Carousel from './Carousel';
 import Consultation from './Consultation';
+import { useSelector } from 'react-redux';
 
 function GalleryWall() {
     React.useEffect(() => {
         document.title = 'Gallery Wall | Frames';
     }, []);
+    const user = useSelector(state => state.authReducer.user);
 
     const [state, setstate] = React.useState({
         showModal: false,
@@ -38,7 +40,7 @@ function GalleryWall() {
         <>
             { state.showModal && <Consultation closeModal={closeModal} /> }
             <div className="back_gray">
-                <Header />
+                <Header user={user} />
                 <main id="external">
                     <Card variant="outlined">
                         <div className="gallery_banner">

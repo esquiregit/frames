@@ -5,11 +5,13 @@ import Footer from './Layout/Footer';
 import Header from './Layout/Header';
 import Carousel from './Carousel';
 import { NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 function Home() {
     React.useEffect(() => {
         document.title = 'Home | Frames';
     }, []);
+    const user = useSelector(state => state.authReducer.user);
 
     const slides = [
         { testimony: "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts", name: "- Saviour Eleblu" },
@@ -19,7 +21,7 @@ function Home() {
 
     return (
         <div className="back_gray">
-            <Header />
+            <Header user={user} />
             <main id="external">
                 <Card variant="outlined">
                     <div className="banner">

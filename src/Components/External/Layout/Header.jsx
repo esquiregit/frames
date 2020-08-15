@@ -76,7 +76,7 @@ const Header = ({ user }) => {
 
                     <div className="nav-links">
                         <NavLink to="/login/">Login</NavLink>
-                        <NavLink to="/cart/">
+                        <NavLink to="/cart/" id="cart">
                             <Badge
                                 max={99}
                                 showZero
@@ -85,38 +85,47 @@ const Header = ({ user }) => {
                                 <ShoppingCartOutlinedIcon className="fs-20" />
                             </Badge>
                         </NavLink>
-                        <IconButton
-                            aria-label="Profile And Log Out Options"
-                            aria-controls="menu-appbar"
-                            aria-haspopup="true"
-                            onClick={handleMenu}
-                            color="inherit"
-                            className="options">
-                            <AccountCircle />
-                        </IconButton>
-                        <StyledMenu
-                            className="mt-6"
-                            anchorEl={state.anchorEl}
-                            keepMounted
-                            open={Boolean(state.anchorEl)}
-                            onClose={handleClose}>
-                            <NavLink to="/profile/">
-                                <StyledMenuItem
+                        {
+                            user &&
+                            <>
+                                <IconButton
+                                    title="Your Account"
+                                    aria-label="Profile And Log Out Options"
+                                    aria-controls="menu-appbar"
+                                    aria-haspopup="true"
+                                    onClick={handleMenu}
+                                    color="inherit"
+                                    className="options">
+                                        <Typography variant="h6" className="title">
+                                            {'Emmanuel'}
+                                        </Typography>
+                                        <AccountCircle className="ml-5" />
+                                </IconButton>
+                                <StyledMenu
+                                    className="mt-6"
+                                    anchorEl={state.anchorEl}
+                                    keepMounted
+                                    open={Boolean(state.anchorEl)}
                                     onClose={handleClose}>
-                                    <ListItemIcon>
-                                        <AccountCircle fontSize="small" />
-                                    </ListItemIcon>
-                                    <ListItemText primary="Profile" />
-                                </StyledMenuItem>
-                            </NavLink>
-                            <Divider />
-                            <StyledMenuItem>
-                                <ListItemIcon>
-                                    <PowerSettingsNewIcon fontSize="small" />
-                                </ListItemIcon>
-                                <ListItemText primary="Log Out" />
-                            </StyledMenuItem>
-                        </StyledMenu>
+                                    <NavLink to="/profile/">
+                                        <StyledMenuItem
+                                            onClose={handleClose}>
+                                            <ListItemIcon>
+                                                <AccountCircle fontSize="small" />
+                                            </ListItemIcon>
+                                            <ListItemText primary="Profile" />
+                                        </StyledMenuItem>
+                                    </NavLink>
+                                    <Divider />
+                                    <StyledMenuItem>
+                                        <ListItemIcon>
+                                            <PowerSettingsNewIcon fontSize="small" />
+                                        </ListItemIcon>
+                                        <ListItemText primary="Log Out" />
+                                    </StyledMenuItem>
+                                </StyledMenu>
+                            </>
+                        }
                     </div>
                 </Toolbar>
             </AppBar>

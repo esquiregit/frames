@@ -6,11 +6,13 @@ import Image from '../../assets/frame3.jpg';
 import Footer from './Layout/Footer';
 import Header from './Layout/Header';
 import { NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { getHeadingFull, getHeading } from '../Extras/Functions';
 
 function FrameType({ match }) {
     const type    = match.params.type;
     const heading = getHeadingFull(type);
+    const user    = useSelector(state => state.authReducer.user);
     const random  = Math.floor((Math.random() * 50) + 1);
     let frames    = [];
     for(var index = 0; index < random; index++) {
@@ -23,7 +25,7 @@ function FrameType({ match }) {
 
     return (
         <div className="back_gray">
-            <Header />
+            <Header user={user} />
             <main id="external">
                 <Card variant="outlined">
                     <div className="type_banner">
