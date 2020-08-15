@@ -10,6 +10,7 @@ import Backdrop from '@material-ui/core/Backdrop';
 import ConfirmDialogue from '../Extras/ConfirmDialogue';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { getBaseURL } from '../Extras/server';
+import { useSelector } from 'react-redux';
 import { Form, Formik } from 'formik';
 import { FormikTextField } from 'formik-material-fields';
 import { DialogContent, DialogActions, DialogTitle, Transition } from '../Extras/Dialogue';
@@ -42,15 +43,24 @@ const validationSchema = Yup.object().shape({
         .required('Please Enter Time You Will Be Available'),
 });
 
-function Consultation({ closeConsultationModal, closeExpandable }) {
+function Consultation({ closeModal, closeExpandable }) {
     const classes = styles();
+    // const user    = useSelector(state => state.authReducer.user);
+    const rand = Math.random();
+    let user = {};
+console.log('rand: ', rand)
+    if(rand < 0.5) {
+        user = {
+            name: 'Solomon Danso',
+            email_address: 'solo@danso.com',
+            phone_number: '0271243514',
+        };
+    }
 
     const initialValues = {
-        name          : '',
-        email_address : '',
-        date          : '',
-        time          : '',
-        phone_number  : '',
+        name          : user && user.name || '',
+        email_address : user && user.email_address || '',
+        phone_number  : user && user.phone_number || '',
         date          : '',
         time          : '',
     };
@@ -71,6 +81,7 @@ function Consultation({ closeConsultationModal, closeExpandable }) {
             ...state,
             open : false,
         });
+        closeModal();
     };
     const closeConfirm = result => {
         setState({
@@ -107,6 +118,7 @@ function Consultation({ closeConsultationModal, closeExpandable }) {
                         success : true,
                         backdrop: false
                     });
+                    closeModal();
                 } else if(response.data[0].status.toLowerCase() === 'warning') {
                     setState({
                         ...state,
@@ -167,6 +179,8 @@ function Consultation({ closeConsultationModal, closeExpandable }) {
                                 <Grid container spacing={3}>
                                     <Grid item xs={12}>
                                         <FormikTextField
+                                            disabled={user !== null}
+                                            size="small"
                                             variant="outlined"
                                             margin="normal"
                                             fullWidth
@@ -177,6 +191,8 @@ function Consultation({ closeConsultationModal, closeExpandable }) {
                                     </Grid>
                                     <Grid item xs={12}>
                                         <FormikTextField
+                                            disabled={user !== null}
+                                            size="small"
                                             variant="outlined"
                                             margin="normal"
                                             fullWidth
@@ -187,6 +203,8 @@ function Consultation({ closeConsultationModal, closeExpandable }) {
                                     </Grid>
                                     <Grid item xs={12}>
                                         <FormikTextField
+                                            disabled={user !== null}
+                                            size="small"
                                             variant="outlined"
                                             margin="normal"
                                             fullWidth
@@ -197,6 +215,7 @@ function Consultation({ closeConsultationModal, closeExpandable }) {
                                     </Grid>
                                     <Grid item xs={12} sm={6}>
                                         <FormikTextField
+                                            size="small"
                                             InputProps={{ inputProps: { min: getMinBookingDate() } }}
                                             variant="outlined"
                                             margin="normal"
@@ -210,6 +229,7 @@ function Consultation({ closeConsultationModal, closeExpandable }) {
                                     </Grid>
                                     <Grid item xs={12} sm={6}>
                                         <FormikTextField
+                                            size="small"
                                             variant="outlined"
                                             margin="normal"
                                             fullWidth

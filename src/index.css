@@ -1280,6 +1280,15 @@ footer#internal {
     .MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-12.MuiGrid-grid-md-6:last-child {
         padding-left: 70px;
     }
+    .type_info 
+    .MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-12.MuiGrid-grid-md-4 
+    .single-course-area {
+        /* border: 1px solid red; */
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        padding-bottom: 20px;
+    }
 }
 @media (max-width: 992px) {
     .react-calendar__tile--now, .react-calendar__tile--active {

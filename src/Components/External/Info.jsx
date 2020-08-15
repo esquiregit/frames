@@ -7,7 +7,7 @@ import VerifiedUserOutlinedIcon from '@material-ui/icons/VerifiedUserOutlined';
 function Info() {
     return (
         <Grid container spacing={3}>
-            <Grid item xs={12} sm={12} md={4}>
+            <Grid item xs={12} sm={6} md={4}>
                 <div className="single-course-area d-flex mb-100">
                     <div className="course-icon">
                         <VerifiedUserOutlinedIcon />
@@ -18,7 +18,7 @@ function Info() {
                     </div>
                 </div>
             </Grid>
-            <Grid item xs={12} sm={12} md={4}>
+            <Grid item xs={12} sm={6} md={4}>
                 <div className="single-course-area d-flex mb-100">
                     <div className="course-icon">
                         <WallpaperIcon />
@@ -29,7 +29,7 @@ function Info() {
                     </div>
                 </div>
             </Grid>
-            <Grid item xs={12} sm={12} md={4}>
+            <Grid item xs={12} md={4}>
                 <div className="single-course-area d-flex mb-100">
                     <div className="course-icon">
                         <AttachMoneyIcon />
