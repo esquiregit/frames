@@ -105,7 +105,7 @@ function Profile({ history }) {
     const [showConfirm, setShowConfirm] = useState(false);
 
     React.useEffect(() => {
-        document.title = 'Profile | The Frame Shop Accra';
+        document.title = 'Profile | The Frame Shop';
     }, [user, history, backdrop]);
     
     const closeConfirm = result => {

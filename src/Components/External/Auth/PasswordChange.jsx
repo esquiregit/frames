@@ -42,7 +42,7 @@ const PasswordChange = ({ match, history }) => {
     const [comError, setComError] = useState(false);
 
     useEffect(() => {
-        document.title        = 'Password Change | The Frame Shop Accra';
+        document.title        = 'Password Change | The Frame Shop';
         const abortController = new AbortController();
         const signal          = abortController.signal;
 

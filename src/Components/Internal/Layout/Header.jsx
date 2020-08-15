@@ -98,7 +98,7 @@ const Header = (props) => {
                             { visible ? <ArrowBackIosIcon className="cursor-pointer" /> : <ArrowForwardIosIcon className="cursor-pointer" />}
                         </IconButton>
                         <Typography variant="h6" className="title">
-                            <NavLink to="/dashboard/">The Frame Shop Accra</NavLink>
+                            <NavLink to="/dashboard/">The Frame Shop</NavLink>
                         </Typography>
                         <div>
                             <IconButton

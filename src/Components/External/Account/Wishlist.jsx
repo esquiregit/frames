@@ -22,7 +22,7 @@ function WishList({ history }) {
     })
 
     React.useEffect(() => {
-        document.title        = 'Your Wish List | The Frame Shop Accra';
+        document.title        = 'Your Wish List | The Frame Shop';
         const abortController = new AbortController();
         const signal          = abortController.signal;
         

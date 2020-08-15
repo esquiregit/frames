@@ -74,7 +74,7 @@ function Selection({ match }) {
     });
     
     useEffect(() => {
-        document.title        = 'Design Your Frame | The Frame Shop Accra';
+        document.title        = 'Design Your Frame | The Frame Shop';
         const abortController = new AbortController();
         const signal          = abortController.signal;
 

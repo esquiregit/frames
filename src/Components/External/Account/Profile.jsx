@@ -91,7 +91,6 @@ function Profile({ history }) {
         id               : user ? user.id : '',
         user_id          : user ? user.user_id : '',
         first_name       : user ? user.first_name : '',
-        other_name       : user ? user.other_name : '',
         last_name        : user ? user.last_name : '',
         email_address    : user ? user.email_address : '',
         phone_number     : user ? user.phone_number : '',
@@ -116,7 +115,7 @@ function Profile({ history }) {
     });
 
     React.useEffect(() => {
-        document.title = 'Your Profile | The Frame Shop Accra';
+        document.title = 'Your Profile | The Frame Shop';
     }, []);
     
     const closeConfirm = result => {

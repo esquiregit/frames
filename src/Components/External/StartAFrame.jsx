@@ -22,7 +22,7 @@ import { useSelector } from 'react-redux';
 
 function Frame() {
     React.useEffect(() => {
-        document.title = 'Start A Frame | The Frame Shop Accra';
+        document.title = 'Start A Frame | The Frame Shop';
     }, []);
     const user = useSelector(state => state.authReducer.user);
 

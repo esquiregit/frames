@@ -60,7 +60,7 @@ const Header = ({ user }) => {
             <AppBar position="fixed">
                 <Toolbar className="header">
                     <Typography variant="h6" className="title">
-                        <NavLink to="/">The Frame Shop Accra</NavLink>
+                        <NavLink to="/">The Frame Shop</NavLink>
                     </Typography>
 
                     <div className="nav-links centre">

@@ -22,7 +22,7 @@ function Orders({ history }) {
     })
 
     React.useEffect(() => {
-        document.title        = 'Your Orders | The Frame Shop Accra';
+        document.title        = 'Your Orders | The Frame Shop';
         const abortController = new AbortController();
         const signal          = abortController.signal;
         

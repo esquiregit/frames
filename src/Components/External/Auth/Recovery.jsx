@@ -42,7 +42,7 @@ const Recovery = ({ history }) => {
     });
     
     useEffect(() => {
-        document.title = 'Password Recovery | The Frame Shop Accra';
+        document.title = 'Password Recovery | The Frame Shop';
     }, [history]);
 
     const onSubmit = (values, { resetForm }) => {

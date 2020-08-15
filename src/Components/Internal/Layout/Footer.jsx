@@ -33,7 +33,7 @@ const Footer = () => {
         //             </Grid> */}
 
         //             <Typography variant="h6" className="title fs-19">
-        //                 <NavLink to="/">The Frame Shop Accra Limited</NavLink>
+        //                 <NavLink to="/">The Frame Shop Limited</NavLink>
         //             </Typography>
 
         //             <Typography variant="h6" className="title text-right fs-15">

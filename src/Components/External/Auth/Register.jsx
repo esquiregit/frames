@@ -62,7 +62,7 @@ const Register = ({ history }) => {
     });
     
     useEffect(() => {
-        document.title = 'Register | The Frame Shop Accra';
+        document.title = 'Register | The Frame Shop';
     }, [history]);
 
     const onSubmit = (values, { resetForm }) => {
