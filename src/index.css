@@ -1155,6 +1155,47 @@ footer#internal {
 
 /* MEDIA QUERIES */
 @media(max-width: 550px) {
+}
+@media(max-width: 600px) {
+    .options .makeStyles-title-8 {
+        display: none;
+    }
+    .MuiIconButton-label .MuiTypography-root {
+        display: none;
+    }
+    .MuiDrawer-root .MuiPaper-root {
+        margin-top: 57px;
+    }
+    .breadcrumb-bar {
+        margin-top: 33px;
+    }
+    .MuiDialog-paper div.image-div {
+        height: 250px;
+    }
+    .MuiDialog-paper div.image-div img {
+        height: 90%;
+    }
+    footer#external>div {
+        padding: 30px;
+    }
+    /* .MuiCard-root .testimonials .MuiGrid-grid-xs-12:nth-child(2) {
+        border: 1px solid blue;
+    } */
+    .MuiCard-root .testimonials .MuiGrid-grid-xs-12:nth-child(2) h3 {
+        margin-top: 30px;
+        margin-left: -10px;
+    }
+    .MuiCard-root .testimonials .MuiGrid-grid-xs-12:nth-child(2) ul {
+        margin-top: -20px;
+        margin-left: -50px;
+    }
+}
+@media(max-width: 650px) {
+    form#consultation_form 
+    .MuiDialogContent-root {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
     header 
     div.MuiToolbar-root.MuiToolbar-regular.header.MuiToolbar-gutters 
     .nav-links.centre {
@@ -1210,47 +1251,6 @@ footer#internal {
     }
     div.large-menu a:hover {
         background-color: #f0f0f0;
-    }
-}
-@media(max-width: 600px) {
-    .options .makeStyles-title-8 {
-        display: none;
-    }
-    .MuiIconButton-label .MuiTypography-root {
-        display: none;
-    }
-    .MuiDrawer-root .MuiPaper-root {
-        margin-top: 57px;
-    }
-    .breadcrumb-bar {
-        margin-top: 33px;
-    }
-    .MuiDialog-paper div.image-div {
-        height: 250px;
-    }
-    .MuiDialog-paper div.image-div img {
-        height: 90%;
-    }
-    footer#external>div {
-        padding: 30px;
-    }
-    /* .MuiCard-root .testimonials .MuiGrid-grid-xs-12:nth-child(2) {
-        border: 1px solid blue;
-    } */
-    .MuiCard-root .testimonials .MuiGrid-grid-xs-12:nth-child(2) h3 {
-        margin-top: 30px;
-        margin-left: -10px;
-    }
-    .MuiCard-root .testimonials .MuiGrid-grid-xs-12:nth-child(2) ul {
-        margin-top: -20px;
-        margin-left: -50px;
-    }
-}
-@media(max-width: 650px) {
-    form#consultation_form 
-    .MuiDialogContent-root {
-        padding-left: 30px;
-        padding-right: 30px;
     }
 }
 @media(max-width: 960px) {

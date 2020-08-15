@@ -22,12 +22,11 @@ function GalleryWall() {
             showModal: true,
         });
     };
-    const closeModal = result => {
+    const closeModal = () => {
         setstate({
             ...state,
             showModal: false,
         });
-        console.log('result: ', result)
     };
     const slides     = [
         { testimony: "You all really went the extra mile to make sure that your product is something you and I are both proud of. I'll return to you all again and again.", name: "- Nana Akua" },

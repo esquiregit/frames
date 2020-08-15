@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import Menu from '@material-ui/core/Menu';
 import Axios from 'axios';
 import AppBar from '@material-ui/core/AppBar';
 import Divider from '@material-ui/core/Divider';
 import Toolbar from '@material-ui/core/Toolbar';
 import Backdrop from '@material-ui/core/Backdrop';
-import MenuItem from '@material-ui/core/MenuItem';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -17,10 +15,11 @@ import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import { logOut } from '../../../Store/Actions/RootAction';
 import { getBaseURL } from '../../Extras/server';
+import { makeStyles } from '@material-ui/core/styles';
 import { toggleSidebar } from '../../../Store/Actions/SidebarActions';
 import { NavLink, useHistory } from 'react-router-dom';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
+import { StyledMenu, StyledMenuItem } from '../../Extras/menuStyles';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -37,34 +36,6 @@ const useStyles = makeStyles((theme) => ({
         color: '#fff',
     },
 }));
-const StyledMenu = withStyles({
-    paper: {
-        border: '1px solid #d3d4d5',
-    },
-})((props) => (
-    <Menu
-        elevation={16}
-        getContentAnchorEl={null}
-        anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'right',
-        }}
-        transformOrigin={{
-            vertical: 'top',
-            horizontal: 'center',
-        }}
-        {...props}
-    />
-));
-const StyledMenuItem = withStyles((theme) => ({
-    root: {
-        '&:focus': {
-            '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
-                color: theme.palette.common.white,
-            },
-        },
-    },
-}))(MenuItem);
 
 const Header = (props) => {
     const { staff } = props;

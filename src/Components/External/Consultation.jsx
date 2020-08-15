@@ -10,7 +10,7 @@ import Backdrop from '@material-ui/core/Backdrop';
 import ConfirmDialogue from '../Extras/ConfirmDialogue';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { getBaseURL } from '../Extras/server';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 import { Form, Formik } from 'formik';
 import { FormikTextField } from 'formik-material-fields';
 import { DialogContent, DialogActions, DialogTitle, Transition } from '../Extras/Dialogue';
@@ -48,7 +48,7 @@ function Consultation({ closeModal, closeExpandable }) {
     // const user    = useSelector(state => state.authReducer.user);
     const rand = Math.random();
     let user = {};
-console.log('rand: ', rand)
+// console.log('rand: ', rand)
     if(rand < 0.5) {
         user = {
             name: 'Solomon Danso',
@@ -58,9 +58,9 @@ console.log('rand: ', rand)
     }
 
     const initialValues = {
-        name          : user && user.name || '',
-        email_address : user && user.email_address || '',
-        phone_number  : user && user.phone_number || '',
+        name          : user.name || '',
+        email_address : user.email_address || '',
+        phone_number  : user.phone_number || '',
         date          : '',
         time          : '',
     };
@@ -179,7 +179,7 @@ console.log('rand: ', rand)
                                 <Grid container spacing={3}>
                                     <Grid item xs={12}>
                                         <FormikTextField
-                                            disabled={user !== null}
+                                            disabled={user.name ? true : false}
                                             size="small"
                                             variant="outlined"
                                             margin="normal"
@@ -191,7 +191,7 @@ console.log('rand: ', rand)
                                     </Grid>
                                     <Grid item xs={12}>
                                         <FormikTextField
-                                            disabled={user !== null}
+                                            disabled={user.name ? true : false}
                                             size="small"
                                             variant="outlined"
                                             margin="normal"
@@ -203,7 +203,7 @@ console.log('rand: ', rand)
                                     </Grid>
                                     <Grid item xs={12}>
                                         <FormikTextField
-                                            disabled={user !== null}
+                                            disabled={user.name ? true : false}
                                             size="small"
                                             variant="outlined"
                                             margin="normal"
