@@ -110,7 +110,7 @@ const Header = ({ user }) => {
                                     keepMounted
                                     open={Boolean(state.anchorEl)}
                                     onClose={handleClose}>
-                                    <NavLink to="/profile/">
+                                    <NavLink to="/account/profile/">
                                         <StyledMenuItem
                                             onClose={handleClose}>
                                             <ListItemIcon>
@@ -120,7 +120,7 @@ const Header = ({ user }) => {
                                         </StyledMenuItem>
                                     </NavLink>
                                     <Divider />
-                                    <NavLink to="/orders/">
+                                    <NavLink to="/account/orders/">
                                         <StyledMenuItem
                                             onClose={handleClose}>
                                             <ListItemIcon>
@@ -130,7 +130,7 @@ const Header = ({ user }) => {
                                         </StyledMenuItem>
                                     </NavLink>
                                     <Divider />
-                                    <NavLink to="/wish-list/">
+                                    <NavLink to="/account/wish-list/">
                                         <StyledMenuItem
                                             onClose={handleClose}>
                                             <ListItemIcon>
@@ -140,7 +140,7 @@ const Header = ({ user }) => {
                                         </StyledMenuItem>
                                     </NavLink>
                                     <Divider />
-                                    <NavLink to="/testimonies/">
+                                    <NavLink to="/account/testimonies/">
                                         <StyledMenuItem
                                             onClose={handleClose}>
                                             <ListItemIcon>
