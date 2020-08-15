@@ -5,7 +5,7 @@ import Loader from '../../Extras/Loadrr';
 import Footer from './../Layout/Footer';
 import Header from './../Layout/Header';
 import Toastrr from '../../Extras/Toastrr';
-import EmptyData from '../../Extras/EmptyData';
+import ExternalEmptyData from '../../Extras/ExternalEmptyData';
 import MUIDataTable from "mui-datatables";
 import { getBaseURL } from '../../Extras/server';
 import { useSelector } from 'react-redux';
@@ -54,29 +54,36 @@ function Orders({ history }) {
     let rowsPerPage = [];
     const columns   = [
         {
-            label: "Staff ID",
-            name: "staff_id",
+            label: "Frame",
+            name: "frame",
             options: {
                 filter: true,
             }
         },
         {
-            label: "Name",
-            name: "name",
+            label: "Price",
+            name: "price",
             options: {
                 filter: true,
             }
         },
         {
-            label: "Role",
-            name: "role_name",
+            label: "Quantity",
+            name: "quantity",
             options: {
                 filter: true,
             }
         },
         {
-            label: "Order",
-            name: "activity",
+            label: "Cost",
+            name: "total",
+            options: {
+                filter: true,
+            }
+        },
+        {
+            label: "Status",
+            name: "status",
             options: {
                 filter: true,
             }
@@ -135,7 +142,7 @@ function Orders({ history }) {
                                 data={state.orders}
                                 columns={columns}
                                 options={options} />
-                            : <EmptyData error={state.comError} single="Order" plural="Orders" />
+                            : <ExternalEmptyData error={state.comError} single="Order" plural="Orders" />
                 }
                 </Card>
             </main>

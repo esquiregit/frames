@@ -76,21 +76,21 @@ const validationSchema = Yup.object().shape({
 });
 
 function Profile({ history }) {
-    const staff    = useSelector(state => state.authReducer.staff);
+    const user     = useSelector(state => state.authReducer.user);
     const classes  = styles();
     const visible  = useSelector(state => state.sidebarReducer.visible);
     const dispatch = useDispatch();
 
     const initialValues = {
-        id               : staff && staff.id,
-        staff_id         : staff && staff.staff_id,
-        first_name       : staff && staff.first_name,
-        other_name       : staff && staff.other_name,
-        last_name        : staff && staff.last_name,
-        email_address    : staff && staff.email_address,
-        phone_number     : staff && staff.phone_number,
-        phone_number_two : staff && staff.phone_number_two,
-        username         : staff && staff.username,
+        id               : user && user.id,
+        user_id          : user && user.user_id,
+        first_name       : user && user.first_name,
+        other_name       : user && user.other_name,
+        last_name        : user && user.last_name,
+        email_address    : user && user.email_address,
+        phone_number     : user && user.phone_number,
+        phone_number_two : user && user.phone_number_two,
+        username         : user && user.username,
         password         : '',
         confirm_password : '',
     };
@@ -106,7 +106,7 @@ function Profile({ history }) {
 
     React.useEffect(() => {
         document.title = 'Profile | The Frame Shop Accra';
-    }, [staff, history, backdrop]);
+    }, [user, history, backdrop]);
     
     const closeConfirm = result => {
         setShowConfirm(false);
@@ -125,7 +125,7 @@ function Profile({ history }) {
 
         const data = {
             id               : values.id,
-            staff_id         : values.staff_id,
+            user_id         : values.user_id,
             first_name       : values.first_name,
             other_name       : values.other_name,
             last_name        : values.last_name,
@@ -137,7 +137,7 @@ function Profile({ history }) {
             confirm_password : values.confirm_password.trim() ? md5(values.confirm_password) : '',
         };
         
-        if(staff) {
+        if(user) {
             Axios.post(getBaseURL()+'update_profile', data, { signal: signal })
                 .then(response => {
                     if(response.data[0].status.toLowerCase() === 'success') {
@@ -146,7 +146,7 @@ function Profile({ history }) {
                         let last_name  = toCapitalCase(values.last_name);
 
                         const newStaff = {
-                            ...staff,
+                            ...user,
                             first_name       : first_name,
                             other_name       : other_name,
                             last_name        : last_name,
@@ -190,8 +190,8 @@ function Profile({ history }) {
             <Backdrop className={classes.backdrop} open={backdrop}>
                 <CircularProgress color="inherit" /> <span className='ml-15'>Updating Your Details. Please Wait....</span>
             </Backdrop>
-            <Header staff={staff} />
-            <Sidebar roleName={staff && staff.role_name} />
+            <Header user={user} />
+            <Sidebar roleName={user && user.role_name} />
             <main
                 className={clsx(classes.contentMedium, {
                     [classes.contentWide]: !visible,
@@ -211,9 +211,9 @@ function Profile({ history }) {
                                             variant="outlined"
                                             margin="normal"
                                             fullWidth
-                                            id="staff_id"
+                                            id="user_id"
                                             label="Staff ID"
-                                            name="staff_id" />
+                                            name="user_id" />
                                     </Grid>
                                     <Grid item xs={4}>
                                         <FormikTextField

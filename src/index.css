@@ -1011,6 +1011,17 @@ td.MuiTableCell-body button:not(first-child) {
 /* END OF TABLE */
 
 /* EMPTY/NO DATA */
+.no {
+    border: 3px double #334455;
+    color: #334455;
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-left: 10px;
+}
+.no:hover {
+    background-color: #eee;
+}
 div.empty-data {
     position: relative;
     display: flex;
@@ -1020,7 +1031,6 @@ div.empty-data {
     justify-content: center;
     align-items: center;
 }
-
 div.unauthorized-access {
     position: relative;
     display: flex;
@@ -1030,17 +1040,14 @@ div.unauthorized-access {
     justify-content: center;
     align-items: center;
 }
-
 div.empty-data span, div.unauthorized-access span {
     font-size: 20px;
     margin-top: 20px;
     text-transform: capitalize;
 }
-
 div.empty-data .MuiSvgIcon-root, div.unauthorized-access .MuiSvgIcon-root {
     font-size: 200px !important;
 }
-
 /* END OF EMPTY/NO DATA */
 
 /* CANVAS */
