@@ -47,7 +47,7 @@ const Login = ({ history }) => {
     });
     
     useEffect(() => {
-        document.title = 'Login | Frames';
+        document.title = 'Login | The Frame Shop Accra';
     }, [history]);
 
     const onSubmit = (values, { resetForm }) => {

@@ -20,7 +20,7 @@ function FrameType({ match }) {
     }
 
     React.useEffect(() => {
-        document.title = getHeading(type)+' | Frames';
+        document.title = getHeading(type)+' | The Frame Shop Accra';
     }, [type]);
 
     return (

@@ -60,7 +60,7 @@ const Header = ({ user }) => {
             <AppBar position="fixed">
                 <Toolbar className="header">
                     <Typography variant="h6" className="title">
-                        <NavLink to="/">Frames</NavLink>
+                        <NavLink to="/">The Frame Shop Accra</NavLink>
                     </Typography>
 
                     <div className="nav-links centre">
@@ -99,7 +99,7 @@ const Header = ({ user }) => {
                                     onClick={handleMenu}
                                     color="inherit"
                                     className="options">
-                                        <Typography variant="h6" className="title">
+                                        <Typography variant="h6" className="title sm-only">
                                             {'Emmanuel'}
                                         </Typography>
                                         <AccountCircleOutlined className="ml-5" />

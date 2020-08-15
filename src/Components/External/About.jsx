@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 
 function About() {
     useEffect(() => {
-        document.title = 'About | Frames';
+        document.title = 'About | The Frame Shop Accra';
     }, []);
     const user = useSelector(state => state.authReducer.user);
 

@@ -136,14 +136,14 @@ header.MuiAppBar-root.MuiAppBar-positionFixed {
 header 
 div.MuiToolbar-root.MuiToolbar-regular.header.MuiToolbar-gutters 
 .title {
-    flex: 1 1 15%;
+    flex: 1 1 45%;
     color: #012;
     /* border: 1px solid red; */
 }
 header 
 div.MuiToolbar-root.MuiToolbar-regular.header.MuiToolbar-gutters 
 .nav-links.centre {
-    flex: 1 1 80%;
+    flex: 1 1 50%;
     /* border: 1px solid blue; */
     display: flex;
     justify-content: flex-end;
@@ -1200,7 +1200,10 @@ footer#internal {
         padding-right: 30px;
     }
 }
-@media(max-width: 700px) {
+@media(max-width: 900px) {
+    .title.sm-only {
+        display: none;
+    }
     header 
     div.MuiToolbar-root.MuiToolbar-regular.header.MuiToolbar-gutters 
     .nav-links.centre {

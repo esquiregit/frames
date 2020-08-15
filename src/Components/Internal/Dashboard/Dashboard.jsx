@@ -26,7 +26,7 @@ function Dashboard({ history }) {
     );
 
     useEffect(() => {
-        document.title = 'Dashboard | Frames';
+        document.title = 'Dashboard | The Frame Shop Accra';
 
         // if(staff) {
         //     Axios.post(getBaseURL() + 'get_dashboard_stats')

@@ -11,7 +11,7 @@ import { useSelector } from 'react-redux';
 
 function GalleryWall() {
     React.useEffect(() => {
-        document.title = 'Gallery Wall | Frames';
+        document.title = 'Gallery Wall | The Frame Shop Accra';
     }, []);
     const user = useSelector(state => state.authReducer.user);
 

@@ -25,7 +25,7 @@ function AuditTrail({ history }) {
     const [comError, setComError] = useState(false);
 
     useEffect(() => {
-        document.title        = 'Acitivity Log | Frames';
+        document.title        = 'Acitivity Log | The Frame Shop Accra';
         const abortController = new AbortController();
         const signal          = abortController.signal;
         
