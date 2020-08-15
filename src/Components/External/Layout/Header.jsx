@@ -10,9 +10,12 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import AccountCircle from '@material-ui/icons/AccountCircle';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
+import AccountCircleOutlined from '@material-ui/icons/AccountCircleOutlined';
+import RateReviewOutlinedIcon from '@material-ui/icons/RateReviewOutlined';
 import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
+import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
+import ShoppingBasketOutlinedIcon from '@material-ui/icons/ShoppingBasketOutlined';
 import { NavLink } from 'react-router-dom';
 import { StyledMenu, StyledMenuItem } from '../../Extras/menuStyles';
 
@@ -86,7 +89,7 @@ const Header = ({ user }) => {
                             </Badge>
                         </NavLink>
                         {
-                            user &&
+                            true &&
                             <>
                                 <IconButton
                                     title="Your Account"
@@ -99,7 +102,7 @@ const Header = ({ user }) => {
                                         <Typography variant="h6" className="title">
                                             {'Emmanuel'}
                                         </Typography>
-                                        <AccountCircle className="ml-5" />
+                                        <AccountCircleOutlined className="ml-5" />
                                 </IconButton>
                                 <StyledMenu
                                     className="mt-6"
@@ -111,9 +114,39 @@ const Header = ({ user }) => {
                                         <StyledMenuItem
                                             onClose={handleClose}>
                                             <ListItemIcon>
-                                                <AccountCircle fontSize="small" />
+                                                <AccountCircleOutlined fontSize="small" />
                                             </ListItemIcon>
                                             <ListItemText primary="Profile" />
+                                        </StyledMenuItem>
+                                    </NavLink>
+                                    <Divider />
+                                    <NavLink to="/orders/">
+                                        <StyledMenuItem
+                                            onClose={handleClose}>
+                                            <ListItemIcon>
+                                                <ShoppingBasketOutlinedIcon fontSize="small" />
+                                            </ListItemIcon>
+                                            <ListItemText primary="Orders" />
+                                        </StyledMenuItem>
+                                    </NavLink>
+                                    <Divider />
+                                    <NavLink to="/wish-list/">
+                                        <StyledMenuItem
+                                            onClose={handleClose}>
+                                            <ListItemIcon>
+                                                <FavoriteBorderOutlinedIcon fontSize="small" />
+                                            </ListItemIcon>
+                                            <ListItemText primary="Wish List" />
+                                        </StyledMenuItem>
+                                    </NavLink>
+                                    <Divider />
+                                    <NavLink to="/testimonies/">
+                                        <StyledMenuItem
+                                            onClose={handleClose}>
+                                            <ListItemIcon>
+                                                <RateReviewOutlinedIcon fontSize="small" />
+                                            </ListItemIcon>
+                                            <ListItemText primary="Testimonies" />
                                         </StyledMenuItem>
                                     </NavLink>
                                     <Divider />
