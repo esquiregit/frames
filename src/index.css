@@ -1101,7 +1101,7 @@ main#internal {
     margin-bottom: 55px;
 }
 main#external form {
-    width: 90%;
+    width: 50%;
     margin: 40px auto;
 }
 /* END OF CALENDAR */
@@ -1188,6 +1188,12 @@ footer#internal {
     .MuiDialogContent-root {
         padding-left: 30px;
         padding-right: 30px;
+    }
+}
+@media(max-width: 730px) {
+    .selection-display {
+        width: 80% !important;
+        height: 70% !important;
     }
 }
 @media(max-width: 900px) {
@@ -1304,6 +1310,12 @@ footer#internal {
         width: 100%;
     }
 }
+@media(max-width: 1300px) {
+    main#external form {
+        width: 80%;
+        margin: 40px auto;
+    }
+}
 @media(min-width: 1000px) and (max-width: 1600px) {
     main#external, main#external-medium {
         width: 80%;
@@ -1312,12 +1324,6 @@ footer#internal {
     }
 }
 /* FOR IMAGE */
-@media(max-width: 730px) {
-    .selection-display {
-        width: 80% !important;
-        height: 70% !important;
-    }
-}
 /* @media(min-width: 140px) and (max-width: 149px) {
     #selection-display img {
         width: 69%;

@@ -25,17 +25,17 @@ import 'tippy.js/dist/tippy.css';
 const validationSchema = Yup.object().shape({
     first_name: Yup
         .string()
-        .required('Please Fill In Your First Name'),
+        .required('Please Enter Your First Name'),
     last_name: Yup
         .string()
-        .required('Please Fill In Your First Name'),
+        .required('Please Enter Your First Name'),
     email_address: Yup
         .string()
         .email('Invalid Email Address Format')
-        .required('Please Fill In Your First Name'),
+        .required('Please Enter Your First Name'),
     phone_number: Yup
         .string()
-        .required('Please Fill In Your Phone Number')
+        .required('Please Enter Your Phone Number')
         .test('non-numeric', 'Phone Number Must Contain ONLY Digits', function(value) {
             return /^[0-9]+$/.test(value);
         })
@@ -60,9 +60,18 @@ const validationSchema = Yup.object().shape({
                 return isPrefixValid(value.substring(0, 3))
             }
         }),
-    username: Yup
+    address: Yup
         .string()
-        .required('Please Fill In Your Username'),
+        .required('Please Enter Your Address'),
+    // district: Yup
+    //     .string()
+    //     .required('Please Enter Your Address'),
+    city: Yup
+        .string()
+        .required('Please Enter Your Address'),
+    region: Yup
+        .string()
+        .required('Please Enter Your Address'),
     password: Yup
         .string()
         .min(8, 'Password Must Contain At Least 8 Characters'),
@@ -79,15 +88,18 @@ function Profile({ history }) {
     const dispatch = useDispatch();
 
     const initialValues = {
-        id               : user && user.id,
-        user_id          : user && user.user_id,
-        first_name       : user && user.first_name,
-        other_name       : user && user.other_name,
-        last_name        : user && user.last_name,
-        email_address    : user && user.email_address,
-        phone_number     : user && user.phone_number,
-        phone_number_two : user && user.phone_number_two,
-        username         : user && user.username,
+        id               : user ? user.id : '',
+        user_id          : user ? user.user_id : '',
+        first_name       : user ? user.first_name : '',
+        other_name       : user ? user.other_name : '',
+        last_name        : user ? user.last_name : '',
+        email_address    : user ? user.email_address : '',
+        phone_number     : user ? user.phone_number : '',
+        phone_number_two : user ? user.phone_number_two : '',
+        address          : user ? user.address : '',
+        city             : user ? user.city : '',
+        district         : user ? user.district : '',
+        region           : user ? user.region : '',
         password         : '',
         confirm_password : '',
     };
@@ -139,7 +151,7 @@ function Profile({ history }) {
             password         : state.values.password.trim() ? md5(state.values.password) : '',
             confirm_password : state.values.confirm_password.trim() ? md5(state.values.confirm_password) : '',
         };
-        
+        console.log('data: ', data)
         if(user) {
             Axios.post(getBaseURL()+'update_customer', data, { signal: signal })
                 .then(response => {
@@ -211,7 +223,7 @@ function Profile({ history }) {
                         {({ isValid, dirty }) => (
                             <Form>
                                 <Grid container spacing={4}>
-                                    <Grid item xs={6}>
+                                    <Grid item xs={12} sm={6}>
                                         <FormikTextField
                                             size="small"
                                             variant="outlined"
@@ -222,7 +234,7 @@ function Profile({ history }) {
                                             placeholder="First Name"
                                             name="first_name" />
                                     </Grid>
-                                    <Grid item xs={6}>
+                                    <Grid item xs={12} sm={6}>
                                         <FormikTextField
                                             size="small"
                                             variant="outlined"
@@ -233,7 +245,7 @@ function Profile({ history }) {
                                             placeholder="Last Name"
                                             name="last_name" />
                                     </Grid>
-                                    <Grid item xs={6}>
+                                    <Grid item xs={12} sm={6}>
                                         <FormikTextField
                                             size="small"
                                             variant="outlined"
@@ -244,7 +256,7 @@ function Profile({ history }) {
                                             placeholder="Email Address"
                                             name="email_address" />
                                     </Grid>
-                                    <Grid item xs={6}>
+                                    <Grid item xs={12} sm={6}>
                                         <FormikTextField
                                             size="small"
                                             variant="outlined"
@@ -255,7 +267,7 @@ function Profile({ history }) {
                                             placeholder="Phone Number"
                                             name="phone_number" />
                                     </Grid>
-                                    <Grid item xs={6}>
+                                    <Grid item xs={12} sm={6}>
                                         <FormikTextField
                                             size="small"
                                             variant="outlined"
@@ -266,7 +278,7 @@ function Profile({ history }) {
                                             placeholder="Alternate Phone Number - Optional"
                                             name="phone_number_two" />
                                     </Grid>
-                                    <Grid item xs={6}>
+                                    <Grid item xs={12} sm={6}>
                                         <FormikTextField
                                             multiline
                                             rows={2}
@@ -278,7 +290,7 @@ function Profile({ history }) {
                                             placeholder="Address"
                                             name="address" />
                                     </Grid>
-                                    <Grid item xs={6}>
+                                    <Grid item xs={12} sm={6}>
                                         <FormikTextField
                                             size="small"
                                             variant="outlined"
@@ -289,7 +301,7 @@ function Profile({ history }) {
                                             placeholder="District"
                                             name="district" />
                                     </Grid>
-                                    <Grid item xs={6}>
+                                    <Grid item xs={12} sm={6}>
                                         <FormikTextField
                                             size="small"
                                             variant="outlined"
@@ -300,7 +312,7 @@ function Profile({ history }) {
                                             placeholder="City"
                                             name="city" />
                                     </Grid>
-                                    <Grid item xs={6}>
+                                    <Grid item xs={12} sm={6}>
                                         <FormikTextField
                                             select
                                             size="small"
@@ -317,7 +329,7 @@ function Profile({ history }) {
                                             ))}
                                         </FormikTextField>
                                     </Grid>
-                                    <Grid item xs={6}>
+                                    <Grid item xs={12} sm={6}>
                                         <FormikTextField
                                             size="small"
                                             type="password"
@@ -329,7 +341,7 @@ function Profile({ history }) {
                                             placeholder="Password"
                                             name="password" />
                                     </Grid>
-                                    <Grid item xs={6}>
+                                    <Grid item xs={12} sm={6}>
                                         <FormikTextField
                                             size="small"
                                             type="password"
