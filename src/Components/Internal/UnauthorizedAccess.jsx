@@ -3,7 +3,8 @@ import clsx from 'clsx';
 import styles from '../Extras/styles';
 import Footer from './Layout/Footer';
 import Header from './Layout/Header';
-import Sidebar from './Layout/Sidebar/Sidebar';
+
+import Sidebar from './Layout/Sidebar';
 import { useSelector } from 'react-redux';
 import DesktopAccessDisabledOutlinedIcon from '@material-ui/icons/DesktopAccessDisabledOutlined';
 

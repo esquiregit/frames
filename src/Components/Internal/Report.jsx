@@ -9,7 +9,7 @@ import Header from './Layout/Header';
 import Loader from '../Extras/Loadrr';
 import styles from '../Extras/styles';
 import Toastrr from '../Extras/Toastrr';
-import Sidebar from './Layout/Sidebar/Sidebar';
+import Sidebar from './Layout/Sidebar';
 import MenuItem from '@material-ui/core/MenuItem';
 import Breadcrumb from './Layout/Breadcrumb';
 import LoadrrSmall from '../Extras/LoadrrInnerRow';

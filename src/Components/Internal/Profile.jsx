@@ -10,7 +10,7 @@ import Footer from './Layout/Footer';
 import Header from './Layout/Header';
 import styles from '../Extras/styles';
 import Toastrr from '../Extras/Toastrr';
-import Sidebar from './Layout/Sidebar/Sidebar';
+import Sidebar from './Layout/Sidebar';
 import Backdrop from '@material-ui/core/Backdrop';
 import Breadcrumb from './Layout/Breadcrumb';
 import ConfirmDialogue from '../Extras/ConfirmDialogue';
@@ -22,7 +22,7 @@ import { isPrefixValid, toCapitalCase } from '../Extras/Functions';
 import { FormikTextField } from 'formik-material-fields';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
-import 'tippyjs/dist/tippy.css';
+import 'tippy.js/dist/tippy.css';
 
 const validationSchema = Yup.object().shape({
     first_name: Yup

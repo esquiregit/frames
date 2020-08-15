@@ -23,7 +23,7 @@ const menuItems   = [
     {
         label: 'Dashboard',
         icon : <DashboardOutlinedIcon />,
-        url  : '/dashboard/'
+        url  : '/admin/dashboard/'
     },
     {
         type: 'divider',
@@ -32,7 +32,7 @@ const menuItems   = [
     {
         label: 'Products',
         icon : <WallpaperIcon />,
-        url  : '/products/'
+        url  : '/admin/products/'
     },
     {
         type: 'divider',
@@ -41,7 +41,7 @@ const menuItems   = [
     {
         label: 'Orders',
         icon : <ListAltOutlinedIcon />,
-        url  : '/orders/'
+        url  : '/admin/orders/'
     },
     {
         type: 'divider',
@@ -50,7 +50,7 @@ const menuItems   = [
     {
         label: 'Categories',
         icon : <BurstModeOutlinedIcon />,
-        url  : '/categories/'
+        url  : '/admin/categories/'
     },
     {
         type: 'divider',
@@ -59,7 +59,7 @@ const menuItems   = [
     {
         label: 'Users',
         icon : <WcOutlinedIcon />,
-        url  : '/users/'
+        url  : '/admin/users/'
     },
     {
         type: 'divider',
@@ -68,7 +68,7 @@ const menuItems   = [
     {
         label: 'Admin',
         icon : <PeopleAltOutlinedIcon />,
-        url  : '/admin/'
+        url  : '/admin/admin/'
     },
     {
         type: 'divider',
@@ -77,7 +77,7 @@ const menuItems   = [
     {
         label: 'Roles',
         icon : <BuildOutlinedIcon />,
-        url  : '/roles/'
+        url  : '/admin/roles/'
     },
     {
         type: 'divider',
@@ -86,7 +86,7 @@ const menuItems   = [
     {
         label: 'Report',
         icon : <InsertChartOutlinedOutlinedIcon />,
-        url  : '/report/'
+        url  : '/admin/report/'
     },
     {
         type: 'divider',
@@ -95,7 +95,7 @@ const menuItems   = [
     {
         label: 'Activities',
         icon : <VisibilityOutlinedIcon />,
-        url  : '/activities/'
+        url  : '/admin/activities/'
     },
     {
         type: 'divider',
