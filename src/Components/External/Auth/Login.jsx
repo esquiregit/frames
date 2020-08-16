@@ -36,29 +36,24 @@ const validationSchema = Yup.object().shape({
 const Login = ({ history }) => {
     const classes    = styles();
     const dispatch   = useDispatch();
-    
-    const [state, setState] = useState({
-        error    : false,
-        message  : '',
-        success  : false,
-        warning  : false,
-        backdrop : false,
-        comError : false,
-    });
+
+    const [error, setError]       = useState(false);
+    const [message, setMessage]   = useState('');
+    const [success, setSuccess]   = useState(false);
+    const [warning, setWarning]   = useState(false);
+    const [backdrop, setBackdrop] = useState(false);
+    const [comError, setComError] = useState(false);
     
     useEffect(() => {
         document.title = 'Login | The Frame Shop';
     }, [history]);
 
     const onSubmit = (values, { resetForm }) => {
-        setState({
-            ...state,
-            error    : false,
-            success  : false,
-            warning  : false,
-            backdrop : true,
-            comError : false,
-        });
+        setError(false);
+        setSuccess(false);
+        setWarning(false);
+        setBackdrop(true);
+        setComError(false);
 
         const abortController = new AbortController();
         const signal          = abortController.signal;
@@ -67,32 +62,20 @@ const Login = ({ history }) => {
             .then(response => {
                 if(response.data[0].status.toLowerCase() === 'success') {
                     resetForm();
-                    setState({
-                        ...state,
-                        success : true,
-                        message : response.data[0].message,
-                    });
+                    setSuccess(true);
+                    setMessage(response.data[0].message);
                     dispatch(logIn(response.data[0].user, response.data[0].permissions));
                     setTimeout(() => history.push('/admin/dashboard/'), 2000);
                 } else {
-                    setState({
-                        ...state,
-                        error   : true,
-                        message : response.data[0].message,
-                    });
+                    setError(true);
+                    setMessage(response.data[0].message);
                 }
-                setState({
-                    ...state,
-                    backdrop : false,
-                });
+                setBackdrop(false);
             })
             .catch(error => {
-                setState({
-                    ...state,
-                    message  : 'Network Error. Server Unreachable....',
-                    backdrop : false,
-                    comError : true,
-                });
+                setBackdrop(false);
+                setComError(true);
+                setMessage('Network Error. Server Unreachable....');
             });
 
         return () => abortController.abort();
@@ -100,11 +83,11 @@ const Login = ({ history }) => {
 
     return (
         <>
-            { state.error    && <Toastrr message={state.message} type="error"   /> }
-            { state.success  && <Toastrr message={state.message} type="success" /> }
-            { state.warning  && <Toastrr message={state.message} type="warning" /> }
-            { state.comError && <Toastrr message={state.message} type="info"    /> }
-            <Backdrop className={classes.backdrop} open={state.backdrop}>
+            { error    && <Toastrr message={message} type="error"   /> }
+            { success  && <Toastrr message={message} type="success" /> }
+            { warning  && <Toastrr message={message} type="warning" /> }
+            { comError && <Toastrr message={message} type="info"    /> }
+            <Backdrop className={classes.backdrop} open={backdrop}>
                 <CircularProgress color="inherit" /> <span className='ml-15'>Logging In. Please Wait....</span>
             </Backdrop>
 

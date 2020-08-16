@@ -3,6 +3,9 @@
 # api
 /api
 
+# dab
+frames.sql
+
 # dependencies
 /node_modules
 /.pnp

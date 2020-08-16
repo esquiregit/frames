@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 15, 2020 at 09:58 PM
+-- Generation Time: Aug 16, 2020 at 04:58 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -25,27 +25,12 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `addresses`
---
-
-CREATE TABLE `addresses` (
-  `id` int(11) NOT NULL,
-  `customer_id` varchar(50) NOT NULL,
-  `address` text NOT NULL,
-  `region` text NOT NULL,
-  `city` varchar(50) NOT NULL,
-  `district` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `audit_trail`
 --
 
 CREATE TABLE `audit_trail` (
   `id` int(11) NOT NULL,
-  `staff_id` varchar(25) NOT NULL,
+  `user_id` varchar(25) NOT NULL,
   `activity` text NOT NULL,
   `date` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -54,7 +39,7 @@ CREATE TABLE `audit_trail` (
 -- Dumping data for table `audit_trail`
 --
 
-INSERT INTO `audit_trail` (`id`, `staff_id`, `activity`, `date`) VALUES
+INSERT INTO `audit_trail` (`id`, `user_id`, `activity`, `date`) VALUES
 (2783, 'LMLS-KB-0001', 'Logged In', '2020-05-27 12:42:17'),
 (2784, 'LMLS-KB-0001', 'Added Patient \"Robert Ntow Adjei Laryea\"', '2020-05-27 12:43:01'),
 (2785, 'LMLS-KB-0001', 'Added Request For Robert Adjei Laryea', '2020-05-27 12:44:02'),
@@ -594,13 +579,14 @@ INSERT INTO `audit_trail` (`id`, `staff_id`, `activity`, `date`) VALUES
 --
 
 CREATE TABLE `bookings` (
-  `id` int(11) NOT NULL,
+  `booking_id` varchar(50) NOT NULL,
   `customer_id` varchar(50) DEFAULT NULL,
   `name` varchar(200) NOT NULL,
   `email_address` varchar(50) NOT NULL,
   `phone_number` char(10) NOT NULL,
   `date` date NOT NULL,
-  `time` time NOT NULL
+  `time` time NOT NULL,
+  `date_added` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -611,8 +597,8 @@ CREATE TABLE `bookings` (
 
 CREATE TABLE `cart` (
   `id` varchar(50) NOT NULL,
-  `customer_id` varchar(20) NOT NULL,
-  `product_id` varchar(20) NOT NULL,
+  `customer_id` varchar(50) NOT NULL,
+  `product_id` varchar(50) NOT NULL,
   `quantity` int(11) NOT NULL,
   `date_added` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -624,7 +610,7 @@ CREATE TABLE `cart` (
 --
 
 CREATE TABLE `categories` (
-  `id` int(11) NOT NULL,
+  `category_id` varchar(50) NOT NULL,
   `name` varchar(100) NOT NULL,
   `description` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -643,8 +629,11 @@ CREATE TABLE `customers` (
   `email_address` varchar(50) NOT NULL,
   `phone_number` char(10) NOT NULL,
   `phone_number_two` char(10) DEFAULT NULL,
+  `address` text NOT NULL,
+  `city` varchar(50) NOT NULL,
+  `district` varchar(50) NOT NULL,
+  `region` varchar(50) NOT NULL,
   `password` varchar(60) NOT NULL,
-  `type` varchar(13) NOT NULL,
   `status` varchar(7) NOT NULL DEFAULT 'Active',
   `created_on` datetime NOT NULL DEFAULT current_timestamp(),
   `activation_code` varchar(15) NOT NULL,
@@ -658,9 +647,9 @@ CREATE TABLE `customers` (
 --
 
 CREATE TABLE `orders` (
-  `id` varchar(50) NOT NULL,
+  `order_id` varchar(50) NOT NULL,
   `customer_id` varchar(50) NOT NULL,
-  `product_id` varchar(20) NOT NULL,
+  `product_id` varchar(50) NOT NULL,
   `price` double(10,2) NOT NULL,
   `quantity` int(11) NOT NULL,
   `total` double(10,2) NOT NULL,
@@ -676,8 +665,8 @@ CREATE TABLE `orders` (
 --
 
 CREATE TABLE `products` (
-  `id` varchar(50) NOT NULL,
-  `category_id` int(11) NOT NULL,
+  `product_id` varchar(50) NOT NULL,
+  `category_id` varchar(50) NOT NULL,
   `name` varchar(255) NOT NULL,
   `description` text NOT NULL,
   `price` double NOT NULL,
@@ -687,11 +676,25 @@ CREATE TABLE `products` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `roles`
+--
+
+CREATE TABLE `roles` (
+  `id` int(14) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `permissions` text NOT NULL,
+  `added_by` varchar(25) NOT NULL,
+  `status` varchar(9) NOT NULL DEFAULT 'Active'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `testimonies`
 --
 
 CREATE TABLE `testimonies` (
-  `id` int(14) NOT NULL,
+  `id` varchar(50) NOT NULL,
   `customer_id` varchar(50) NOT NULL,
   `testimony` text NOT NULL,
   `date` datetime NOT NULL DEFAULT current_timestamp()
@@ -706,12 +709,12 @@ CREATE TABLE `testimonies` (
 CREATE TABLE `users` (
   `id` int(14) NOT NULL,
   `user_id` varchar(50) NOT NULL,
-  `username` varchar(50) NOT NULL,
   `first_name` varchar(50) NOT NULL,
   `last_name` varchar(50) NOT NULL,
   `email_address` varchar(50) NOT NULL,
+  `username` varchar(50) NOT NULL,
   `password` varchar(60) NOT NULL,
-  `type` varchar(13) NOT NULL,
+  `role` int(13) NOT NULL,
   `status` varchar(7) NOT NULL DEFAULT 'Active',
   `created_on` datetime NOT NULL DEFAULT current_timestamp(),
   `reset_code` varchar(15) DEFAULT NULL
@@ -735,12 +738,6 @@ CREATE TABLE `wishlist` (
 --
 
 --
--- Indexes for table `addresses`
---
-ALTER TABLE `addresses`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `audit_trail`
 --
 ALTER TABLE `audit_trail`
@@ -750,7 +747,7 @@ ALTER TABLE `audit_trail`
 -- Indexes for table `bookings`
 --
 ALTER TABLE `bookings`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`booking_id`);
 
 --
 -- Indexes for table `cart`
@@ -762,7 +759,7 @@ ALTER TABLE `cart`
 -- Indexes for table `categories`
 --
 ALTER TABLE `categories`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`category_id`);
 
 --
 -- Indexes for table `customers`
@@ -774,12 +771,18 @@ ALTER TABLE `customers`
 -- Indexes for table `orders`
 --
 ALTER TABLE `orders`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`order_id`);
 
 --
 -- Indexes for table `products`
 --
 ALTER TABLE `products`
+  ADD PRIMARY KEY (`product_id`);
+
+--
+-- Indexes for table `roles`
+--
+ALTER TABLE `roles`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -805,28 +808,16 @@ ALTER TABLE `wishlist`
 --
 
 --
--- AUTO_INCREMENT for table `addresses`
---
-ALTER TABLE `addresses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `audit_trail`
 --
 ALTER TABLE `audit_trail`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4747;
 
 --
--- AUTO_INCREMENT for table `bookings`
+-- AUTO_INCREMENT for table `roles`
 --
-ALTER TABLE `bookings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `categories`
---
-ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `roles`
+  MODIFY `id` int(14) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

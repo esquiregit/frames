@@ -57,18 +57,18 @@ const menuItems   = [
         key : 4
     },
     {
-        label: 'Users',
+        label: 'Customers',
         icon : <WcOutlinedIcon />,
-        url  : '/admin/users/'
+        url  : '/admin/customers/'
     },
     {
         type: 'divider',
         key : 5
     },
     {
-        label: 'Admin',
+        label: 'Users',
         icon : <PeopleAltOutlinedIcon />,
-        url  : '/admin/admin/'
+        url  : '/admin/users/'
     },
     {
         type: 'divider',
