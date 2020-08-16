@@ -10,12 +10,12 @@ function AddPatient({ setPreviewImage, image, filename, fileWidth, fileHeight, c
     let maxWidth    = null;
     if(fileWidth <= 400) {
         maxWidth = 'sm';
-    } else if(fileWidth >= 1500) {
-        maxWidth = 'xl';
-    } else if(fileWidth >= 1000) {
-        maxWidth = 'lg';
-    } else if(fileWidth >= 800) {
+    } else if(fileWidth >= 400 && fileWidth <= 800) {
         maxWidth = 'md';
+    } else if(fileWidth >= 800 && fileWidth <= 1000) {
+        maxWidth = 'lg';
+    } else if(fileWidth > 1000) {
+        maxWidth = 'xl';
     }
     // console.log('fileWidth: ', fileWidth)
     // console.log('maxWidth: ', maxWidth)
@@ -24,7 +24,7 @@ function AddPatient({ setPreviewImage, image, filename, fileWidth, fileHeight, c
         open: true,
         crop: {
             // aspect: 9/16,
-            aspect: 1/1,
+            // aspect: 1/1,
             height: fileHeight / 2,
             unit: "px",
             width: fileWidth / 3,
