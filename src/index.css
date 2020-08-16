@@ -35,6 +35,8 @@ code {
 }
 .back_gray {
     background-color: #ddd !important;
+    padding: 90px 0;
+    min-height: 74vh !important;
 }
 .box-shadow, #box-shadow {
     box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12) !important;
@@ -163,7 +165,10 @@ div.MuiToolbar-root.MuiToolbar-regular.header.MuiToolbar-gutters
 }
 header 
 div.MuiToolbar-root.MuiToolbar-regular.header.MuiToolbar-gutters 
-.nav-links a#cart:hover,
+.nav-links a#cart:hover, 
+header 
+div.MuiToolbar-root.MuiToolbar-regular.header.MuiToolbar-gutters 
+.nav-links a#cart.active,
 header 
 div.MuiToolbar-root.MuiToolbar-regular.header.MuiToolbar-gutters 
 .nav-links a#cart ~ button:hover {
@@ -1083,9 +1088,6 @@ canvas {
 .react-calendar__navigation__arrow:hover {
     background-color: transparent !important;
     color: #445566 !important;
-}
-div.back_gray {
-    padding: 90px 0;
 }
 main#external {
     width: 1550px;

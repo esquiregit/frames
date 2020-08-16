@@ -3,8 +3,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { BrowserRouter } from 'react-router-dom';
 import { Route, Switch } from 'react-router-dom';
 
+const Cart               = React.lazy(() => import('./Components/External/Cart'));
 const Home               = React.lazy(() => import('./Components/External/Home'));
-const About              = React.lazy(() => import('./Components/External/About'));
 const Login              = React.lazy(() => import('./Components/External/Auth/Login'));
 const Design             = React.lazy(() => import('./Components/External/Design'));
 const Orders             = React.lazy(() => import('./Components/External/Account/Orders'));
@@ -37,7 +37,7 @@ function App() {
             <BrowserRouter>
                 <Switch>
                     <Route path='/'                           component={ Home }           exact />
-                    <Route path='/about/'                     component={ About }          exact />
+                    <Route path='/cart/'                      component={ Cart }           exact />
                     <Route path='/login/'                     component={ Login }          exact />
                     <Route path='/sign-up/'                   component={ Register }       exact />
                     <Route path='/recovery/'                  component={ Recovery }       exact />
