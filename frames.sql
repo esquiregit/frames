@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 16, 2020 at 04:58 PM
+-- Generation Time: Aug 16, 2020 at 11:37 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -599,6 +599,7 @@ CREATE TABLE `cart` (
   `id` varchar(50) NOT NULL,
   `customer_id` varchar(50) NOT NULL,
   `product_id` varchar(50) NOT NULL,
+  `price` double(10,2) NOT NULL,
   `quantity` int(11) NOT NULL,
   `date_added` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -665,12 +666,15 @@ CREATE TABLE `orders` (
 --
 
 CREATE TABLE `products` (
+  `id` int(14) NOT NULL,
   `product_id` varchar(50) NOT NULL,
   `category_id` varchar(50) NOT NULL,
   `name` varchar(255) NOT NULL,
   `description` text NOT NULL,
   `price` double NOT NULL,
-  `image` varchar(255) NOT NULL
+  `quantity` int(14) NOT NULL,
+  `image` varchar(255) NOT NULL,
+  `date_added` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -683,7 +687,7 @@ CREATE TABLE `roles` (
   `id` int(14) NOT NULL,
   `name` varchar(255) NOT NULL,
   `permissions` text NOT NULL,
-  `added_by` varchar(25) NOT NULL,
+  `user_id` varchar(50) NOT NULL,
   `status` varchar(9) NOT NULL DEFAULT 'Active'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -777,7 +781,7 @@ ALTER TABLE `orders`
 -- Indexes for table `products`
 --
 ALTER TABLE `products`
-  ADD PRIMARY KEY (`product_id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `roles`
