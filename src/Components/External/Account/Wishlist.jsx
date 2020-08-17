@@ -58,6 +58,20 @@ function WishList({ history }) {
             }
         },
         {
+            label: "Description",
+            name: "description",
+            options: {
+                filter: true,
+            }
+        },
+        {
+            label: "Price",
+            name: "price",
+            options: {
+                filter: true,
+            }
+        },
+        {
             label: "Date",
             name: "date",
             options: {

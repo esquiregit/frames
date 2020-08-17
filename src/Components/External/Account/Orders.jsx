@@ -24,7 +24,7 @@ function Orders({ history }) {
         const signal          = abortController.signal;
         
         if(user) {
-            Axios.post(getBaseURL()+'get_orders', { customer_id: user.customer_id }, { signal: signal })
+            Axios.post(getBaseURL()+'get_customer_orders', { customer_id: user.customer_id }, { signal: signal })
                 .then(response => {
                     setOrders(response.data);
                     setLoading(false);
@@ -51,8 +51,15 @@ function Orders({ history }) {
             }
         },
         {
+            label: "Image",
+            name: "image",
+            options: {
+                filter: true,
+            }
+        },
+        {
             label: "Price",
-            name: "price",
+            name: "order_price_raw",
             options: {
                 filter: true,
             }

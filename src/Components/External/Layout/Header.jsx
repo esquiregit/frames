@@ -120,9 +120,8 @@ const Header = () => {
                     </div>
 
                     <div className="nav-links">
-                        { user === null && <NavLink to="/login/">Login</NavLink> }
                         {
-                            user &&
+                            user === null ? <NavLink to="/login/">Login</NavLink> :
                             <>
                                 <IconButton
                                     title="Your Account"

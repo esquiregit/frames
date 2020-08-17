@@ -45,7 +45,7 @@ function Testimonies({ history }) {
     const columns   = [
         {
             label: "Testimonies",
-            name: "testimonies",
+            name: "testimony",
             options: {
                 filter: true,
             }
