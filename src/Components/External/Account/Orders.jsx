@@ -109,7 +109,8 @@ function Orders({ history }) {
         pagination: true,
         rowsPerPageOptions: rowsPerPage,
         resizableColumns: false,
-        downloadOptions: { filename: 'Your Orders.csv', separator: ', ' },
+        download: false,
+        filter: false,
         page: 0,
         selectableRows: 'none',
         textLabels: {
@@ -136,6 +137,7 @@ function Orders({ history }) {
                         (orders && orders.length)
                             ?
                             <MUIDataTable
+                                title="Your Orders"
                                 data={orders}
                                 columns={columns}
                                 options={options} />

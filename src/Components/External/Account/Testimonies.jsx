@@ -74,7 +74,8 @@ function Testimonies({ history }) {
         pagination: true,
         rowsPerPageOptions: rowsPerPage,
         resizableColumns: false,
-        downloadOptions: { filename: 'Your Testimonies.csv', separator: ', ' },
+        download: false,
+        filter: false,
         page: 0,
         selectableRows: 'none',
         textLabels: {
@@ -101,6 +102,7 @@ function Testimonies({ history }) {
                         (testimonies && testimonies.length)
                             ?
                             <MUIDataTable
+                                title="Your Testimonies"
                                 data={testimonies}
                                 columns={columns}
                                 options={options} />

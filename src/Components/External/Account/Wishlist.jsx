@@ -95,7 +95,8 @@ function WishList({ history }) {
         pagination: true,
         rowsPerPageOptions: rowsPerPage,
         resizableColumns: false,
-        downloadOptions: { filename: 'Your Wish List.csv', separator: ', ' },
+        download: false,
+        filter: false,
         page: 0,
         selectableRows: 'none',
         textLabels: {
@@ -122,6 +123,7 @@ function WishList({ history }) {
                         (wishlist && wishlist.length)
                             ?
                             <MUIDataTable
+                                title="Your Wish List"
                                 data={wishlist}
                                 columns={columns}
                                 options={options} />
