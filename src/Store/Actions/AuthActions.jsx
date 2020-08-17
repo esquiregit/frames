@@ -1,7 +1,7 @@
 export const logIn = user => {
     return {
         type: 'LOG_IN',
-        payload: user
+        user: user,
     };
 }
 
@@ -12,6 +12,6 @@ export const isLoggedIn = () => {
 export const update = user => {
     return {
         type: 'UPDATE',
-        payload: user
+        user: user
     }
 }

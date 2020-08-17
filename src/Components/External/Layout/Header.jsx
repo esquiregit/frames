@@ -22,8 +22,8 @@ import ShoppingBasketOutlinedIcon from '@material-ui/icons/ShoppingBasketOutline
 import { logOut } from '../../../Store/Actions/RootAction';
 import { getBaseURL } from '../../Extras/server';
 import { makeStyles } from '@material-ui/core/styles';
-import { useDispatch } from 'react-redux';
 import { NavLink, useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { StyledMenu, StyledMenuItem } from '../../Extras/menuStyles';
 
 const useStyles = makeStyles((theme) => ({
@@ -42,10 +42,12 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const Header = ({ user }) => {
-    const classes   = useStyles();
-    const history   = useHistory();
-    const dispatch  = useDispatch();
+const Header = () => {
+    const user     = useSelector(state => state.authReducer.user);
+    const cart     = useSelector(state => state.authReducer.cart);console.log('cart.length: ',cart.length)
+    const classes  = useStyles();
+    const history  = useHistory();
+    const dispatch = useDispatch();
 
     const [open, setOpen]         = useState(false);
     const [toggle, setToggle]     = useState(false);
@@ -74,8 +76,8 @@ const Header = ({ user }) => {
         const data = { customer_id : user ? user.user_id : '123' }
         Axios.post(getBaseURL()+'logout', data)
             .then(() => {
-                dispatch(logOut());
                 setTimeout(() => {
+                    dispatch(logOut());
                     setBackdrop(false);
                     history.push('/');
                 }, Math.floor(Math.random() * 2000));

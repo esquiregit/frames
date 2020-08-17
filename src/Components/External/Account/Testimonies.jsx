@@ -11,7 +11,7 @@ import { getBaseURL } from '../../Extras/server';
 import { useSelector } from 'react-redux';
 
 function Testimonies({ history }) {
-    let user    = useSelector(state => state.authReducer.user);
+    const user    = useSelector(state => state.authReducer.user);
 
     const [loading, setLoading]         = useState(true); 
     const [message, setMessage]         = useState(''); 

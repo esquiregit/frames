@@ -1,9 +1,11 @@
 import authReducer from './AuthReducer';
+import cartReducer from './CartReducer';
 import sidebarReducer from './SidebarReducer';
 import { combineReducers } from 'redux';
 
 const appReducer = combineReducers({
     authReducer,
+    cartReducer,
     sidebarReducer,
 });
 

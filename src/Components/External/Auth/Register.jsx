@@ -49,12 +49,13 @@ const validationSchema = Yup.object().shape({
 });
 
 const Register = ({ history }) => {
+    const user = useSelector(state => state.authReducer.user);
+    
     useEffect(() => {
         user && history.push('/');
         document.title = 'Register | The Frame Shop';
-    }, [history]);
+    }, [history, user]);
 
-    const user     = useSelector(state => state.authReducer.user);
     const classes  = styles();
     const dispatch = useDispatch();
     

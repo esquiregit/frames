@@ -83,7 +83,7 @@ const validationSchema = Yup.object().shape({
 });
 
 function Profile({ history }) {
-    const user     = useSelector(state => state.authReducer.user);
+    const user     = useSelector(state => state.authReducer.user);console.log('user: ', user)
     const classes  = styles();
     const dispatch = useDispatch();
 
@@ -113,8 +113,9 @@ function Profile({ history }) {
     const [showConfirm, setShowConfirm] = useState(false);
 
     React.useEffect(() => {
+        !user && history.push('/');
         document.title = 'Your Profile | The Frame Shop';
-    }, []);
+    }, [history, user]);
     
     const closeConfirm = result => {
         setShowConfirm(false);

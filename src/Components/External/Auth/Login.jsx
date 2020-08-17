@@ -12,6 +12,7 @@ import { Link } from 'react-router-dom';
 import { logIn } from '../../../Store/Actions/AuthActions';
 import { getBaseURL } from '../../Extras/server';
 import { Form, Formik } from 'formik';
+import { populate_cart } from '../../../Store/Actions/CartActions';
 import { FormikTextField } from 'formik-material-fields';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
@@ -34,12 +35,13 @@ const validationSchema = Yup.object().shape({
 });
 
 const Login = ({ history }) => {
+    const user = useSelector(state => state.authReducer.user);
+    
     useEffect(() => {
         user && history.push('/');
         document.title = 'Login | The Frame Shop';
-    }, [history]);
+    }, [history, user]);
 
-    const user     = useSelector(state => state.authReducer.user);
     const classes  = styles();
     const dispatch = useDispatch();
 
@@ -66,7 +68,8 @@ const Login = ({ history }) => {
                     resetForm();
                     setSuccess(true);
                     setMessage(response.data[0].message);
-                    dispatch(logIn(response.data[0].user, response.data[0].permissions));
+                    dispatch(logIn(response.data[0].user));
+                    dispatch(populate_cart(response.data[0].cart));
                     setTimeout(() => history.push('/'), 2000);
                 } else {
                     setError(true);

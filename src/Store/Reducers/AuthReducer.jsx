@@ -7,7 +7,7 @@ const authReducer = (state = initialState, action) => {
         case 'LOG_IN':
             return {
                 ...state,
-                user: action.payload,
+                user: action.user,
                 isLoggedIn: true,
             };
         case 'IS_LOGGED_IN':
@@ -15,7 +15,7 @@ const authReducer = (state = initialState, action) => {
         case 'UPDATE':
             return {
                 ...state,
-                user: action.payload
+                user: action.user
             };
         default: return state;
     }
