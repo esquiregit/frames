@@ -66,7 +66,7 @@ const Login = ({ history }) => {
             .then(response => {
                 if(response.data[0].status.toLowerCase() === 'success') {
                     resetForm();
-                    setSuccess(true);
+                    setSuccess(true);//console.log('response.data[0]: ', response.data[0])
                     setMessage(response.data[0].message);
                     dispatch(logIn(response.data[0].user));
                     dispatch(populate_cart(response.data[0].cart));

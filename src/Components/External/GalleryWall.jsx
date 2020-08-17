@@ -26,7 +26,7 @@ function GalleryWall() {
 
         Axios.post(getBaseURL()+'get_testimonies', { type: 'Back' }, { signal: signal })
             .then(response => {
-                setTestimonies(response.data);console.log(response.data)
+                setTestimonies(response.data);
                 setLoading(false);
             })
             .catch(error => {

@@ -1,5 +1,5 @@
 const initialState = {
-    cart: null
+    cart: []
 };
 let newCart = [];
 const authReducer = (state = initialState, action) => {

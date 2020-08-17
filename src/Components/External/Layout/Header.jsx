@@ -44,7 +44,9 @@ const useStyles = makeStyles((theme) => ({
 
 const Header = () => {
     const user     = useSelector(state => state.authReducer.user);
-    const cart     = useSelector(state => state.authReducer.cart);console.log('cart.length: ',cart.length)
+    const cart     = useSelector(state => state.cartReducer.cart);
+    // console.log('cart: ',cart && cart)
+    // console.log('cart.length: ',cart && cart.length)
     const classes  = useStyles();
     const history  = useHistory();
     const dispatch = useDispatch();
@@ -119,15 +121,6 @@ const Header = () => {
 
                     <div className="nav-links">
                         { user === null && <NavLink to="/login/">Login</NavLink> }
-                        <NavLink to="/cart/" id="cart">
-                            <Badge
-                                max={99}
-                                showZero
-                                badgeContent={0}
-                                color="primary">
-                                <ShoppingCartOutlinedIcon className="fs-20" />
-                            </Badge>
-                        </NavLink>
                         {
                             user &&
                             <>
@@ -199,6 +192,15 @@ const Header = () => {
                                 </StyledMenu>
                             </>
                         }
+                        <NavLink to="/cart/" id="cart">
+                            <Badge
+                                max={99}
+                                showZero
+                                badgeContent={cart.length}
+                                color="primary">
+                                <ShoppingCartOutlinedIcon className="fs-20" />
+                            </Badge>
+                        </NavLink>
                     </div>
                 </Toolbar>
             </AppBar>
