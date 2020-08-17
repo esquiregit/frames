@@ -83,7 +83,7 @@ const validationSchema = Yup.object().shape({
 });
 
 function Profile({ history }) {
-    const user     = useSelector(state => state.authReducer.user);console.log('user: ', user)
+    const user     = useSelector(state => state.authReducer.user);//console.log('user: ', user)
     const classes  = styles();
     const dispatch = useDispatch();
 
