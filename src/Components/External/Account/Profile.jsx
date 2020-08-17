@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import md5 from 'md5';
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
@@ -89,7 +89,7 @@ function Profile({ history }) {
 
     const initialValues = {
         id               : user ? user.id : '',
-        user_id          : user ? user.user_id : '',
+        customer_id      : user ? user.customer_id : '',
         first_name       : user ? user.first_name : '',
         last_name        : user ? user.last_name : '',
         email_address    : user ? user.email_address : '',
@@ -103,100 +103,77 @@ function Profile({ history }) {
         confirm_password : '',
     };
 
-    const [state, setState] = React.useState({
-        values      : {},
-        error       : false,
-        message     : '',
-        success     : false,
-        warning     : false,
-        backdrop    : true,
-        comError    : false,
-        showConfirm : false,
-    });
+    const [error, setError]             = useState(false);
+    const [values, setValues]           = useState(false);
+    const [message, setMessage]         = useState('');
+    const [success, setSuccess]         = useState(false);
+    const [warning, setWarning]         = useState(false);
+    const [backdrop, setBackdrop]       = useState(false);
+    const [comError, setComError]       = useState(false);
+    const [showConfirm, setShowConfirm] = useState(false);
 
     React.useEffect(() => {
         document.title = 'Your Profile | The Frame Shop';
     }, []);
     
     const closeConfirm = result => {
-        setState({
-            ...state,
-            showConfirm : false,
-        });
+        setShowConfirm(false);
         result.toLowerCase() === 'yes' && onSubmit();
     };
     const onConfirm    = values => {
-        setState({
-            ...state,
-            values,
-            showConfirm : true,
-        });
+        setValues(values);
+        setShowConfirm(true);
     };
     const onSubmit     = () => {
-        setState({
-            ...state,
-            error    : false,
-            success  : false,
-            warning  : false,
-            backdrop : true,
-            comError : false
-        });
+        setError(false);
+        setSuccess(false);
+        setWarning(false);
+        setBackdrop(true);
+        setComError(false);
 
         const abortController = new AbortController();
         const signal          = abortController.signal;
 
         const data = {
-            ...state.values,
-            password         : state.values.password.trim() ? md5(state.values.password) : '',
-            confirm_password : state.values.confirm_password.trim() ? md5(state.values.confirm_password) : '',
+            ...values,
+            password         : values.password.trim() ? md5(values.password) : '',
+            confirm_password : values.confirm_password.trim() ? md5(values.confirm_password) : '',
         };
-        console.log('data: ', data)
+        
         if(user) {
             Axios.post(getBaseURL()+'update_customer', data, { signal: signal })
                 .then(response => {
                     if(response.data[0].status.toLowerCase() === 'success') {
-                        let first_name = toCapitalCase(state.values.first_name);
-                        let last_name  = toCapitalCase(state.values.last_name);
-
-                        const newStaff = {
+                        const updatedUser = {
                             ...user,
-                            first_name       : first_name,
-                            last_name        : last_name,
-                            email_address    : state.values.email_address.toLowerCase(),
-                            phone_number     : state.values.phone_number,
-                            phone_number_two : state.values.phone_number_two,
-                            name             : first_name+' '+last_name
+                            first_name       : toCapitalCase(values.first_name),
+                            last_name        : toCapitalCase(values.last_name),
+                            email_address    : values.email_address.toLowerCase(),
+                            phone_number     : values.phone_number,
+                            phone_number_two : values.phone_number_two,
+                            name             : toCapitalCase(values.first_name+' '+values.last_name),
+                            address          : toCapitalCase(values.address),
+                            city             : toCapitalCase(values.city),
+                            district         : toCapitalCase(values.district),
+                            region           : toCapitalCase(values.region),
                         };
-                        setState({
-                            ...state,
-                            message : response.data[0].message,
-                            success : true,
-                            backdrop: false,
-                        });
-                        dispatch(update(newStaff));
+                        
+                        setSuccess(true);
+                        setMessage(response.data[0].message);
+                        dispatch(update(updatedUser));
                     } else if(response.data[0].status.toLowerCase() === 'warning') {
-                        setState({
-                            ...state,
-                            message : response.data[0].message,
-                            warning : true,
-                            backdrop: false,
-                        });
+                        setMessage(response.data[0].message);
+                        setWarning(true);
                     } else {
-                        setState({
-                            ...state,
-                            error   : true,
-                            message : response.data[0].message,
-                            backdrop: false,
-                        });
+                        setError(true);
+                        setMessage(response.data[0].message);
                     }
+                    setBackdrop(false);
                 })
                 .catch(error => {
-                    setState({
-                        ...state,
-                        message     : 'Network Error. Server Unreachable....',
-                        backdrop    : false,
-                        comError    : true,
-                    });
+                    setBackdrop(false);
+                    setComError(true);
+                    setMessage('Network Error. Server Unreachable....');
                 });
         } else {
             history.push('/');
@@ -207,11 +184,14 @@ function Profile({ history }) {
 
     return (
         <div className="back_gray">
-            { state.error       && <Toastrr message={state.message} type="error"   /> }
-            { state.success     && <Toastrr message={state.message} type="success" /> }
-            { state.warning     && <Toastrr message={state.message} type="warning" /> }
-            { state.comError    && <Toastrr message={state.message} type="info"    /> }
-            { state.showConfirm && <ConfirmDialogue message={'Are You Sure You Want To Update Your Profile?'} closeConfirm={closeConfirm} /> }
+            { error       && <Toastrr message={message} type="error"   /> }
+            { success     && <Toastrr message={message} type="success" /> }
+            { warning     && <Toastrr message={message} type="warning" /> }
+            { comError    && <Toastrr message={message} type="info"    /> }
+            { showConfirm && <ConfirmDialogue message={'Are You Sure You Want To Update Your Profile?'} closeConfirm={closeConfirm} /> }
+            <Backdrop className={classes.backdrop} open={backdrop}>
+                <CircularProgress color="inherit" /> <span className='ml-15'>Updating Account. Please Wait....</span>
+            </Backdrop>
             <Header user={user} />
             <main id="external">
                 <Card variant="outlined">

@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Axios from 'axios';
 import Badge from '@material-ui/core/Badge';
 import AppBar from '@material-ui/core/AppBar';
 import Divider from '@material-ui/core/Divider';
 import Toolbar from '@material-ui/core/Toolbar';
+import Backdrop from '@material-ui/core/Backdrop';
 import Collapse from '@material-ui/core/Collapse';
 import MenuIcon from '@material-ui/icons/Menu';
 import CloseIcon from '@material-ui/icons/Close';
@@ -10,53 +12,89 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import AccountCircleOutlined from '@material-ui/icons/AccountCircleOutlined';
 import RateReviewOutlinedIcon from '@material-ui/icons/RateReviewOutlined';
 import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
 import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
 import ShoppingBasketOutlinedIcon from '@material-ui/icons/ShoppingBasketOutlined';
-import { NavLink } from 'react-router-dom';
+import { logOut } from '../../../Store/Actions/RootAction';
+import { getBaseURL } from '../../Extras/server';
+import { makeStyles } from '@material-ui/core/styles';
+import { useDispatch } from 'react-redux';
+import { NavLink, useHistory } from 'react-router-dom';
 import { StyledMenu, StyledMenuItem } from '../../Extras/menuStyles';
 
+const useStyles = makeStyles((theme) => ({
+    root: {
+        flexGrow: 1,
+    },
+    menuButton: {
+        marginRight: theme.spacing(2),
+    },
+    title: {
+        flexGrow: 1,
+    },
+    backdrop: {
+        zIndex: theme.zIndex.drawer + 1,
+        color: '#fff',
+    },
+}));
+
 const Header = ({ user }) => {
-    const [state, setState] = React.useState({
-        open    : false,
-        toggle  : false,
-        anchorEl: null,
-    });
+    const classes   = useStyles();
+    const history   = useHistory();
+    const dispatch  = useDispatch();
+
+    const [open, setOpen]         = useState(false);
+    const [toggle, setToggle]     = useState(false);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [backdrop, setBackdrop] = useState(false);
+
     const handleMenu  = (event) => {
-        setState({
-            ...state,
-            open: !state.open
-        });
-        if(state.open) {
-            setState({
-                ...state,
-                anchorEl: null
-            });
+        setOpen(!open);
+
+        if(open) {
+            setAnchorEl(null);
         } else {
-            setState({
-                ...state,
-                anchorEl: event.currentTarget
-            });
+            setAnchorEl(event.currentTarget);
         }
     };
     const handleClose = () => {
-        setState({
-            ...state,
-            anchorEl: null
-        });
+        setAnchorEl(null);
     };
     const toggleMenu  = () => {
-        setState({
-            ...state,
-            toggle: !state.toggle
-        });
+        setToggle(!toggle);
     };
+    const signOut     = () => {
+        setAnchorEl(null);
+        setBackdrop(true);
+
+        const data = { customer_id : user ? user.user_id : '123' }
+        Axios.post(getBaseURL()+'logout', data)
+            .then(() => {
+                dispatch(logOut());
+                setTimeout(() => {
+                    setBackdrop(false);
+                    history.push('/');
+                }, Math.floor(Math.random() * 2000));
+            })
+            .catch(error => {
+                dispatch(logOut());
+                setTimeout(() => {
+                    setBackdrop(false);
+                    history.push('/');
+                }, Math.floor(Math.random() * 2000));
+            });
+    }
 
     return (
         <>
+            <Backdrop className={classes.backdrop} open={backdrop}>
+                <CircularProgress color="inherit" /> <span className='ml-15'>Logging Out. Please Wait....</span>
+            </Backdrop>
+
             <AppBar position="fixed">
                 <Toolbar className="header">
                     <Typography variant="h6" className="title">
@@ -65,7 +103,7 @@ const Header = ({ user }) => {
 
                     <div className="nav-links centre">
                         { 
-                            state.toggle ? 
+                            toggle ? 
                             <CloseIcon
                                 onClick={toggleMenu}
                                 className="sm-only" /> : 
@@ -78,7 +116,7 @@ const Header = ({ user }) => {
                     </div>
 
                     <div className="nav-links">
-                        <NavLink to="/login/">Login</NavLink>
+                        { user === null && <NavLink to="/login/">Login</NavLink> }
                         <NavLink to="/cart/" id="cart">
                             <Badge
                                 max={99}
@@ -89,7 +127,7 @@ const Header = ({ user }) => {
                             </Badge>
                         </NavLink>
                         {
-                            true &&
+                            user &&
                             <>
                                 <IconButton
                                     title="Your Account"
@@ -100,15 +138,15 @@ const Header = ({ user }) => {
                                     color="inherit"
                                     className="options">
                                         <Typography variant="h6" className="title sm-only">
-                                            {'Emmanuel'}
+                                            {user.first_name}
                                         </Typography>
                                         <AccountCircleOutlined className="ml-5" />
                                 </IconButton>
                                 <StyledMenu
                                     className="mt-6"
-                                    anchorEl={state.anchorEl}
+                                    anchorEl={anchorEl}
                                     keepMounted
-                                    open={Boolean(state.anchorEl)}
+                                    open={Boolean(anchorEl)}
                                     onClose={handleClose}>
                                     <NavLink to="/account/profile/">
                                         <StyledMenuItem
@@ -150,11 +188,11 @@ const Header = ({ user }) => {
                                         </StyledMenuItem>
                                     </NavLink>
                                     <Divider />
-                                    <StyledMenuItem>
+                                    <StyledMenuItem onClick={signOut}>
                                         <ListItemIcon>
                                             <PowerSettingsNewIcon fontSize="small" />
                                         </ListItemIcon>
-                                        <ListItemText primary="Log Out" />
+                                        <ListItemText primary="SIgn Out" />
                                     </StyledMenuItem>
                                 </StyledMenu>
                             </>
@@ -163,7 +201,7 @@ const Header = ({ user }) => {
                 </Toolbar>
             </AppBar>
             
-            <Collapse in={state.toggle} timeout="auto" unmountOnExit className="large-menu">
+            <Collapse in={toggle} timeout="auto" unmountOnExit className="large-menu">
                 <NavLink to="/start-a-frame/">Start A Frame</NavLink>
                 <NavLink to="/gallery-wall/">Gallery Wall</NavLink>
             </Collapse>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
 import Axios from 'axios';
-import Frame from '../../assets/frame2.jpg';
+import Frame from '../../assets/frame3.jpg';
 import Button from '@material-ui/core/Button';
 import Header from './Layout/Header';
 import Toastrr from '../Extras/Toastrr';
@@ -19,119 +19,91 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useSelector } from 'react-redux';
 import { getMailInMethods, getServices, getQuantities, getMatSize, getMatStyle, getMatMaterial, getMountingMethod, getAcrylicType, getSpacer, getHangingHardware, getFrameModel } from '../Extras/Functions';
 
-const styles = makeStyles((theme) => ({
-    selectionDisplay: {
-        backgroundImage: `url(${Frame})`,
-    },
-}));
 
 const ACCEPTED_TYPES       = "image/x-png, image/png, image/jpg, image/jpeg";
 const ACCEPTED_TYPES_ARRAY = ACCEPTED_TYPES.split(', ').map(type => type);
 
-function Selection({ match }) {
-    const classes  = styles();
-    const MAX_SIZE = 1024*1024;
-    const frame_id = match.params.frame_id;
-    const user     = useSelector(state => state.authReducer.user);
+function Design({ match }) {
+    const styles = makeStyles((theme) => ({
+        selectionDisplay: {
+            backgroundImage: `url(${Frame})`,
+        },
+    }));
+
+    const user       = useSelector(state => state.authReducer.user);
+    const classes    = styles();
+    const MAX_SIZE   = 1024*1024;
+    const product_id = match.params.product_id;
     
-    const [state, setState] = useState({
-        frame               : [],
-        quantity            : 1,
-        service             : 'Full Service',
-        mailInMethod        : 'Flat Mailer',
-        artDimensionWidth   : '8',
-        artDimensionHeight  : '10',
-        unprocessedImage    : null,
-        previewImage        : null,
-        interior            : '11x13',
-        frameModel          : 'Gallery Walnut',
-        matStyle            : 'No Mat',
-        matSize             : '0 1/2 inches',
-        matMaterial         : '4-Ply Paper White',
-        mountingMethod      : 'Hinge Mount to Hidden Lift',
-        acrylicType         : 'Standard Acrylic',
-        spacer              : 'Shadowbox',
-        hangingHardware     : 'Wire',
-        previewImageWidth   : '',
-        previewImageHeight  : '',
-        filename            : 'No Image Selected',
-        fileWidth           : null,
-        fileHeight          : null,
-        message             : '',
-        error               : false,
-        openEditModal       : false,
-        showMailInMethod    : false,
-        showArtDimension    : false,
-        showPreviewImage    : false,
-        showFrameModel      : false,
-        showMatStyle        : false,
-        showMatSize         : false,
-        showMatMaterial     : false,
-        showMountingMethod  : false,
-        showAcrylicType     : false,
-        showSpacer          : false,
-        showHangingHardware : false,
-    });
+    const [frame, setFrame] = useState({});
+    const [quantity, setQuantity] = useState(1);
+    const [service, setService] = useState('Full Service');
+    const [mailInMethod, setMailInMethod] = useState('Flat Mailer');
+    const [artDimensionWidth, setArtDimensionWidth] = useState('8');
+    const [artDimensionHeight, setArtDimensionHeight] = useState('10');
+    const [unprocessedImage, setUnprocessedImage] = useState(null);
+    const [previewImage, setPreviewImage] = useState(null);
+    const [interior, setInterior] = useState('11x13');
+    const [frameModel, setFrameModel] = useState('Gallery Walnut');
+    const [matStyle, setMatStyle] = useState('No Mat');
+    const [matSize, setMatSize] = useState('0 1/2 inches');
+    const [matMaterial, setMatMaterial] = useState('4-Ply Paper White');
+    const [mountingMethod, setMountingMethod] = useState('Hinge Mount to Hidden Lift');
+    const [acrylicType, setAcrylicType] = useState('Standard Acrylic');
+    const [spacer, setSpacer] = useState('Shadowbox');
+    const [hangingHardware, setHangingHardware] = useState('Wire');
+    const [filename, setFilename] = useState('No Image Selected');
+    const [fileWidth, setFileWidth] = useState(null);
+    const [fileHeight, setFileHeight] = useState(null);
+    const [message, setMessage] = useState('');
+    const [error, setError] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [comError, setComError] = useState(false);
+    const [openEditModal, setOpenEditModal] = useState(false);
+    const [showMailInMethod, setShowMailInMethod] = useState(false);
+    const [showArtDimension, setShowArtDimension] = useState(false);
+    const [showPreviewImage, setShowPreviewImage] = useState(false);
+    const [showFrameModel, setShowFrameModel] = useState(false);
+    const [showMatStyle, setShowMatStyle] = useState(false);
+    const [showMatSize, setShowMatSize] = useState(false);
+    const [showMatMaterial, setShowMatMaterial] = useState(false);
+    const [showMountingMethod, setShowMountingMethod] = useState(false);
+    const [showAcrylicType, setShowAcrylicType] = useState(false);
+    const [showSpacer, setShowSpacer] = useState(false);
+    const [showHangingHardware, setShowHangingHardware] = useState(false);
+    
     
     useEffect(() => {
         document.title        = 'Design Your Frame | The Frame Shop';
         const abortController = new AbortController();
         const signal          = abortController.signal;
 
-        Axios.post(getBaseURL()+'get_frame', { frame_id }, { signal: signal })
+        Axios.post(getBaseURL()+'get_product', { product_id }, { signal: signal })
             .then(response => {
-                setState({
-                    ...state,
-                    frame   : response.data,
-                    loading : false,
-                });
+                setFrame(response.data);
+                setLoading(false);
             })
             .catch(error => {
-                setState({
-                    ...state,
-                    loading : false,
-                    message : 'Network Error. Server Unreachable....',
-                    comError: true,
-                });
+                setLoading(false);
+                setMessage('Network Error. Server Unreachable....');
+                setComError(true);
             });
 
         return () => abortController.abort();
-    // }, [state, frame_id]);
-    }, [frame_id]);
+    }, [product_id]);
     
-    const handleChange = event => {
-        setState({
-            ...state,
-            [event.target.name]: event.target.value
-        });
-    };
-    const handleToggle = type => {
-        setState({
-            ...state,
-            [type]: state[type] ? false : true
-        });
-    };
     const closeUploadImageModal = () => {
-        setState({
-            ...state,
-            filename: 'No Image Selected',
-            openEditModal: false,
-        });
+        setFilename('No Image Selected');
+        setOpenEditModal(false);
     };
-    const setPreviewImage = newFile => {
+    const setDisplayImage = newFile => {
         //console.log('newFile: ',newFile)
-        setState({
-            ...state,
-            openEditModal: false,
-            filename: newFile.name,
-            previewImage: URL.createObjectURL(newFile)
-        });
+        setFilename(newFile.name);
+        setOpenEditModal(false);
+        setPreviewImage(URL.createObjectURL(newFile));
     };
     const handleOnFileSelect = uploadedFiles => {
-        setState({
-            ...state,
-            error: false,
-        });
+        setError(false);
         //console.log('uploadedFiles: ', uploadedFiles);
         if(uploadedFiles && uploadedFiles.length) {
             if(validateFile(uploadedFiles)) {
@@ -144,25 +116,30 @@ function Selection({ match }) {
                     imgg.onload = function(){
                         width   = this.width;
                         height  = this.height;
-                        setState({
-                            ...state,
-                            filename: uploadedFiles[0].name,
-                            fileWidth: width,
-                            fileHeight: height,
-                            openEditModal: true,
-                            unprocessedImage: reader.result,
-                            showPreviewImage: false,
-                        });
+
+                        setFilename(uploadedFiles[0].name);
+                        setFileWidth(width);
+                        setFileHeight(height);
+                        setOpenEditModal(true);
+                        setShowPreviewImage(false);
+                        setUnprocessedImage(reader.result);
+                        
+                        // setState({
+                        //     ...state,
+                        //     filename: uploadedFiles[0].name,
+                        //     fileWidth: width,
+                        //     fileHeight: height,
+                        //     openEditModal: true,
+                        //     unprocessedImage: reader.result,
+                        //     showPreviewImage: false,
+                        // });
                     };
                 };
                 reader.readAsDataURL(file);
             }
         } else {
-            setState({
-                ...state,
-                error: true,
-                message: 'File Too Large Or Invalid. Must Be Less Than 1mb And Must Be jpg, jpeg, or, png....',
-            });
+            setError(true);
+            setMessage('File Too Large Or Invalid. Must Be Less Than 1mb And Must Be jpg, jpeg, or, png....');
         }
     };
     const validateFile = files => {
@@ -173,11 +150,8 @@ function Selection({ match }) {
             // console.log(size)
             
             if(!ACCEPTED_TYPES_ARRAY.includes(type)) {
-                setState({
-                    ...state,
-                    error: true,
-                    message: 'File Too Large Or Invalid. Must Be Less Than 1mb And Must Be jpg, jpeg, or, png....',
-                });
+                setError(true);
+                setMessage('File Too Large Or Invalid. Must Be Less Than 1mb And Must Be jpg, jpeg, or, png....');
                 return false;
             }
 
@@ -187,13 +161,13 @@ function Selection({ match }) {
 
     return (
         <>
-            { state.error         && <Toastrr message={state.message} type="error" /> }
-            { state.openEditModal && <UploadImage
-                setPreviewImage={setPreviewImage}
-                image={state.unprocessedImage}
-                filename={state.filename}
-                fileWidth={state.fileWidth}
-                fileHeight={state.fileHeight}
+            { error         && <Toastrr message={message} type="error" /> }
+            { openEditModal && <UploadImage
+                setDisplayImage={setDisplayImage}
+                image={unprocessedImage}
+                filename={filename}
+                fileWidth={fileWidth}
+                fileHeight={fileHeight}
                 closeUploadImageModal={closeUploadImageModal} /> }
             <Header user={user} />
             <div style={{marginTop: 65}}>
@@ -201,7 +175,7 @@ function Selection({ match }) {
                     <Grid container spacing={3}>
                         <Grid item xs={12} md={9} className="selection-display-pane">
                             <div className={classes.selectionDisplay} id="selection-display">
-                                <img src={state.previewImage && state.previewImage} alt={state.unprocessedImage ? state.unprocessedImage.path : ''} />
+                                <img src={previewImage && previewImage} alt={unprocessedImage ? unprocessedImage.path : ''} />
                             </div>
                         </Grid>
                         <Grid item xs={12} md={3} className="selection-options-pane">
@@ -210,11 +184,11 @@ function Selection({ match }) {
                                     <label htmlFor="quantity">quantity</label>
                                     <TextField
                                         select
-                                        onChange={handleChange}
+                                        onChange={event => setQuantity(event.target.value)}
                                         size="small"
                                         variant="outlined"
                                         margin="normal"
-                                        value={state.quantity}
+                                        value={quantity}
                                         id="quantity"
                                         name="quantity">
                                         {getQuantities().map((quantity, index) => (
@@ -250,13 +224,13 @@ function Selection({ match }) {
                                 <label htmlFor="service">service</label>
                                 <TextField
                                     select
-                                    onChange={handleChange}
+                                    onChange={event => setService(event.target.value)}
                                     size="small"
                                     variant="outlined"
                                     margin="normal"
                                     fullWidth
                                     className="mt-4"
-                                    value={state.service}
+                                    value={service}
                                     id="service"
                                     name="service">
                                     {getServices().map((service, index) => (
@@ -274,25 +248,25 @@ function Selection({ match }) {
                                     className="cursor-pointer"
                                     container
                                     spacing={3}
-                                    onClick={() => handleToggle('showMailInMethod')}>
+                                    onClick={() => setShowMailInMethod(!showMailInMethod)}>
                                     <Grid item xs={8}>
                                         <p className="top">mail-in method</p>
-                                        <p className="bottom">{state.mailInMethod}</p>
+                                        <p className="bottom">{mailInMethod}</p>
                                     </Grid>
                                     <Grid item xs={4}>
-                                        { state.showMailInMethod ? <ExpandMore /> : <ExpandLess /> }
+                                        { showMailInMethod ? <ExpandMore /> : <ExpandLess /> }
                                     </Grid>
                                 </Grid>
-                                <Collapse in={state.showMailInMethod} timeout="auto" unmountOnExit>
+                                <Collapse in={showMailInMethod} timeout="auto" unmountOnExit>
                                     <div>
                                         <TextField
                                             select
-                                            onChange={handleChange}
+                                            onChange={event => setMailInMethod(event.target.value)}
                                             size="small"
                                             variant="outlined"
                                             margin="normal"
                                             fullWidth
-                                            value={state.mailInMethod}
+                                            value={mailInMethod}
                                             id="mailInMethod"
                                             name="mailInMethod">
                                             {getMailInMethods().map((method, index) => (
@@ -309,35 +283,35 @@ function Selection({ match }) {
                                     className="cursor-pointer"
                                     container
                                     spacing={3}
-                                    onClick={() => handleToggle('showArtDimension')}>
+                                    onClick={() => setShowArtDimension(!showArtDimension)}>
                                     <Grid item xs={8}>
                                         <p className="top">Art Dimension</p>
-                                        <p className="bottom">{state.artDimensionWidth}x{state.artDimensionHeight} inches</p>
+                                        <p className="bottom">{artDimensionWidth}x{artDimensionHeight} inches</p>
                                     </Grid>
                                     <Grid item xs={4}>
-                                        { state.showArtDimension ? <ExpandMore /> : <ExpandLess /> }
+                                        { showArtDimension ? <ExpandMore /> : <ExpandLess /> }
                                     </Grid>
                                 </Grid>
-                                <Collapse in={state.showArtDimension} timeout="auto" unmountOnExit>
+                                <Collapse in={showArtDimension} timeout="auto" unmountOnExit>
                                     <div>
                                         <TextField
-                                            onChange={handleChange}
+                                            onChange={event => setArtDimensionWidth(event.target.value)}
                                             size="small"
                                             variant="outlined"
                                             margin="normal"
                                             fullWidth
-                                            value={state.artDimensionWidth}
+                                            value={artDimensionWidth}
                                             id="artDimensionWidth"
                                             name="artDimensionWidth"
                                             type="number"
                                             InputProps={{ inputProps: { min: 0, step: 0.25 } }} />
                                         <TextField
-                                            onChange={handleChange}
+                                            onChange={event => setArtDimensionHeight(event.target.value)}
                                             size="small"
                                             variant="outlined"
                                             margin="normal"
                                             fullWidth
-                                            value={state.artDimensionHeight}
+                                            value={artDimensionHeight}
                                             id="artDimensionHeight"
                                             name="artDimensionHeight"
                                             type="number"
@@ -350,16 +324,16 @@ function Selection({ match }) {
                                     className="cursor-pointer"
                                     container
                                     spacing={3}
-                                    onClick={() => handleToggle('showPreviewImage')}>
+                                    onClick={() => setShowPreviewImage(!showPreviewImage)}>
                                     <Grid item xs={8}>
                                         <p className="top">Preview Image</p>
-                                        <p className="bottom">{state.filename}</p>
+                                        <p className="bottom">{filename}</p>
                                     </Grid>
                                     <Grid item xs={4}>
-                                        { state.showPreviewImage ? <ExpandMore /> : <ExpandLess /> }
+                                        { showPreviewImage ? <ExpandMore /> : <ExpandLess /> }
                                     </Grid>
                                 </Grid>
-                                <Collapse in={state.showPreviewImage} timeout="auto" unmountOnExit>
+                                <Collapse in={showPreviewImage} timeout="auto" unmountOnExit>
                                     <Dropzone
                                         multiple={false}
                                         maxSize={MAX_SIZE}
@@ -386,32 +360,32 @@ function Selection({ match }) {
                             </div>
                             <div className="item bb">
                                 <p>your frame</p>
-                                <p style={{fontSize: 15,color: '#000'}}>interior: {state.interior}</p>
+                                <p style={{fontSize: 15,color: '#000'}}>interior: {interior}</p>
                             </div>
                             <div className="item fm">
                                 <Grid
                                     className="cursor-pointer"
                                     container
                                     spacing={3}
-                                    onClick={() => handleToggle('showFrameModel')}>
+                                    onClick={() => setShowFrameModel(!showFrameModel)}>
                                     <Grid item xs={8}>
                                         <p className="top">frame Model</p>
-                                        <p className="bottom">{state.frameModel}</p>
+                                        <p className="bottom">{frameModel}</p>
                                     </Grid>
                                     <Grid item xs={4}>
-                                        { state.showFrameModel ? <ExpandMore /> : <ExpandLess /> }
+                                        { showFrameModel ? <ExpandMore /> : <ExpandLess /> }
                                     </Grid>
                                 </Grid>
-                                <Collapse in={state.showFrameModel} timeout="auto" unmountOnExit>
+                                <Collapse in={showFrameModel} timeout="auto" unmountOnExit>
                                     <div>
                                         <TextField
                                             select
-                                            onChange={handleChange}
+                                            onChange={event => setFrameModel(event.target.value)}
                                             size="small"
                                             variant="outlined"
                                             margin="normal"
                                             fullWidth
-                                            value={state.frameModel}
+                                            value={frameModel}
                                             id="frameModel"
                                             name="frameModel">
                                             {getFrameModel().map((method, index) => (
@@ -428,25 +402,25 @@ function Selection({ match }) {
                                     className="cursor-pointer"
                                     container
                                     spacing={3}
-                                    onClick={() => handleToggle('showMatStyle')}>
+                                    onClick={() => setShowMatStyle(!showMatStyle)}>
                                     <Grid item xs={8}>
                                         <p className="top">Mat Style</p>
-                                        <p className="bottom">{state.matStyle}</p>
+                                        <p className="bottom">{matStyle}</p>
                                     </Grid>
                                     <Grid item xs={4}>
-                                        { state.showMatStyle ? <ExpandMore /> : <ExpandLess /> }
+                                        { showMatStyle ? <ExpandMore /> : <ExpandLess /> }
                                     </Grid>
                                 </Grid>
-                                <Collapse in={state.showMatStyle} timeout="auto" unmountOnExit>
+                                <Collapse in={showMatStyle} timeout="auto" unmountOnExit>
                                     <div>
                                         <TextField
                                             select
-                                            onChange={handleChange}
+                                            onChange={event => setMatStyle(event.target.value)}
                                             size="small"
                                             variant="outlined"
                                             margin="normal"
                                             fullWidth
-                                            value={state.matStyle}
+                                            value={matStyle}
                                             id="matStyle"
                                             name="matStyle">
                                             {getMatStyle().map((method, index) => (
@@ -463,25 +437,25 @@ function Selection({ match }) {
                                     className="cursor-pointer"
                                     container
                                     spacing={3}
-                                    onClick={() => handleToggle('showMatSize')}>
+                                    onClick={() => setShowMatSize(!showMatSize)}>
                                     <Grid item xs={8}>
                                         <p className="top">Mat size</p>
-                                        <p className="bottom">{state.matSize}</p>
+                                        <p className="bottom">{matSize}</p>
                                     </Grid>
                                     <Grid item xs={4}>
-                                        { state.showMatSize ? <ExpandMore /> : <ExpandLess /> }
+                                        { showMatSize ? <ExpandMore /> : <ExpandLess /> }
                                     </Grid>
                                 </Grid>
-                                <Collapse in={state.showMatSize} timeout="auto" unmountOnExit>
+                                <Collapse in={showMatSize} timeout="auto" unmountOnExit>
                                     <div>
                                         <TextField
                                             select
-                                            onChange={handleChange}
+                                            onChange={event => setMatSize(event.target.value)}
                                             size="small"
                                             variant="outlined"
                                             margin="normal"
                                             fullWidth
-                                            value={state.matSize}
+                                            value={matSize}
                                             id="matSize"
                                             name="matSize">
                                             {getMatSize().map((method, index) => (
@@ -498,25 +472,25 @@ function Selection({ match }) {
                                     className="cursor-pointer"
                                     container
                                     spacing={3}
-                                    onClick={() => handleToggle('showMatMaterial')}>
+                                    onClick={() => setShowMatMaterial(!showMatMaterial)}>
                                     <Grid item xs={8}>
                                         <p className="top">Mat material</p>
-                                        <p className="bottom">{state.matMaterial}</p>
+                                        <p className="bottom">{matMaterial}</p>
                                     </Grid>
                                     <Grid item xs={4}>
-                                        { state.showMatMaterial ? <ExpandMore /> : <ExpandLess /> }
+                                        { showMatMaterial ? <ExpandMore /> : <ExpandLess /> }
                                     </Grid>
                                 </Grid>
-                                <Collapse in={state.showMatMaterial} timeout="auto" unmountOnExit>
+                                <Collapse in={showMatMaterial} timeout="auto" unmountOnExit>
                                     <div>
                                         <TextField
                                             select
-                                            onChange={handleChange}
+                                            onChange={event => setMatMaterial(event.target.value)}
                                             size="small"
                                             variant="outlined"
                                             margin="normal"
                                             fullWidth
-                                            value={state.matMaterial}
+                                            value={matMaterial}
                                             id="matMaterial"
                                             name="matMaterial">
                                             {getMatMaterial().map((method, index) => (
@@ -533,25 +507,25 @@ function Selection({ match }) {
                                     className="cursor-pointer"
                                     container
                                     spacing={3}
-                                    onClick={() => handleToggle('showMountingMethod')}>
+                                    onClick={() => setShowMountingMethod(!showMountingMethod)}>
                                     <Grid item xs={8}>
                                         <p className="top">Mounting Method</p>
-                                        <p className="bottom">{state.mountingMethod}</p>
+                                        <p className="bottom">{mountingMethod}</p>
                                     </Grid>
                                     <Grid item xs={4}>
-                                        { state.showMountingMethod ? <ExpandMore /> : <ExpandLess /> }
+                                        { showMountingMethod ? <ExpandMore /> : <ExpandLess /> }
                                     </Grid>
                                 </Grid>
-                                <Collapse in={state.showMountingMethod} timeout="auto" unmountOnExit>
+                                <Collapse in={showMountingMethod} timeout="auto" unmountOnExit>
                                     <div>
                                         <TextField
                                             select
-                                            onChange={handleChange}
+                                            onChange={event => setMountingMethod(event.target.value)}
                                             size="small"
                                             variant="outlined"
                                             margin="normal"
                                             fullWidth
-                                            value={state.mountingMethod}
+                                            value={mountingMethod}
                                             id="mountingMethod"
                                             name="mountingMethod">
                                             {getMountingMethod().map((method, index) => (
@@ -568,25 +542,25 @@ function Selection({ match }) {
                                     className="cursor-pointer"
                                     container
                                     spacing={3}
-                                    onClick={() => handleToggle('showAcrylicType')}>
+                                    onClick={() => setShowAcrylicType(!showAcrylicType)}>
                                     <Grid item xs={8}>
                                         <p className="top">Acrylic Type</p>
-                                        <p className="bottom">{state.acrylicType}</p>
+                                        <p className="bottom">{acrylicType}</p>
                                     </Grid>
                                     <Grid item xs={4}>
-                                        { state.showAcrylicType ? <ExpandMore /> : <ExpandLess /> }
+                                        { showAcrylicType ? <ExpandMore /> : <ExpandLess /> }
                                     </Grid>
                                 </Grid>
-                                <Collapse in={state.showAcrylicType} timeout="auto" unmountOnExit>
+                                <Collapse in={showAcrylicType} timeout="auto" unmountOnExit>
                                     <div>
                                         <TextField
                                             select
-                                            onChange={handleChange}
+                                            onChange={event => setAcrylicType(event.target.value)}
                                             size="small"
                                             variant="outlined"
                                             margin="normal"
                                             fullWidth
-                                            value={state.acrylicType}
+                                            value={acrylicType}
                                             id="acrylicType"
                                             name="acrylicType">
                                             {getAcrylicType().map((method, index) => (
@@ -603,25 +577,25 @@ function Selection({ match }) {
                                     className="cursor-pointer"
                                     container
                                     spacing={3}
-                                    onClick={() => handleToggle('showSpacer')}>
+                                    onClick={() => setShowSpacer(!showSpacer)}>
                                     <Grid item xs={8}>
                                         <p className="top">spacer</p>
-                                        <p className="bottom">{state.spacer}</p>
+                                        <p className="bottom">{spacer}</p>
                                     </Grid>
                                     <Grid item xs={4}>
-                                        { state.showSpacer ? <ExpandMore /> : <ExpandLess /> }
+                                        { showSpacer ? <ExpandMore /> : <ExpandLess /> }
                                     </Grid>
                                 </Grid>
-                                <Collapse in={state.showSpacer} timeout="auto" unmountOnExit>
+                                <Collapse in={showSpacer} timeout="auto" unmountOnExit>
                                     <div>
                                         <TextField
                                             select
-                                            onChange={handleChange}
+                                            onChange={event => setSpacer(event.target.value)}
                                             size="small"
                                             variant="outlined"
                                             margin="normal"
                                             fullWidth
-                                            value={state.spacer}
+                                            value={spacer}
                                             id="spacer"
                                             name="spacer">
                                             {getSpacer().map((method, index) => (
@@ -638,25 +612,25 @@ function Selection({ match }) {
                                     className="cursor-pointer"
                                     container
                                     spacing={3}
-                                    onClick={() => handleToggle('showHangingHardware')}>
+                                    onClick={() => setShowHangingHardware(!showHangingHardware)}>
                                     <Grid item xs={8}>
                                         <p className="top">hanging Hardware</p>
-                                        <p className="bottom">{state.hangingHardware}</p>
+                                        <p className="bottom">{hangingHardware}</p>
                                     </Grid>
                                     <Grid item xs={4}>
-                                        { state.showHangingHardware ? <ExpandMore /> : <ExpandLess /> }
+                                        { showHangingHardware ? <ExpandMore /> : <ExpandLess /> }
                                     </Grid>
                                 </Grid>
-                                <Collapse in={state.showHangingHardware} timeout="auto" unmountOnExit>
+                                <Collapse in={showHangingHardware} timeout="auto" unmountOnExit>
                                     <div>
                                         <TextField
                                             select
-                                            onChange={handleChange}
+                                            onChange={event => setHangingHardware(event.target.value)}
                                             size="small"
                                             variant="outlined"
                                             margin="normal"
                                             fullWidth
-                                            value={state.hangingHardware}
+                                            value={hangingHardware}
                                             id="hangingHardware"
                                             name="hangingHardware">
                                             {getHangingHardware().map((method, index) => (
@@ -676,4 +650,4 @@ function Selection({ match }) {
     )
 }
 
-export default Selection;
+export default Design;

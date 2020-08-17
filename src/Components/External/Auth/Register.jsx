@@ -5,15 +5,15 @@ import Button from '@material-ui/core/Button';
 import Footer from '../Layout/Footer';
 import Header from '../Layout/Header';
 import styles from '../../Extras/styles';
-import Backdrop from '@material-ui/core/Backdrop';
 import Toastrr from '../../Extras/Toastrr';
+import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Link } from 'react-router-dom';
 import { logIn } from '../../../Store/Actions/AuthActions';
 import { getBaseURL } from '../../Extras/server';
 import { Form, Formik } from 'formik';
 import { FormikTextField } from 'formik-material-fields';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
 
 const initialValues = {
@@ -49,65 +49,58 @@ const validationSchema = Yup.object().shape({
 });
 
 const Register = ({ history }) => {
-    const classes    = styles();
-    const dispatch   = useDispatch();
-    
-    const [state, setState] = useState({
-        error    : false,
-        message  : '',
-        success  : false,
-        warning  : false,
-        backdrop : false,
-        comError : false,
-    });
-    
     useEffect(() => {
+        user && history.push('/');
         document.title = 'Register | The Frame Shop';
     }, [history]);
 
+    const user     = useSelector(state => state.authReducer.user);
+    const classes  = styles();
+    const dispatch = useDispatch();
+    
+    const [error, setError]       = useState(false);
+    const [message, setMessage]   = useState('');
+    const [success, setSuccess]   = useState(false);
+    const [warning, setWarning]   = useState(false);
+    const [backdrop, setBackdrop] = useState(false);
+    const [comError, setComError] = useState(false);
+    
     const onSubmit = (values, { resetForm }) => {
-        setState({
-            ...state,
-            error    : false,
-            success  : false,
-            warning  : false,
-            backdrop : true,
-            comError : false,
-        });
+        setError(false);
+        setSuccess(false);
+        setWarning(false);
+        setBackdrop(true);
+        setComError(false);
+
+        const data = {
+            f : values.first_name,
+            l : values.last_name,
+            e : values.email_address,
+            p : md5(values.password),
+            cp: md5(values.confirm_password)
+        };
 
         const abortController = new AbortController();
         const signal          = abortController.signal;
         
-        Axios.post(getBaseURL()+'register', { e: values.email_address, p: md5(values.password), cp: md5(values.confirm_password) }, { signal: signal })
+        Axios.post(getBaseURL()+'add_customer', data, { signal: signal })
             .then(response => {
                 if(response.data[0].status.toLowerCase() === 'success') {
                     resetForm();
-                    setState({
-                        ...state,
-                        success : true,
-                        message : response.data[0].message,
-                    });
-                    dispatch(logIn(response.data[0].user, response.data[0].permissions));
-                    setTimeout(() => history.push('/admin/dashboard/'), 2000);
+                    setSuccess(true);
+                    setMessage(response.data[0].message);
+                    dispatch(logIn(response.data[0].user));
+                    setTimeout(() => history.push('/'), 2000);
                 } else {
-                    setState({
-                        ...state,
-                        error   : true,
-                        message : response.data[0].message,
-                    });
+                    setError(true);
+                    setMessage(response.data[0].message);
                 }
-                setState({
-                    ...state,
-                    backdrop : false,
-                });
+                setBackdrop(false);
             })
             .catch(error => {
-                setState({
-                    ...state,
-                    message  : 'Network Error. Server Unreachable....',
-                    backdrop : false,
-                    comError : true,
-                });
+                setBackdrop(false);
+                setComError(true);
+                setMessage('Network Error. Server Unreachable....');
             });
 
         return () => abortController.abort();
@@ -115,14 +108,13 @@ const Register = ({ history }) => {
 
     return (
         <>
-            { state.error    && <Toastrr message={state.message} type="error"   /> }
-            { state.success  && <Toastrr message={state.message} type="success" /> }
-            { state.warning  && <Toastrr message={state.message} type="warning" /> }
-            { state.comError && <Toastrr message={state.message} type="info"    /> }
-            <Backdrop className={classes.backdrop} open={state.backdrop}>
-                <CircularProgress color="inherit" /> <span className='ml-15'>Logging In. Please Wait....</span>
+            { error    && <Toastrr message={message} type="error"   /> }
+            { success  && <Toastrr message={message} type="success" /> }
+            { warning  && <Toastrr message={message} type="warning" /> }
+            { comError && <Toastrr message={message} type="info"    /> }
+            <Backdrop className={classes.backdrop} open={backdrop}>
+                <CircularProgress color="inherit" /> <span className='ml-15'>Creating Account. Please Wait....</span>
             </Backdrop>
-
             <Header />
             <Formik
                 initialValues={initialValues}

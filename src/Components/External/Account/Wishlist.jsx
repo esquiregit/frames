@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Card from '@material-ui/core/Card';
 import Axios from 'axios';
 import Loader from '../../Extras/Loadrr';
@@ -11,45 +11,35 @@ import { getBaseURL } from '../../Extras/server';
 import { useSelector } from 'react-redux';
 
 function WishList({ history }) {
-    const user    = useSelector(state => state.authReducer.user);
-    const user_id = '123'; 
+    let user    = useSelector(state => state.authReducer.user);
 
-    const [state, setState] = React.useState({
-        wishlist : [],
-        loading  : true,
-        message  : '',
-        comError : false,
-    })
+    const [loading, setLoading]   = useState(true); 
+    const [message, setMessage]   = useState(''); 
+    const [comError, setComError] = useState(false);
+    const [wishlist, setWishlist] = useState([]); 
 
     React.useEffect(() => {
         document.title        = 'Your Wish List | The Frame Shop';
         const abortController = new AbortController();
         const signal          = abortController.signal;
         
-        // if(user) {
-            Axios.post(getBaseURL()+'get_wishlist', { user_id: user_id }, { signal: signal })
-            // Axios.post(getBaseURL()+'get_wishlist', { user_id: user.user_id }, { signal: signal })
+        if(user) {
+            Axios.post(getBaseURL()+'get_wishlist', { customer_id: user.customer_id }, { signal: signal })
                 .then(response => {
-                    setState({
-                        ...state,
-                        wishlist : response.data,
-                        loading  : false,
-                    });
+                    setLoading(false);
+                    setWishlist(response.data);
                 })
                 .catch(error => {
-                    setState({
-                        ...state,
-                        loading  : false,
-                        message  : 'Network Error. Server Unreachable....',
-                        comError : true,
-                    });
+                    setLoading(false);
+                    setMessage('Network Error. Server Unreachable....');
+                    setComError(true);
                 });
-        // } else {
-        //     history.push('/');
-        // }
+        } else {
+            history.push('/');
+        }
 
         return () => abortController.abort();
-    }, [history, state, user]);
+    }, [history, user]);
 
     let rowsPerPage = [];
     const columns   = [
@@ -75,11 +65,11 @@ function WishList({ history }) {
             }
         },
     ];
-    if (state.wishlist) {
-        if (state.wishlist.length < 100) {
+    if (wishlist) {
+        if (wishlist.length < 100) {
             rowsPerPage = [10, 25, 50, 100];
         } else {
-            rowsPerPage = [10, 25, 50, 100, state.wishlist.length];
+            rowsPerPage = [10, 25, 50, 100, wishlist.length];
         }
     } else {
         rowsPerPage = [10, 25, 50, 100];
@@ -109,19 +99,19 @@ function WishList({ history }) {
 
     return (
         <div className="back_gray">
-            { state.comError && <Toastrr message={state.message} type="info" /> }
+            { comError && <Toastrr message={message} type="info" /> }
             <Header user={user} />
             <main id="external">
                 <Card variant="outlined">
                 {
-                    state.loading ? <Loader /> :
-                        (state.wishlist && state.wishlist.length)
+                    loading ? <Loader /> :
+                        (wishlist && wishlist.length)
                             ?
                             <MUIDataTable
-                                data={state.wishlist}
+                                data={wishlist}
                                 columns={columns}
                                 options={options} />
-                            : <ExternalEmptyData error={state.comError} single="Wish List" plural="Wish List" />
+                            : <ExternalEmptyData error={comError} message="You Have No Items Saved" />
                 }
                 </Card>
             </main>

@@ -3,7 +3,7 @@ import PermScanWifiIcon from '@material-ui/icons/PermScanWifi';
 import BlurOnIcon from '@material-ui/icons/BlurOn';
 import { NavLink } from 'react-router-dom';
 
-function EmptyData({ error, single, plural }) {
+function EmptyData({ error, message }) {
     return (
         <div className="empty-data">
             {
@@ -19,7 +19,7 @@ function EmptyData({ error, single, plural }) {
                 <>
                     <BlurOnIcon />
                     <span>
-                        <strong>Nothing Found!</strong>
+                        <p style={{textAlign: 'center'}}><strong>{message}</strong></p>
                         &nbsp;
                         <NavLink className="no" to="/">continue shopping</NavLink>
                     </span>

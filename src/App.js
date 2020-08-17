@@ -46,8 +46,8 @@ function App() {
                     <Route path='/start-a-frame/'             component={ StartAFrame }    exact />
                     <Route path='/account/orders/'            component={ Orders }         exact />
                     <Route path='/account/profile/'           component={ Profile }        exact />
-                    <Route path='/design/:frame_id'           component={ Design }         exact />
                     <Route path='/account/wish-list'          component={ Wishlist }       exact />
+                    <Route path='/design/:product_id'         component={ Design }         exact />
                     <Route path='/password-recovery/'         component={ Recovery }       exact />
                     <Route path='/account/testimonies/'       component={ Testimonies }    exact />
                     <Route path='/start-a-frame/:type/'       component={ FrameType }      exact />

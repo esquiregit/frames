@@ -13,7 +13,7 @@ import { logIn } from '../../../Store/Actions/AuthActions';
 import { getBaseURL } from '../../Extras/server';
 import { Form, Formik } from 'formik';
 import { FormikTextField } from 'formik-material-fields';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
 
 const initialValues = {
@@ -34,8 +34,14 @@ const validationSchema = Yup.object().shape({
 });
 
 const Login = ({ history }) => {
-    const classes    = styles();
-    const dispatch   = useDispatch();
+    useEffect(() => {
+        user && history.push('/');
+        document.title = 'Login | The Frame Shop';
+    }, [history]);
+
+    const user     = useSelector(state => state.authReducer.user);
+    const classes  = styles();
+    const dispatch = useDispatch();
 
     const [error, setError]       = useState(false);
     const [message, setMessage]   = useState('');
@@ -44,10 +50,6 @@ const Login = ({ history }) => {
     const [backdrop, setBackdrop] = useState(false);
     const [comError, setComError] = useState(false);
     
-    useEffect(() => {
-        document.title = 'Login | The Frame Shop';
-    }, [history]);
-
     const onSubmit = (values, { resetForm }) => {
         setError(false);
         setSuccess(false);
@@ -65,7 +67,7 @@ const Login = ({ history }) => {
                     setSuccess(true);
                     setMessage(response.data[0].message);
                     dispatch(logIn(response.data[0].user, response.data[0].permissions));
-                    setTimeout(() => history.push('/admin/dashboard/'), 2000);
+                    setTimeout(() => history.push('/'), 2000);
                 } else {
                     setError(true);
                     setMessage(response.data[0].message);
@@ -96,7 +98,7 @@ const Login = ({ history }) => {
                 initialValues={initialValues}
                 validationSchema={validationSchema}
                 onSubmit={onSubmit}>
-                {() => (   
+                {({ isValid, dirty, isSubmitting }) => (   
                     <div className='form-div'>
                         <Form className="form">
                             <FormikTextField
@@ -120,6 +122,7 @@ const Login = ({ history }) => {
                                 name="password"
                                 type="password" />
                             <Button
+                                // disabled={isSubmitting || !(isValid && dirty)}
                                 size="medium"
                                 type="submit"
                                 variant="contained"

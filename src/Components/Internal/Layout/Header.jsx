@@ -65,13 +65,17 @@ const Header = (props) => {
         Axios.post(getBaseURL()+'logout', data)
             .then(() => {
                 dispatch(logOut());
-                setBackdrop(false);
-                history.push('/');
+                setTimeout(() => {
+                    setBackdrop(false);
+                    history.push('/');
+                }, Math.floor(Math.random() * 2000));
             })
             .catch(error => {
                 dispatch(logOut());
-                setBackdrop(false);
-                history.push('/');
+                setTimeout(() => {
+                    setBackdrop(false);
+                    history.push('/');
+                }, Math.floor(Math.random() * 2000));
             });;
     }
 
@@ -98,7 +102,7 @@ const Header = (props) => {
                             { visible ? <ArrowBackIosIcon className="cursor-pointer" /> : <ArrowForwardIosIcon className="cursor-pointer" />}
                         </IconButton>
                         <Typography variant="h6" className="title">
-                            <NavLink to="/dashboard/">The Frame Shop</NavLink>
+                            <NavLink to="/admin/dashboard/">The Frame Shop</NavLink>
                         </Typography>
                         <div>
                             <IconButton

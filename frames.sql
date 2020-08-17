@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 16, 2020 at 11:37 PM
+-- Generation Time: Aug 17, 2020 at 07:41 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `audit_trail` (
-  `id` int(11) NOT NULL,
+  `id` int(14) NOT NULL,
   `user_id` varchar(25) NOT NULL,
   `activity` text NOT NULL,
   `date` datetime NOT NULL DEFAULT current_timestamp()
@@ -628,18 +628,25 @@ CREATE TABLE `customers` (
   `first_name` varchar(50) NOT NULL,
   `last_name` varchar(50) NOT NULL,
   `email_address` varchar(50) NOT NULL,
-  `phone_number` char(10) NOT NULL,
+  `phone_number` char(10) DEFAULT NULL,
   `phone_number_two` char(10) DEFAULT NULL,
-  `address` text NOT NULL,
-  `city` varchar(50) NOT NULL,
-  `district` varchar(50) NOT NULL,
-  `region` varchar(50) NOT NULL,
+  `address` text DEFAULT NULL,
+  `city` varchar(50) DEFAULT NULL,
+  `district` varchar(50) DEFAULT NULL,
+  `region` varchar(50) DEFAULT NULL,
   `password` varchar(60) NOT NULL,
   `status` varchar(7) NOT NULL DEFAULT 'Active',
   `created_on` datetime NOT NULL DEFAULT current_timestamp(),
-  `activation_code` varchar(15) NOT NULL,
+  `activation_code` varchar(15) DEFAULT NULL,
   `reset_code` varchar(15) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `customers`
+--
+
+INSERT INTO `customers` (`id`, `customer_id`, `first_name`, `last_name`, `email_address`, `phone_number`, `phone_number_two`, `address`, `city`, `district`, `region`, `password`, `status`, `created_on`, `activation_code`, `reset_code`) VALUES
+(1, 'q6J7ylIN-v2WGBQ4PI-1597689254-fqhxkSG3-I4GfQcP3', 'Bismark', 'Bediako', 'bismark@bediako.com.gh', '0231122334', '', 'Anyaa Palas Town', 'Accra', 'Ablekuma North', 'Greater Accra', '$2y$11$TtRPkTljTNcj6vlIzBkMRuPVByqGJCtbfP9fijtq91AfR1NRQcZFu', 'Active', '2020-08-17 18:34:14', NULL, '6Uj9p6IGLaNI');
 
 -- --------------------------------------------------------
 
@@ -673,6 +680,10 @@ CREATE TABLE `products` (
   `description` text NOT NULL,
   `price` double NOT NULL,
   `quantity` int(14) NOT NULL,
+  `interior_width` double(10,2) NOT NULL,
+  `interior_height` double(10,2) NOT NULL,
+  `exterior_width` double(10,2) NOT NULL,
+  `exterior_height` double(10,2) NOT NULL,
   `image` varchar(255) NOT NULL,
   `date_added` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -701,6 +712,7 @@ CREATE TABLE `testimonies` (
   `id` varchar(50) NOT NULL,
   `customer_id` varchar(50) NOT NULL,
   `testimony` text NOT NULL,
+  `type` varchar(20) NOT NULL,
   `date` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -815,13 +827,31 @@ ALTER TABLE `wishlist`
 -- AUTO_INCREMENT for table `audit_trail`
 --
 ALTER TABLE `audit_trail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4747;
+  MODIFY `id` int(14) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4747;
+
+--
+-- AUTO_INCREMENT for table `customers`
+--
+ALTER TABLE `customers`
+  MODIFY `id` int(14) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `products`
+--
+ALTER TABLE `products`
+  MODIFY `id` int(14) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
   MODIFY `id` int(14) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(14) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -2,7 +2,7 @@ import React from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
-function Carouselle({ slides }) {
+function Carouselle({ testimonies }) {
     return (
         <Carousel
             autoPlay={true}
@@ -11,11 +11,11 @@ function Carouselle({ slides }) {
             stopOnHover={true}
             infiniteLoop={true}>
             {
-                slides.map((slide, index) => {
+                testimonies.map((slide, index) => {
                     return (
                         <div key={index}>
                             <p>{slide.testimony}</p>
-                            <p>{slide.name}</p>
+                            <p>{slide.customer}</p>
                         </div>
                     );
                 })

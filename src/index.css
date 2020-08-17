@@ -123,6 +123,16 @@ p.last {
 }
 /* END OF ERROR 404 */
 
+/* BACKDROP */
+.MuiBackdrop-root {
+    z-index: 99999999 !important;
+}
+.MuiDialog-container.MuiDialog-scrollPaper 
+.MuiPaper-root.MuiDialog-paper.MuiDialog-paperScrollPaper {
+    z-index: 999999999 !important;
+}
+/* END OF BACKDROP */
+
 /* HEADER */
 header.MuiAppBar-root.MuiAppBar-positionFixed {
     box-shadow: none !important;
@@ -607,11 +617,11 @@ form#consultation_form
 }
 .MuiCard-root .gallery_banner ~ .carousel-div .carousel-root 
 li.slide div p:first-child {
-    font-size: 28px;
+    font-size: 20px;
 }
 .MuiCard-root .gallery_banner ~ .carousel-div .carousel-root 
 li.slide div p:last-child {
-    font-size: 23px;
+    font-size: 17px;
 }
 /* END OF BANNER */
 
@@ -719,11 +729,13 @@ ul.MuiList-root a.active .MuiButtonBase-root.MuiListItem-root.MuiListItem-gutter
 }
 #selection-display {
     vertical-align: middle;
-    background-size: 110%;
+    background-size: 100%;
     background-position: 50% 50%;
     background-repeat: no-repeat;
-    height: 600px;
-    width: 450px;
+    /* height: 600px;
+    width: 450px; */
+    height: 7in;
+    width: 5in;
     margin: auto;
     background-color: #ccc;
     display: flex;
@@ -731,7 +743,7 @@ ul.MuiList-root a.active .MuiButtonBase-root.MuiListItem-root.MuiListItem-gutter
 }
 #selection-display img {
     width: 60%;
-    height: 65%;
+    height: 60%;
     margin: auto;
 }
 .selection-options-pane {
@@ -996,7 +1008,7 @@ td.MuiTableCell-body button:not(first-child) {
 
 /* EMPTY/NO DATA */
 .no {
-    border: 3px double #334455;
+    /* border: 3px double #334455; */
     color: #334455;
     padding: 5px 10px;
     border-radius: 5px;
@@ -1198,7 +1210,7 @@ footer#internal {
         height: 70% !important;
     }
 }
-@media(max-width: 900px) {
+@media(max-width: 918px) {
     .title.sm-only {
         display: none;
     }

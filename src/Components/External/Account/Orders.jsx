@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Card from '@material-ui/core/Card';
 import Axios from 'axios';
 import Loader from '../../Extras/Loadrr';
@@ -11,45 +11,35 @@ import { getBaseURL } from '../../Extras/server';
 import { useSelector } from 'react-redux';
 
 function Orders({ history }) {
-    const user    = useSelector(state => state.authReducer.user);
-    const user_id = '123'; 
+    let user    = useSelector(state => state.authReducer.user);
 
-    const [state, setState] = React.useState({
-        orders   : [],
-        loading  : true,
-        message  : '',
-        comError : false,
-    })
+    const [orders, setOrders]     = useState([]); 
+    const [loading, setLoading]   = useState(true); 
+    const [message, setMessage]   = useState(''); 
+    const [comError, setComError] = useState(false);
 
     React.useEffect(() => {
         document.title        = 'Your Orders | The Frame Shop';
         const abortController = new AbortController();
         const signal          = abortController.signal;
         
-        // if(user) {
-            Axios.post(getBaseURL()+'get_orders', { user_id: user_id }, { signal: signal })
-            // Axios.post(getBaseURL()+'get_orders', { user_id: user.user_id }, { signal: signal })
+        if(user) {
+            Axios.post(getBaseURL()+'get_orders', { customer_id: user.customer_id }, { signal: signal })
                 .then(response => {
-                    setState({
-                        ...state,
-                        orders   : response.data,
-                        loading  : false,
-                    });
+                    setOrders(response.data);
+                    setLoading(false);
                 })
                 .catch(error => {
-                    setState({
-                        ...state,
-                        loading  : false,
-                        message  : 'Network Error. Server Unreachable....',
-                        comError : true,
-                    });
+                    setLoading(false);
+                    setMessage('Network Error. Server Unreachable....');
+                    setComError(true);
                 });
-        // } else {
-        //     history.push('/');
-        // }
+        } else {
+            history.push('/');
+        }
 
         return () => abortController.abort();
-    }, [history, state, user]);
+    }, [history, user]);
 
     let rowsPerPage = [];
     const columns   = [
@@ -96,11 +86,11 @@ function Orders({ history }) {
             }
         },
     ];
-    if (state.orders) {
-        if (state.orders.length < 100) {
+    if (orders) {
+        if (orders.length < 100) {
             rowsPerPage = [10, 25, 50, 100];
         } else {
-            rowsPerPage = [10, 25, 50, 100, state.orders.length];
+            rowsPerPage = [10, 25, 50, 100, orders.length];
         }
     } else {
         rowsPerPage = [10, 25, 50, 100];
@@ -130,19 +120,19 @@ function Orders({ history }) {
 
     return (
         <div className="back_gray">
-            { state.comError && <Toastrr message={state.message} type="info" /> }
+            { comError && <Toastrr message={message} type="info" /> }
             <Header user={user} />
             <main id="external">
                 <Card variant="outlined">
                 {
-                    state.loading ? <Loader /> :
-                        (state.orders && state.orders.length)
+                    loading ? <Loader /> :
+                        (orders && orders.length)
                             ?
                             <MUIDataTable
-                                data={state.orders}
+                                data={orders}
                                 columns={columns}
                                 options={options} />
-                            : <ExternalEmptyData error={state.comError} single="Order" plural="Orders" />
+                            : <ExternalEmptyData error={comError} message="No Orders Made" />
                 }
                 </Card>
             </main>

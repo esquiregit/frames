@@ -5,7 +5,11 @@ import ReactCrop from 'react-image-crop';
 import { DialogContent, DialogActions, DialogTitle, Transition } from '../../Extras/Dialogue';
 import 'react-image-crop/dist/ReactCrop.css';
 
-function AddPatient({ setPreviewImage, image, filename, fileWidth, fileHeight, closeUploadImageModal }) {
+function AddPatient({ setDisplayImage, image, filename, fileWidth, fileHeight, closeUploadImageModal }) {
+    // console.log('image: ', image)
+    // console.log('filename: ', filename)
+    // console.log('fileWidth: ', fileWidth)
+    // console.log('fileWidth: ', fileWidth)
     const canvasRef = React.createRef();
     let maxWidth    = null;
     if(fileWidth <= 400) {
@@ -86,7 +90,7 @@ function AddPatient({ setPreviewImage, image, filename, fileWidth, fileHeight, c
             ...state,
             open: false
         });
-        setPreviewImage(newFile);
+        setDisplayImage(newFile);
     };
     const base64StringToFile = imageBase64 => {
         let arr   = imageBase64.split(',');
@@ -120,7 +124,8 @@ function AddPatient({ setPreviewImage, image, filename, fileWidth, fileHeight, c
                     <ReactCrop
                         onChange={handleOnCrop}
                         onComplete={handleCropComplete}
-                        src={state.imgSrc}
+                        // src={state.imgSrc}
+                        src={image}
                         crop={state.crop} />
                     <canvas
                         style={{width: 0, height: 0}}
