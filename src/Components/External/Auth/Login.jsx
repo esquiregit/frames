@@ -73,7 +73,7 @@ const Login = ({ history }) => {
                     setTimeout(() => {
                         dispatch(logIn(response.data[0].user));
                         dispatch(populate_cart(response.data[0].cart));
-                        if(response.data[0].type == '000') {
+                        if(response.data[0].type === '000') {
                             // history.push('/');
                             getBack(history);
                         } else {

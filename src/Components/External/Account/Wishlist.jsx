@@ -93,7 +93,6 @@ function WishList({ history }) {
         rowsPerPage = [10, 25, 50, 100];
     }
     const options = {
-        filter: true,
         filterType: 'dropdown',
         responsive: 'standard',
         pagination: true,
