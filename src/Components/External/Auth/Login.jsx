@@ -10,6 +10,7 @@ import Toastrr from '../../Extras/Toastrr';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Link } from 'react-router-dom';
 import { logIn } from '../../../Store/Actions/AuthActions';
+import { getBack } from '../../Extras/GoBack';
 import { getBaseURL } from '../../Extras/server';
 import { Form, Formik } from 'formik';
 import { populate_cart } from '../../../Store/Actions/CartActions';
@@ -18,6 +19,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
 
 const initialValues = {
+    // email_address : 'bismark@bediako.com.gh',
     email_address : 'esquire',
     password : 'qwertyui'
 }
@@ -38,7 +40,7 @@ const Login = ({ history }) => {
     const user = useSelector(state => state.authReducer.user);
     
     useEffect(() => {
-        user && history.push('/');
+        //user && getBack(history);
         document.title = 'Login | The Frame Shop';
     }, [history, user]);
 
@@ -68,12 +70,12 @@ const Login = ({ history }) => {
                     resetForm();
                     setSuccess(true);//console.log('response.data[0]: ', response.data[0])
                     setMessage(response.data[0].message);
-                    console.log('response.data[0].type: ', response.data[0].type)
                     setTimeout(() => {
                         dispatch(logIn(response.data[0].user));
                         dispatch(populate_cart(response.data[0].cart));
                         if(response.data[0].type == '000') {
-                            history.push('/');
+                            // history.push('/');
+                            getBack(history);
                         } else {
                             history.push('/admin/dashboard');
                         }

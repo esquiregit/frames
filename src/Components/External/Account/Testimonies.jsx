@@ -24,16 +24,20 @@ function Testimonies({ history }) {
         const signal          = abortController.signal;
         
         if(user) {
-            Axios.post(getBaseURL()+'get_customer_testimonies', { customer_id: user.customer_id }, { signal: signal })
-                .then(response => {
-                    setLoading(false);
-                    setTestimonies(response.data);
-                })
-                .catch(error => {
-                    setLoading(false);
-                    setMessage('Network Error. Server Unreachable....');
-                    setComError(true);
-                });
+            if(user.customer_id) {
+                Axios.post(getBaseURL()+'get_customer_testimonies', { customer_id: user.customer_id }, { signal: signal })
+                    .then(response => {
+                        setLoading(false);
+                        setTestimonies(response.data);
+                    })
+                    .catch(error => {
+                        setLoading(false);
+                        setMessage('Network Error. Server Unreachable....');
+                        setComError(true);
+                    });
+            } else {
+                history.push('/admin/unauthorized-access/');
+            }
         } else {
             history.push('/');
         }

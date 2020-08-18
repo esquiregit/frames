@@ -14,6 +14,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import ConfirmDialogue from '../../Extras/ConfirmDialogue';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { update } from '../../../Store/Actions/AuthActions';
+import { getBack } from '../../Extras/GoBack';
 import { getBaseURL } from '../../Extras/server';
 import { Form, Formik } from 'formik';
 import { isPrefixValid, toCapitalCase, getRegions } from '../../Extras/Functions';
@@ -113,7 +114,7 @@ function Profile({ history }) {
     const [showConfirm, setShowConfirm] = useState(false);
 
     React.useEffect(() => {
-        !user && history.push('/');
+        !user && getBack(history);
         document.title = 'Your Profile | The Frame Shop';
     }, [history, user]);
     

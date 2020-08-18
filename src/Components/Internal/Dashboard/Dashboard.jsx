@@ -12,7 +12,7 @@ import Sidebar from '../Layout/Sidebar';
 import { useSelector } from 'react-redux';
 
 function Dashboard({ history }) {
-    const staff   = useSelector(state => state.authReducer.staff);
+    const user    = useSelector(state => state.authReducer.user);
     const classes = styles();
     const visible = useSelector(state => state.sidebarReducer.visible);
     
@@ -28,7 +28,7 @@ function Dashboard({ history }) {
     useEffect(() => {
         document.title = 'Dashboard | The Frame Shop';
 
-        // if(staff) {
+        // if(user) {
         //     Axios.post(getBaseURL() + 'get_dashboard_stats')
         //         .then(response => {
         //             setState({
@@ -48,11 +48,11 @@ function Dashboard({ history }) {
         // } else {
         //     history.push('/');
         // }
-    }, [staff, history]);
+    }, [user, history]);
     
     return (
         <>
-            <Header staff={staff} />
+            <Header user={user} />
             <Sidebar />
             <main
                 className={clsx(classes.contentMedium, {

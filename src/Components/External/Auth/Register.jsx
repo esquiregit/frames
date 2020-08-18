@@ -10,6 +10,7 @@ import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Link } from 'react-router-dom';
 import { logIn } from '../../../Store/Actions/AuthActions';
+import { getBack } from '../../Extras/GoBack';
 import { getBaseURL } from '../../Extras/server';
 import { Form, Formik } from 'formik';
 import { FormikTextField } from 'formik-material-fields';
@@ -52,7 +53,7 @@ const Register = ({ history }) => {
     const user = useSelector(state => state.authReducer.user);
     
     useEffect(() => {
-        user && history.push('/');
+        user && getBack(history);
         document.title = 'Register | The Frame Shop';
     }, [history, user]);
 

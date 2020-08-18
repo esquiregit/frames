@@ -53,17 +53,17 @@ function App() {
                     <Route path='/start-a-frame/:type/'       component={ FrameType }      exact />
                     <Route path='/password-change/:id/:code/' component={ PasswordChange } exact />
                     
-                    <Route path='/admin/roles/'         component={ ManageRoles }        exact />
-                    <Route path='/admin/users/'         component={ ManageAdmins }       exact />
-                    <Route path='/admin/report/'        component={ Report }             exact />
-                    <Route path='/admin/orders/'        component={ ManageOrders }       exact />
-                    <Route path='/admin/profile/'       component={ AdminProfile }       exact />
-                    <Route path='/admin/products/'      component={ ManageProducts }     exact />
-                    <Route path='/admin/customers/'     component={ ManageCustomers }    exact />
-                    <Route path='/admin/dashboard/'     component={ Dashboard }          exact />
-                    <Route path='/admin/categories/'    component={ ManageCategories }   exact />
-                    <Route path='/admin/activities/'    component={ AuditTrail }         exact />
-                    <Route path='/unauthorized-access/' component={ UnauthorizedAccess } exact />
+                    <Route path='/admin/roles/'              component={ ManageRoles }        exact />
+                    <Route path='/admin/users/'              component={ ManageAdmins }       exact />
+                    <Route path='/admin/report/'             component={ Report }             exact />
+                    <Route path='/admin/orders/'             component={ ManageOrders }       exact />
+                    <Route path='/admin/profile/'            component={ AdminProfile }       exact />
+                    <Route path='/admin/products/'           component={ ManageProducts }     exact />
+                    <Route path='/admin/customers/'          component={ ManageCustomers }    exact />
+                    <Route path='/admin/dashboard/'          component={ Dashboard }          exact />
+                    <Route path='/admin/categories/'         component={ ManageCategories }   exact />
+                    <Route path='/admin/activities/'         component={ AuditTrail }         exact />
+                    <Route path='/admin/unauthorized-access/' component={ UnauthorizedAccess } exact />
                     <Route path='*' component={ Error404 } />
                 </Switch>
             </BrowserRouter>
