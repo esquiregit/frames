@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Card from '@material-ui/core/Card';
 import Axios from 'axios';
+import Button from '@material-ui/core/Button';
 import Loader from '../../Extras/Loadrr';
 import Footer from './../Layout/Footer';
 import Header from './../Layout/Header';
@@ -11,20 +12,20 @@ import { getBaseURL } from '../../Extras/server';
 import { useSelector } from 'react-redux';
 
 function Orders({ history }) {
-    let user    = useSelector(state => state.authReducer.user);
+    let user = useSelector(state => state.authReducer.user);
 
-    const [orders, setOrders]     = useState([]); 
-    const [loading, setLoading]   = useState(true); 
-    const [message, setMessage]   = useState(''); 
+    const [orders, setOrders]     = useState([]);
+    const [loading, setLoading]   = useState(true);
+    const [message, setMessage]   = useState('');
     const [comError, setComError] = useState(false);
 
     React.useEffect(() => {
-        document.title        = 'Your Orders | The Frame Shop';
+        document.title = 'Your Orders | The Frame Shop';
         const abortController = new AbortController();
-        const signal          = abortController.signal;
-        
-        if(user) {
-            Axios.post(getBaseURL()+'get_customer_orders', { customer_id: user.customer_id }, { signal: signal })
+        const signal = abortController.signal;
+
+        if (user) {
+            Axios.post(getBaseURL() + 'get_customer_orders', { customer_id: user.customer_id }, { signal: signal })
                 .then(response => {
                     setOrders(response.data);
                     setLoading(false);
@@ -42,7 +43,7 @@ function Orders({ history }) {
     }, [history, user]);
 
     let rowsPerPage = [];
-    const columns   = [
+    const columns = [
         {
             label: "Frame",
             name: "frame",
@@ -92,6 +93,33 @@ function Orders({ history }) {
                 filter: true,
             }
         },
+        {
+            name: "Action",
+            options: {
+                filter: false,
+                sort: false,
+                empty: true,
+                customBodyRenderLite: (dataIndex, rowIndex) => {
+                    return (
+                        <>
+                            <Button
+                                // onClick={}
+                                onClick={() => window.alert(`Clicked "Edit" for row ${rowIndex} with dataIndex of ${dataIndex}`)}
+                                variant="outlined"
+                                color="primary">
+                                Edit
+                            </Button>
+                            <Button
+                                // onClick={}
+                                variant="outlined"
+                                color="secondary">
+                                Cancel
+                            </Button>
+                        </>
+                    );
+                }
+            }
+        },
     ];
     if (orders) {
         if (orders.length < 100) {
@@ -103,7 +131,6 @@ function Orders({ history }) {
         rowsPerPage = [10, 25, 50, 100];
     }
     const options = {
-        filter: true,
         filterType: 'dropdown',
         responsive: 'standard',
         pagination: true,
@@ -128,21 +155,21 @@ function Orders({ history }) {
 
     return (
         <div className="back_gray">
-            { comError && <Toastrr message={message} type="info" /> }
+            {comError && <Toastrr message={message} type="info" />}
             <Header user={user} />
             <main id="external">
                 <Card variant="outlined">
-                {
-                    loading ? <Loader /> :
+                    {
+                        loading ? <Loader /> :
                         (orders && orders.length)
-                            ?
-                            <MUIDataTable
-                                title="Your Orders"
-                                data={orders}
-                                columns={columns}
-                                options={options} />
-                            : <ExternalEmptyData error={comError} message="No Orders Made" />
-                }
+                        ?
+                        <MUIDataTable
+                            title="Your Orders"
+                            data={orders}
+                            columns={columns}
+                            options={options} />
+                        : <ExternalEmptyData error={comError} message="No Orders Made" />
+                    }
                 </Card>
             </main>
             <Footer />

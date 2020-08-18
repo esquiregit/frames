@@ -28,7 +28,7 @@ function Home() {
             })
             .catch(error => {
                 setLoading(false);
-                console.err(error)
+                console.error(error)
             });
 
         return () => abortController.abort();

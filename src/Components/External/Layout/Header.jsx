@@ -195,7 +195,7 @@ const Header = () => {
                             <Badge
                                 max={99}
                                 showZero
-                                badgeContent={cart.length}
+                                badgeContent={cart && cart.length}
                                 color="primary">
                                 <ShoppingCartOutlinedIcon className="fs-20" />
                             </Badge>

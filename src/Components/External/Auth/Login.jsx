@@ -18,8 +18,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
 
 const initialValues = {
-    email_address : '',
-    password : ''
+    email_address : 'esquire',
+    password : 'qwertyui'
 }
 const validationSchema = Yup.object().shape({
     email_address: Yup
@@ -68,9 +68,16 @@ const Login = ({ history }) => {
                     resetForm();
                     setSuccess(true);//console.log('response.data[0]: ', response.data[0])
                     setMessage(response.data[0].message);
-                    dispatch(logIn(response.data[0].user));
-                    dispatch(populate_cart(response.data[0].cart));
-                    setTimeout(() => history.push('/'), 2000);
+                    console.log('response.data[0].type: ', response.data[0].type)
+                    setTimeout(() => {
+                        dispatch(logIn(response.data[0].user));
+                        dispatch(populate_cart(response.data[0].cart));
+                        if(response.data[0].type == '000') {
+                            history.push('/');
+                        } else {
+                            history.push('/admin/dashboard');
+                        }
+                    }, 2000);
                 } else {
                     setError(true);
                     setMessage(response.data[0].message);
