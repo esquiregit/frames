@@ -1,148 +1,194 @@
-import React from "react";
+import React, { useState } from 'react';
+import Fab from '@material-ui/core/Fab';
+import Card from '@material-ui/core/Card';
+import Axios from 'axios';
+import Button from '@material-ui/core/Button';
+import Footer from './Layout/Footer';
+import Header from './Layout/Header';
+import Loader from '../Extras/Loadrr';
+import Toastrr from '../Extras/Toastrr';
 import MUIDataTable from "mui-datatables";
+import ExternalEmptyData from '../Extras/ExternalEmptyData';
+import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
+import { getBaseURL } from '../Extras/server';
+import { useSelector } from 'react-redux';
 
-class Example extends React.Component {
-  constructor(props) {
-    super(props);
+function Cart({ history }) {
+    let user = useSelector(state => state.authReducer.user);
 
-    this.state = {
-      data: [
-        ["Gabby George", "Business Analyst", "Minneapolis", 30, "$100,000"],
-        ["Aiden Lloyd", "Business Consultant", "Dallas",  55, "$200,000"],
-        ["Jaden Collins", "Attorney", "Santa Ana", 27, "$500,000"],
-        ["Franky Rees", "Business Analyst", "St. Petersburg", 22, "$50,000"],
-        ["Aaren Rose", "Business Consultant", "Toledo", 28, "$75,000"],
-        ["Blake Duncan", "Business Management Analyst", "San Diego", 65, "$94,000"],
-        ["Frankie Parry", "Agency Legal Counsel", "Jacksonville", 71, "$210,000"],
-        ["Lane Wilson", "Commercial Specialist", "Omaha", 19, "$65,000"],
-        ["Robin Duncan", "Business Analyst", "Los Angeles", 20, "$77,000"],
-        ["Mel Brooks", "Business Consultant", "Oklahoma City", 37, "$135,000"],
-        ["Harper White", "Attorney", "Pittsburgh", 52, "$420,000"],
-        ["Kris Humphrey", "Agency Legal Counsel", "Laredo", 30, "$150,000"],
-        ["Frankie Long", "Industrial Analyst", "Austin", 31, "$170,000"],
-        ["Brynn Robbins", "Business Analyst", "Norfolk", 22, "$90,000"],
-        ["Justice Mann", "Business Consultant", "Chicago", 24, "$133,000"],
-        ["Addison Navarro", "Business Management Analyst", "New York", 50, "$295,000"],
-        ["Jesse Welch", "Agency Legal Counsel", "Seattle", 28, "$200,000"],
-        ["Eli Mejia", "Commercial Specialist", "Long Beach", 65, "$400,000"],
-        ["Gene Leblanc", "Industrial Analyst", "Hartford", 34, "$110,000"],
-        ["Danny Leon", "Computer Scientist", "Newark", 60, "$220,000"],
-        ["Lane Lee", "Corporate Counselor", "Cincinnati", 52, "$180,000"],
-        ["Jesse Hall", "Business Analyst", "Baltimore", 44, "$99,000"],
-        ["Danni Hudson", "Agency Legal Counsel", "Tampa", 37, "$90,000"],
-        ["Terry Macdonald", "Commercial Specialist", "Miami", 39, "$140,000"],
-        ["Justice Mccarthy", "Attorney", "Tucson", 26, "$330,000"],
-        ["Silver Carey", "Computer Scientist", "Memphis", 47, "$250,000" ],
-        ["Franky Miles", "Industrial Analyst", "Buffalo", 49, "$190,000"],
-        ["Glen Nixon", "Corporate Counselor", "Arlington", 44, "$80,000"],
-        ["Gabby Strickland", "Business Process Consultant", "Scottsdale", 26, "$45,000"],
-        ["Mason Ray", "Computer Scientist", "San Francisco", 39, "$142,000"]
-      ]
-    };
-  }
+    const [cart, setCart]     = useState([]);
+    const [loading, setLoading]   = useState(true);
+    const [message, setMessage]   = useState('');
+    const [comError, setComError] = useState(false);
 
-  render() {
+    React.useEffect(() => {
+        document.title = 'Your Cart | The Frame Shop';
+        const abortController = new AbortController();
+        const signal = abortController.signal;
+
+        //if (user) {
+            //if(user.customer_id) {
+                Axios.post(getBaseURL() + 'get_cart', { customer_id: user ? user.customer_id : '' }, { signal: signal })
+                    .then(response => {
+                        setCart(response.data);
+                        setLoading(false);
+                    })
+                    .catch(error => {
+                        setLoading(false);
+                        setMessage('Network Error. Server Unreachable....');
+                        setComError(true);
+                    });
+            // } else {
+            //     history.push('/admin/unauthorized-access/');
+            // }
+        // } else {
+        //     history.push('/');
+        // }
+
+        return () => abortController.abort();
+    }, [history, user]);
+
+    let rowsPerPage = [];
     const columns = [
-      {
-        name: "Delete",
-        options: {
-          filter: false,
-          sort: false,
-          empty: true,
-          customBodyRenderLite: (dataIndex) => {
-            return (
-              <button onClick={() => {
-                const { data } = this.state;
-                data.shift();
-                this.setState({ data });
-              }}>
-                Delete
-              </button>
-            );
-          }
-        }
-      },
-      {
-        name: "Edit",
-        options: {
-          filter: false,
-          sort: false,
-          empty: true,
-          customBodyRenderLite: (dataIndex, rowIndex) => {
-            return (
-              <button onClick={() => window.alert(`Clicked "Edit" for row ${rowIndex} with dataIndex of ${dataIndex}`)}>
-                Edit
-              </button>
-            );
-          }
-        }
-      },
-      {
-        name: "Name",
-        options: {
-          filter: true,
-        }
-      },
-      {
-        label: "Modified Title Label",
-        name: "Title",
-        options: {
-          filter: true,
-        }
-      },
-      {
-        name: "Location",
-        options: {
-          filter: false,
-        }
-      },
-      {
-        name: "Age",
-        options: {
-          filter: true,
-        }
-      },
-      {
-        name: "Salary",
-        options: {
-          filter: true,
-          sort: false,
-        }
-      },
-      {
-        name: "Add",
-        options: {
-          filter: false,
-          sort: false,
-          empty: true,
-          customBodyRenderLite: (dataIndex) => {
-            return (
-              <button onClick={() => {
-                const { data } = this.state;
-                data.unshift(["Mason Ray", "Computer Scientist", "San Francisco", 39, "$142,000"]);
-                this.setState({ data });
-              }}>
-                Add
-              </button>
-            );
-          }
-        }
-      },
+        {
+            label: "Frame",
+            name: "frame",
+            options: {
+                filter: true,
+            }
+        },
+        {
+            label: "Image",
+            name: "image",
+            options: {
+                filter: true,
+            }
+        },
+        {
+            label: "Price",
+            name: "cart_price_raw",
+            options: {
+                filter: true,
+            }
+        },
+        {
+            label: "Quantity",
+            name: "quantity",
+            options: {
+                filter: true,
+            }
+        },
+        {
+            label: "Cost",
+            name: "total",
+            options: {
+                filter: true,
+            }
+        },
+        {
+            label: "Status",
+            name: "status",
+            options: {
+                filter: true,
+            }
+        },
+        {
+            label: "Date",
+            name: "date_added",
+            options: {
+                filter: true,
+            }
+        },
+        {
+            name: "Action",
+            options: {
+                filter: false,
+                sort: false,
+                empty: true,
+                customBodyRenderLite: (dataIndex, rowIndex) => {
+                    return (
+                        <>
+                            <Button
+                                // onClick={}
+                                onClick={() => window.alert(`Clicked "Edit" for row ${rowIndex} with dataIndex of ${dataIndex}`)}
+                                variant="outlined"
+                                color="primary">
+                                Edit
+                            </Button>
+                            <Button
+                                // onClick={}
+                                variant="outlined"
+                                color="secondary">
+                                Cancel
+                            </Button>
+                        </>
+                    );
+                }
+            }
+        },
     ];
+    if (cart) {
+        if (cart.length < 100) {
+            rowsPerPage = [10, 25, 50, 100];
+        } else {
+            rowsPerPage = [10, 25, 50, 100, cart.length];
+        }
+    } else {
+        rowsPerPage = [10, 25, 50, 100];
+    }
     const options = {
-      filter: true,
-      filterType: 'dropdown',
-      responsive: 'vertical',
-      onColumnSortChange: (changedColumn, direction) => console.log('changedColumn: ', changedColumn, 'direction: ', direction),
-      onChangeRowsPerPage: numberOfRows => console.log('numberOfRows: ', numberOfRows),
-      onChangePage: currentPage => console.log('currentPage: ', currentPage)
+        filterType: 'dropdown',
+        responsive: 'standard',
+        pagination: true,
+        rowsPerPageOptions: rowsPerPage,
+        resizableColumns: false,
+        download: false,
+        filter: false,
+        viewColumns: false,
+        print: false,
+        search: false,
+        page: 0,
+        selectableRows: 'none',
+    };
+    const checkout = () => {
+
     };
 
     return (
-      <MUIDataTable title={"ACME Employee list"} data={this.state.data} columns={columns} options={options} />
-    );
-
-  }
+        <div className="back_gray">
+            {comError && <Toastrr message={message} type="info" />}
+            <Header user={user} />
+            <main id="external">
+                <Card variant="outlined">
+                    {
+                        loading ? <Loader /> :
+                        (cart && cart.length)
+                        ?
+                        <MUIDataTable
+                            title="Your Cart"
+                            data={cart}
+                            columns={columns}
+                            options={options} />
+                        : <ExternalEmptyData error={comError} message="Nothing In Your Cart" />
+                    }
+                </Card>
+                <div className="buttons-bar">
+                    <Button
+                        variant="contained"
+                        color="primary">
+                        Check Out
+                    </Button>
+                    <Button
+                        onClick={() => history.push('/start-a-frame/')}
+                        variant="contained"
+                        className="btn-success">
+                        view frames
+                    </Button>
+                </div>
+            </main>
+            <Footer />
+        </div>
+    )
 }
 
-export default Example;
+export default Cart;

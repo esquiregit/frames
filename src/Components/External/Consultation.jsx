@@ -10,7 +10,7 @@ import Backdrop from '@material-ui/core/Backdrop';
 import ConfirmDialogue from '../Extras/ConfirmDialogue';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { getBaseURL } from '../Extras/server';
-// import { useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Form, Formik } from 'formik';
 import { FormikTextField } from 'formik-material-fields';
 import { DialogContent, DialogActions, DialogTitle, Transition } from '../Extras/Dialogue';
@@ -35,6 +35,24 @@ const validationSchema = Yup.object().shape({
         .min(10, 'Phone Number MUST Contain 10 Digits')
         .max(10, 'Phone Number MUST Contain 10 Digits')
         .test('invalid-prefix', 'Invalid Phone Number Prefix', value => value && isPrefixValid(value.substring(0, 3))),
+    phone_number_two: Yup
+        .string()
+        .test('non-numeric', 'Alternate Phone Number Must Contain ONLY Digits', function(value) {
+            if(value === undefined) {
+                return true
+            } else {
+                return /^[0-9]+$/.test(value);
+            }
+        })
+        .min(10, 'Alternate Phone Number MUST Contain 10 Digits')
+        .max(10, 'Alternate Phone Number MUST Contain 10 Digits')
+        .test('invalid-prefix', 'Invalid Alternate Phone Number Prefix', value => {
+            if(value === undefined) {
+                return true
+            } else {
+                return isPrefixValid(value.substring(0, 3))
+            }
+        }),
     date: Yup
         .string()
         .required('Please Enter Date You Will Be Available'),
@@ -43,106 +61,72 @@ const validationSchema = Yup.object().shape({
         .required('Please Enter Time You Will Be Available'),
 });
 
-function Consultation({ closeModal, closeExpandable }) {
+function Consultation({ closeModal }) {
     const classes = styles();
-    // const user    = useSelector(state => state.authReducer.user);
-    const rand = Math.random();
-    let user = {};
-// console.log('rand: ', rand)
-    if(rand < 0.5) {
-        user = {
-            name: 'Solomon Danso',
-            email_address: 'solo@danso.com',
-            phone_number: '0271243514',
-        };
-    }
+    const user    = useSelector(state => state.authReducer.user);
 
     const initialValues = {
-        name          : user.name || '',
-        email_address : user.email_address || '',
-        phone_number  : user.phone_number || '',
-        date          : '',
-        time          : '',
-        is_customer   : user !== null ? true : false
+        customer_id      : user ? user.customer_id : '',
+        name             : user ? user.name : '',
+        email_address    : user ? user.email_address : '',
+        phone_number     : user ? user.phone_number : '',
+        phone_number_two : user ? user.phone_number_two : '',
+        date             : '',
+        time             : '',
     };
 
-    const [state, setState] = useState({
-        open         : true,
-        error        : false,
-        values       : [],
-        message      : '',
-        warning      : false,
-        backdrop     : false,
-        comError     : false,
-        showDialogue : false
-    });
+    const [open, setOpen]         = useState(true);
+    const [error, setError]       = useState(false);
+    const [values, setValues]     = useState([]);
+    const [message, setMessage]   = useState('');
+    const [success, setSuccess]   = useState(false);
+    const [warning, setWarning]   = useState(false);
+    const [backdrop, setBackdrop] = useState(false);
+    const [comError, setComError] = useState(false);
+    const [showDialogue, setShowDialogue] = useState(false);
 
     const handleClose  = () => {
-        setState({
-            ...state,
-            open : false,
-        });
+        setOpen(true);
         closeModal();
     };
     const closeConfirm = result => {
-        setState({
-            ...state,
-            showDialogue : false
-        });
+        setShowDialogue(false);
         result.toLowerCase() === 'yes' && onSubmit();
     };
     const onConfirm    = values => {
-        setState({
-            ...state,
-            values       : values,
-            showDialogue : true
-        });
+        setValues(values);
+        setShowDialogue(true);
     };
     const onSubmit     = () => {
-        setState({
-            ...state,
-            error    : false,
-            warning  : false,
-            backdrop : true,
-            comError : false,
-        });
+        setError(false);
+        setSuccess(false);
+        setWarning(false);
+        setBackdrop(true);
+        setComError(false);
+        
         const abortController = new AbortController();
         const signal          = abortController.signal;
 
-        Axios.post(getBaseURL()+'book_consultation', state.values, { signal: signal })
+        Axios.post(getBaseURL()+'add_booking', values, { signal: signal })
             .then(response => {
                 if(response.data[0].status.toLowerCase() === 'success') {
-                    setState({
-                        ...state,
-                        open    : false,
-                        message : response.data[0].message,
-                        success : true,
-                        backdrop: false
-                    });
-                    closeModal();
+                    setOpen(false);
+                    setMessage(response.data[0].message);
+                    setSuccess(true);
+                    setTimeout(() => closeModal(), 1000);
                 } else if(response.data[0].status.toLowerCase() === 'warning') {
-                    setState({
-                        ...state,
-                        message : response.data[0].message,
-                        warning : true,
-                        backdrop: false
-                    });
+                    setMessage(response.data[0].message);
+                    setWarning(true);
                 } else {
-                    setState({
-                        ...state,
-                        error   : true,
-                        message : response.data[0].message,
-                        backdrop: false
-                    });
+                    setError(true);
+                    setMessage(response.data[0].message);
                 }
+                setBackdrop(false);
             })
             .catch(error => {
-                setState({
-                    ...state,
-                    message : 'Network Error. Server Unreachable....',
-                    backdrop: false,
-                    comError: true,
-                });
+                setMessage('Network Error. Server Unreachable....');
+                setComError(true);
+                setBackdrop(false);
             });
 
         return () => abortController.abort();
@@ -150,11 +134,12 @@ function Consultation({ closeModal, closeExpandable }) {
 
     return (
         <>
-            { state.error        && <Toastrr message={state.message} type="error"   /> }
-            { state.warning      && <Toastrr message={state.message} type="warning" /> }
-            { state.comError     && <Toastrr message={state.message} type="info"    /> }
-            { state.showDialogue && <ConfirmDialogue message={'Are You Sure You Want To Book?'} closeConfirm={closeConfirm} /> }
-            <Backdrop className={classes.backdrop} open={state.backdrop}>
+            { error        && <Toastrr message={message} type="error"   /> }
+            { success      && <Toastrr message={message} type="success" /> }
+            { warning      && <Toastrr message={message} type="warning" /> }
+            { comError     && <Toastrr message={message} type="info"    /> }
+            { showDialogue && <ConfirmDialogue message={'Are You Sure You Want To Book?'} closeConfirm={closeConfirm} /> }
+            <Backdrop className={classes.backdrop} open={backdrop}>
                 <CircularProgress color="inherit" /> <span className='ml-15'>Booking Consultation. Please Wait....</span>
             </Backdrop>
             <Dialog
@@ -166,7 +151,7 @@ function Consultation({ closeModal, closeExpandable }) {
                 maxWidth='sm'
                 onClose={handleClose}
                 aria-labelledby="customized-dialog-title"
-                open={state.open}>
+                open={open}>
                 <Formik
                     initialValues={initialValues}
                     validationSchema={validationSchema}
@@ -180,7 +165,7 @@ function Consultation({ closeModal, closeExpandable }) {
                                 <Grid container spacing={3}>
                                     <Grid item xs={12}>
                                         <FormikTextField
-                                            disabled={user.name ? true : false}
+                                            disabled={user ? true : false}
                                             size="small"
                                             variant="outlined"
                                             margin="normal"
@@ -192,7 +177,7 @@ function Consultation({ closeModal, closeExpandable }) {
                                     </Grid>
                                     <Grid item xs={12}>
                                         <FormikTextField
-                                            disabled={user.name ? true : false}
+                                            disabled={user ? true : false}
                                             size="small"
                                             variant="outlined"
                                             margin="normal"
@@ -204,7 +189,7 @@ function Consultation({ closeModal, closeExpandable }) {
                                     </Grid>
                                     <Grid item xs={12}>
                                         <FormikTextField
-                                            disabled={user.name ? true : false}
+                                            disabled={user ? true : false}
                                             size="small"
                                             variant="outlined"
                                             margin="normal"
@@ -213,6 +198,18 @@ function Consultation({ closeModal, closeExpandable }) {
                                             label="Phone Number"
                                             placeholder="Phone Number"
                                             name="phone_number" />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <FormikTextField
+                                            disabled={user ? true : false}
+                                            size="small"
+                                            variant="outlined"
+                                            margin="normal"
+                                            fullWidth
+                                            id="phone_number_two"
+                                            label="Alternate Phone Number - Optional"
+                                            placeholder="Alternate Phone Number - Optional"
+                                            name="phone_number_two" />
                                     </Grid>
                                     <Grid item xs={12} sm={6}>
                                         <FormikTextField

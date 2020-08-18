@@ -1,6 +1,7 @@
 import React from 'react';
-import PermScanWifiIcon from '@material-ui/icons/PermScanWifi';
 import BlurOnIcon from '@material-ui/icons/BlurOn';
+import PermScanWifiIcon from '@material-ui/icons/PermScanWifi';
+import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
 import { NavLink } from 'react-router-dom';
 
 function EmptyData({ error, message }) {
@@ -17,7 +18,7 @@ function EmptyData({ error, message }) {
                 </>
                 :
                 <>
-                    <BlurOnIcon />
+                    { message.includes("Cart") ? <ShoppingCartOutlinedIcon /> : <BlurOnIcon /> }
                     <span>
                         <p style={{textAlign: 'center'}}><strong>{message}</strong></p>
                         &nbsp;

@@ -61,6 +61,7 @@ code {
 }
 /* BUTTONS */
 /* .MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12  */
+.dark-btn { background-color: #556677 !important; color: #fff !important; }
 a.btn-success {
     padding: 10px 45px;
     border-radius: 3px;
@@ -1013,7 +1014,6 @@ td.MuiTableCell-body button:not(first-child) {
     padding: 5px 10px;
     border-radius: 5px;
     text-decoration: none;
-    margin-left: 10px;
 }
 .no:hover {
     background-color: #eee;
@@ -1121,13 +1121,26 @@ main#external form {
 /* END OF CALENDAR */
 
 /* FAB */
-
+.buttons-bar {
+    position: sticky;
+    position: -webkit-sticky;
+    bottom: 67px;
+    text-align: right;
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 3px;
+    box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12) !important;
+    border-top: 1px solid #aaa;
+}
+.buttons-bar button + button {
+    margin-left: 10px;
+}
 .MuiFab-root {
     position: fixed !important;
     bottom: 80px !important;
     z-index: 1112;
 }
-
 .fab {
     margin: 0px;
     top: auto;
@@ -1136,7 +1149,12 @@ main#external form {
     left: auto;
     position: fixed;
 }
-
+.MuiFab-root.checkout {
+    position: sticky !important;
+    right: 20px !important;
+    top: 139px !important;
+    z-index: 1112;
+}
 /* END OF FAB */
 
 /* FOOTER */
