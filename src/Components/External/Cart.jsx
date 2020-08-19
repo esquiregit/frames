@@ -27,6 +27,11 @@ function Cart({ history }) {
     const dispatch = useDispatch();
     const classes  = styles();
     let newCart    = [];
+    let item;
+    let total;
+    let old_quantity;
+    let quantity;
+    let product_id;
 
     const [cart, setCart]         = useState([]);
     const [error, setError]       = useState(false);
@@ -204,11 +209,6 @@ function Cart({ history }) {
         setBackdrop(true);
         const abortController = new AbortController();
         const signal  = abortController.signal;
-        let item;
-        let total;
-        let old_quantity;
-        let quantity;
-        let product_id;
 
         cart.map(element => {
             if(element.id === id) {
@@ -220,41 +220,55 @@ function Cart({ history }) {
             }
         });  
         
-        if(user.customer_id) {
-            Axios.post(getBaseURL() + 'update_cart_item', { id: item.id, quantity: item.quantity, old_quantity, product_id: item.product_id, action }, { signal: signal })
-                .then(response => {
-                    if(response.data[0].status.toLowerCase() === 'success') {
-                        setSuccess(true);
-                        cart.map(item => {
-                            if(item.id === id) {
-                                item.quantity  = quantity;
-                                total          = item.quantity * item.cart_price_raw;
-                                item.total     = 'GHS '+total;
-                                item.total_raw = total;
-                            }
-                            newCart.push(item);
-                        });
-                    } else if(response.data[0].status.toLowerCase() === 'warning') {
-                        setWarning(true);
-                    } else {
-                        setError(true);
-                    }
-                    setMessage(response.data[0].message);
-                    setBackdrop(false);
-                })
-                .catch(error => {
-                    setMessage('Network Error. Server Unreachable....');
-                    setComError(true);
-                    setBackdrop(false);
-                });
+        if(action === 'add') {
+            if(user.customer_id) {
+                apiCall(id, item, quantity, old_quantity, action, signal);
+            } else {
+                history.push('/admin/unauthorized-access/');
+            }
         } else {
-            history.push('/admin/unauthorized-access/');
+            if(quantity > 0) {
+                apiCall(id, item, quantity, old_quantity, action, signal);
+            } else {
+                setError(true);
+                setMessage('Quantity Cannot Be Less Than 1....');
+                setBackdrop(false);
+                setTimeout(() => setError(false), 1200);
+            }
         }
 
         return () => abortController.abort();
     }
     const checkout = () => {
 
+    };
+    const apiCall = (id, item, quantity, old_quantity, action, signal) => {
+        Axios.post(getBaseURL() + 'update_cart_item', { id: item.id, quantity: item.quantity, old_quantity, product_id: item.product_id, action }, { signal: signal })
+            .then(response => {
+                if(response.data[0].status.toLowerCase() === 'success') {
+                    setSuccess(true);
+                    cart.map(item => {
+                        if(item.id === id) {
+                            item.quantity  = quantity;
+                            total          = item.quantity * item.cart_price_raw;
+                            item.total     = 'GHS '+total;
+                            item.total_raw = total;
+                        }
+                        newCart.push(item);
+                    });
+                } else if(response.data[0].status.toLowerCase() === 'warning') {
+                    setWarning(true);
+                } else {
+                    setError(true);
+                }
+                setMessage(response.data[0].message);
+                setBackdrop(false);
+            })
+            .catch(error => {
+                setMessage('Network Error. Server Unreachable....');
+                setComError(true);
+                setBackdrop(false);
+            });
     };
 
     return (
