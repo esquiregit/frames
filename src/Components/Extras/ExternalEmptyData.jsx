@@ -22,7 +22,7 @@ function EmptyData({ error, message }) {
                     <span>
                         <p style={{textAlign: 'center'}}><strong>{message}</strong></p>
                         &nbsp;
-                        { !message.includes("Cart") && <NavLink className="no" to="/">continue shopping</NavLink> }
+                        { !message.includes("Cart") && <NavLink className="no" to="/start-a-frame/">continue shopping</NavLink> }
                     </span>
                 </>
             }

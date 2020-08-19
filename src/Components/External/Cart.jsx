@@ -72,13 +72,6 @@ function Cart({ history }) {
     let rowsPerPage = [];
     const columns = [
         {
-            label: "Frame",
-            name: "frame",
-            options: {
-                filter: true,
-            }
-        },
-        {
             label: "Image",
             name: "image",
             options: {
@@ -89,7 +82,14 @@ function Cart({ history }) {
             }
         },
         {
-            label: "Price",
+            label: "Item",
+            name: "frame",
+            options: {
+                filter: true,
+            }
+        },
+        {
+            label: "Unit Price",
             name: "cart_price",
             options: {
                 filter: true,
@@ -103,14 +103,14 @@ function Cart({ history }) {
             }
         },
         {
-            label: "Cost",
+            label: "Sub Total",
             name: "total",
             options: {
                 filter: true,
             }
         },
         {
-            label: "Date",
+            label: "Date Added",
             name: "date_added",
             options: {
                 filter: true,
@@ -170,8 +170,11 @@ function Cart({ history }) {
         selectableRows: 'none',
     };
     const deleteItem = id => {
+        setError(false);
         setSuccess(false);
+        setWarning(false);
         setBackdrop(true);
+        setComError(false);
         const abortController = new AbortController();
         const signal  = abortController.signal;
 
@@ -206,6 +209,7 @@ function Cart({ history }) {
         setSuccess(false);
         setWarning(false);
         setBackdrop(true);
+        setComError(false);
         const abortController = new AbortController();
         const signal  = abortController.signal;
 

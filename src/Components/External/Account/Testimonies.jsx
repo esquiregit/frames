@@ -39,7 +39,7 @@ function Testimonies({ history }) {
                 history.push('/admin/unauthorized-access/');
             }
         } else {
-            history.push('/');
+            history.push('/login/');
         }
 
         return () => abortController.abort();
