@@ -204,27 +204,34 @@ function Cart({ history }) {
         setBackdrop(true);
         const abortController = new AbortController();
         const signal  = abortController.signal;
+        let item;
         let total;
         let quantity;
         let product_id;
-        
-        cart.map(item => {
-            if(item.id === id) {
-                quantity       = action === 'add' ? item.quantity + 1 : item.quantity - 1;
-                product_id     = item.product_id;
-                item.quantity  = quantity;
-                total          = item.quantity * item.cart_price_raw;
-                item.total     = 'GHS '+total;
-                item.total_raw = total;
+
+        cart.map(element => {
+            if(element.id === id) {
+                item       = element;
+                product_id = element.product_id;
+                quantity   = element.quantity;
+                quantity   = action === 'add' ? element.quantity + 1 : element.quantity - 1;
             }
-            newCart.push(item);
-        });
+        });  
         
         if(user.customer_id) {
-            Axios.post(getBaseURL() + 'update_cart_item', { id, quantity, product_id, action }, { signal: signal })
+            Axios.post(getBaseURL() + 'update_cart_item', { id: item.id, quantity: item.quantity, product_id: item.product_id, action }, { signal: signal })
                 .then(response => {
                     if(response.data[0].status.toLowerCase() === 'success') {
                         setSuccess(true);
+                        cart.map(item => {
+                            if(item.id === id) {
+                                item.quantity  = quantity;
+                                total          = item.quantity * item.cart_price_raw;
+                                item.total     = 'GHS '+total;
+                                item.total_raw = total;
+                            }
+                            newCart.push(item);
+                        });
                     } else if(response.data[0].status.toLowerCase() === 'warning') {
                         setWarning(true);
                     } else {
