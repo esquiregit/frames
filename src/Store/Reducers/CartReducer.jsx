@@ -24,11 +24,9 @@ const cartReducer = (state = initialState, action) => {
             return state;
         case 'REMOVE_ITEM':
             if(state.cart.length) {
-                newCart = state.cart.map(item => item.id !== action.id);
-                return newCart;
-            } else {
-                return state;
+                state.cart.map(item => item.id !== action.id);
             }
+            return state;
         default: return state;
     }
 }
