@@ -6,15 +6,17 @@ import Button from '@material-ui/core/Button';
 import Footer from './Layout/Footer';
 import Header from './Layout/Header';
 import Loader from '../Extras/Loadrr';
+import styles from '../Extras/styles';
 import AddIcon from '@material-ui/icons/Add';
 import Toastrr from '../Extras/Toastrr';
+import Backdrop from '@material-ui/core/Backdrop';
 import IconButton from '@material-ui/core/IconButton';
 import RemoveIcon from '@material-ui/icons/Remove';
 import MUIDataTable from "mui-datatables";
+import CircularProgress from '@material-ui/core/CircularProgress';
 import ExternalEmptyData from '../Extras/ExternalEmptyData';
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 import { getBaseURL } from '../Extras/server';
-import { remove_item } from '../../Store/Actions/CartActions';
 import { populate_cart } from '../../Store/Actions/CartActions';
 import { update_quantity } from '../../Store/Actions/CartActions';
 import { useDispatch, useSelector } from 'react-redux';
@@ -23,11 +25,16 @@ import 'tippy.js/dist/tippy.css';
 function Cart({ history }) {
     const user     = useSelector(state => state.authReducer.user);
     const dispatch = useDispatch();
+    const classes  = styles();
+    let newCart    = [];
 
     const [cart, setCart]         = useState([]);
+    const [error, setError]       = useState(false);
     const [loading, setLoading]   = useState(true);
     const [message, setMessage]   = useState('');
     const [success, setSuccess]   = useState(false);
+    const [warning, setWarning]   = useState(false);
+    const [backdrop, setBackdrop] = useState(false);
     const [comError, setComError] = useState(false);
 
     React.useEffect(() => {
@@ -115,12 +122,12 @@ function Cart({ history }) {
                     return (
                         <>
                             <Tippy content="Increase Quantity">
-                                <IconButton onClick={() => updateCart(dataIndex, 'add')}>
+                                <IconButton onClick={() => updateCart(cart[dataIndex].id, 'add')}>
                                     <AddIcon className="colour-success" />
                                 </IconButton>
                             </Tippy>
                             <Tippy content="Decrease Quantity">
-                                <IconButton onClick={() => updateCart(dataIndex, null)}>
+                                <IconButton onClick={() => updateCart(cart[dataIndex].id, null)}>
                                     <RemoveIcon />
                                 </IconButton>
                             </Tippy>
@@ -159,16 +166,11 @@ function Cart({ history }) {
         selectableRows: 'none',
     };
     const deleteItem = id => {
-        // console.log('id: ', id)
-        // console.log('item id: ', cart[id].id)
         setSuccess(false);
+        setBackdrop(true);
         const abortController = new AbortController();
         const signal  = abortController.signal;
 
-        console.log('id: ', id)
-        console.log('id+1: ', id+1)
-
-        let newCart = [];
         cart.map(item => {
             if(item.id !== (id)) {
                 newCart.push(item);
@@ -182,11 +184,12 @@ function Cart({ history }) {
                     setMessage(response.data[0].message);
                     setSuccess(true);
                     dispatch(populate_cart(newCart));
+                    setBackdrop(false);
                 })
                 .catch(error => {
-                    setLoading(false);
                     setMessage('Network Error. Server Unreachable....');
                     setComError(true);
+                    setBackdrop(false);
                 });
         } else {
             history.push('/admin/unauthorized-access/');
@@ -194,8 +197,52 @@ function Cart({ history }) {
 
         return () => abortController.abort();
     }
-    const updateCart = (dataIndex, action) => {
-        dispatch(update_quantity(dataIndex+1, action));
+    const updateCart = (id, action) => {
+        setError(false);
+        setSuccess(false);
+        setWarning(false);
+        setBackdrop(true);
+        const abortController = new AbortController();
+        const signal  = abortController.signal;
+        let total;
+        let quantity;
+        let product_id;
+        
+        cart.map(item => {
+            if(item.id === id) {
+                quantity       = action === 'add' ? item.quantity + 1 : item.quantity - 1;
+                product_id     = item.product_id;
+                item.quantity  = quantity;
+                total          = item.quantity * item.cart_price_raw;
+                item.total     = 'GHS '+total;
+                item.total_raw = total;
+            }
+            newCart.push(item);
+        });
+        
+        if(user.customer_id) {
+            Axios.post(getBaseURL() + 'update_cart_item', { id, quantity, product_id, action }, { signal: signal })
+                .then(response => {
+                    if(response.data[0].status.toLowerCase() === 'success') {
+                        setSuccess(true);
+                    } else if(response.data[0].status.toLowerCase() === 'warning') {
+                        setWarning(true);
+                    } else {
+                        setError(true);
+                    }
+                    setMessage(response.data[0].message);
+                    setBackdrop(false);
+                })
+                .catch(error => {
+                    setMessage('Network Error. Server Unreachable....');
+                    setComError(true);
+                    setBackdrop(false);
+                });
+        } else {
+            history.push('/admin/unauthorized-access/');
+        }
+
+        return () => abortController.abort();
     }
     const checkout = () => {
 
@@ -203,8 +250,13 @@ function Cart({ history }) {
 
     return (
         <div className="back_gray">
+            { error    && <Toastrr message={message} type="error"   /> }
+            { warning  && <Toastrr message={message} type="warning" /> }
             { success  && <Toastrr message={message} type="success" /> }
             { comError && <Toastrr message={message} type="info"    /> }
+            <Backdrop  className={classes.backdrop} open={backdrop}>
+                <CircularProgress color="inherit" /> <span className='ml-15'>Removing Item. Please Wait....</span>
+            </Backdrop>
             <Header user={user} />
             <main id="external">
                 <Card variant="outlined">
