@@ -18,7 +18,6 @@ import ExternalEmptyData from '../Extras/ExternalEmptyData';
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 import { getBaseURL } from '../Extras/server';
 import { populate_cart } from '../../Store/Actions/CartActions';
-import { update_quantity } from '../../Store/Actions/CartActions';
 import { useDispatch, useSelector } from 'react-redux';
 import 'tippy.js/dist/tippy.css';
 
