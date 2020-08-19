@@ -81,14 +81,14 @@ const Header = () => {
                 setTimeout(() => {
                     dispatch(logOut());
                     setBackdrop(false);
-                    history.push('/');
+                    history.push('/login/');
                 }, Math.floor(Math.random() * 2000));
             })
             .catch(error => {
                 dispatch(logOut());
                 setTimeout(() => {
                     setBackdrop(false);
-                    history.push('/');
+                    history.push('/login/');
                 }, Math.floor(Math.random() * 2000));
             });
     }

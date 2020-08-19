@@ -2,7 +2,7 @@ const initialState = {
     cart: []
 };
 let newCart = [];
-const authReducer = (state = initialState, action) => {
+const cartReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'POPULATE_CART':
             return {
@@ -14,19 +14,17 @@ const authReducer = (state = initialState, action) => {
             newCart.push(action.item);
             return newCart;
         case 'UPDATE_QUANTITY':
-            if(state.length) {
-                newCart = state.map(item => {
+            if(state.cart.length) {
+                state.cart.map(item => {
                     if(item.id === action.id) {
-                        item.quantity = action.quantity
+                        item.quantity = action.action === 'add' ? item.quantity + 1 : item.quantity - 1;
                     }
                 });
-                return newCart;
-            } else {
-                return state;
             }
+            return state;
         case 'REMOVE_ITEM':
-            if(state.length) {
-                newCart = state.map(item => item.id !== action.id);
+            if(state.cart.length) {
+                newCart = state.cart.map(item => item.id !== action.id);
                 return newCart;
             } else {
                 return state;
@@ -35,4 +33,4 @@ const authReducer = (state = initialState, action) => {
     }
 }
 
-export default authReducer;
+export default cartReducer;

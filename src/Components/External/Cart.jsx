@@ -162,10 +162,9 @@ function Cart({ history }) {
         console.log('dataIndex: ', dataIndex)
         console.log('item id: ', cart[dataIndex].id)
     }
-    const updateCart = (dataIndex, quantity, action) => {
-        let newQty = action === 'add' ? quantity + 1 : quantity - 1;
-        dispatch(update_quantity(dataIndex, newQty));
-        console.log('newQty: ', newQty)
+    const updateCart = (dataIndex, quantity, type) => {
+        dispatch(update_quantity(dataIndex, type));
+        // console.log('newQty: ', newQty)
     }
     const checkout = () => {
 

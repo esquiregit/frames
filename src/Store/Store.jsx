@@ -21,5 +21,6 @@ const store = createStore(
         // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
     ));
 // store.subscribe(() => console.log(store.getState()) );
+store.subscribe(() => console.log(store.getState().cartReducer.cart) );
 const persistor = persistStore(store);
 export { persistor, store };
