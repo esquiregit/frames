@@ -182,7 +182,7 @@ function Cart({ history }) {
                         onClick={() => history.push('/start-a-frame/')}
                         variant="contained"
                         className="btn-success">
-                        view frames
+                        more frames
                     </Button>
                 </div>
             </main>
