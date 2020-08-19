@@ -33,8 +33,8 @@ function Cart({ history }) {
         const abortController = new AbortController();
         const signal = abortController.signal;
 
-        //if (user) {
-            //if(user.customer_id) {
+        if(user) {
+            if(user.customer_id) {
                 Axios.post(getBaseURL() + 'get_cart', { customer_id: user ? user.customer_id : '' }, { signal: signal })
                     .then(response => {
                         setCart(response.data);
@@ -46,12 +46,12 @@ function Cart({ history }) {
                         setMessage('Network Error. Server Unreachable....');
                         setComError(true);
                     });
-            // } else {
-            //     history.push('/admin/unauthorized-access/');
-            // }
-        // } else {
-        //     history.push('/');
-        // }
+            } else {
+                history.push('/admin/unauthorized-access/');
+            }
+        } else {
+            setLoading(false);
+        }
 
         return () => abortController.abort();
     }, [history, user]);
@@ -186,11 +186,14 @@ function Cart({ history }) {
                     }
                 </Card>
                 <div className="buttons-bar">
+                {
+                    user &&
                     <Button
                         variant="contained"
                         color="primary">
                         Check Out
                     </Button>
+                }
                     <Button
                         onClick={() => history.push('/start-a-frame/')}
                         variant="contained"
