@@ -13,17 +13,24 @@ const authReducer = (state = initialState, action) => {
             newCart = [...state];
             newCart.push(action.item);
             return newCart;
-            // return {
-            //     ...state,
-            //     action.item
-            // };
+        case 'UPDATE_QUANTITY':
+            if(state.length) {
+                newCart = state.map(item => {
+                    if(item.id === action.id) {
+                        item.quantity = action.quantity
+                    }
+                });
+                return newCart;
+            } else {
+                return state;
+            }
         case 'REMOVE_ITEM':
-            newCart = state.map(item => item.id !== action.id);
-            return newCart;
-            // return {
-            //     ...state,
-            //     action.item
-            // };
+            if(state.length) {
+                newCart = state.map(item => item.id !== action.id);
+                return newCart;
+            } else {
+                return state;
+            }
         default: return state;
     }
 }

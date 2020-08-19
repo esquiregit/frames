@@ -12,6 +12,14 @@ export const add_item = item => {
     }
 };
 
+export const update_quantity = (id, quantity) => {
+    return {
+        type: 'UPDATE_QUANTITY',
+        id: id,
+        quantity: quantity,
+    }
+};
+
 export const remove_item = id => {
     return {
         type: 'REMOVE_ITEM',

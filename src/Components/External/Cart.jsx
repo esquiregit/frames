@@ -1,20 +1,26 @@
 import React, { useState } from 'react';
-import Fab from '@material-ui/core/Fab';
 import Card from '@material-ui/core/Card';
 import Axios from 'axios';
+import Tippy from '@tippyjs/react';
 import Button from '@material-ui/core/Button';
 import Footer from './Layout/Footer';
 import Header from './Layout/Header';
 import Loader from '../Extras/Loadrr';
+import AddIcon from '@material-ui/icons/Add';
 import Toastrr from '../Extras/Toastrr';
+import IconButton from '@material-ui/core/IconButton';
+import RemoveIcon from '@material-ui/icons/Remove';
 import MUIDataTable from "mui-datatables";
 import ExternalEmptyData from '../Extras/ExternalEmptyData';
-import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
+import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 import { getBaseURL } from '../Extras/server';
-import { useSelector } from 'react-redux';
+import { update_quantity } from '../../Store/Actions/CartActions';
+import { useDispatch, useSelector } from 'react-redux';
+import 'tippy.js/dist/tippy.css';
 
 function Cart({ history }) {
-    let user = useSelector(state => state.authReducer.user);
+    const user     = useSelector(state => state.authReducer.user);
+    const dispatch = useDispatch();
 
     const [cart, setCart]     = useState([]);
     const [loading, setLoading]   = useState(true);
@@ -108,19 +114,21 @@ function Cart({ history }) {
                 customBodyRenderLite: (dataIndex, rowIndex) => {
                     return (
                         <>
-                            <Button
-                                // onClick={}
-                                onClick={() => window.alert(`Clicked "Edit" for row ${rowIndex} with dataIndex of ${dataIndex}`)}
-                                variant="outlined"
-                                color="primary">
-                                Edit
-                            </Button>
-                            <Button
-                                // onClick={}
-                                variant="outlined"
-                                color="secondary">
-                                Cancel
-                            </Button>
+                            <Tippy content="Increase Quantity">
+                                <IconButton onClick={() => updateCart(dataIndex, cart[dataIndex].quantity, 'add')}>
+                                    <AddIcon className="colour-success" />
+                                </IconButton>
+                            </Tippy>
+                            <Tippy content="Decrease Quantity">
+                                <IconButton onClick={() => updateCart(dataIndex, cart[dataIndex].quantity)}>
+                                    <RemoveIcon />
+                                </IconButton>
+                            </Tippy>
+                            <Tippy content="Remove From Cart">
+                                <IconButton onClick={() => deleteItem(dataIndex)}>
+                                    <DeleteOutlineOutlinedIcon color="secondary" />
+                                </IconButton>
+                            </Tippy>
                         </>
                     );
                 }
@@ -150,6 +158,15 @@ function Cart({ history }) {
         page: 0,
         selectableRows: 'none',
     };
+    const deleteItem = dataIndex => {
+        console.log('dataIndex: ', dataIndex)
+        console.log('item id: ', cart[dataIndex].id)
+    }
+    const updateCart = (dataIndex, quantity, action) => {
+        let newQty = action === 'add' ? quantity + 1 : quantity - 1;
+        dispatch(update_quantity(dataIndex, newQty));
+        console.log('newQty: ', newQty)
+    }
     const checkout = () => {
 
     };
@@ -182,7 +199,7 @@ function Cart({ history }) {
                         onClick={() => history.push('/start-a-frame/')}
                         variant="contained"
                         className="btn-success">
-                        more frames
+                        view more frames
                     </Button>
                 </div>
             </main>
