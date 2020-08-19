@@ -14,6 +14,7 @@ import MUIDataTable from "mui-datatables";
 import ExternalEmptyData from '../Extras/ExternalEmptyData';
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 import { getBaseURL } from '../Extras/server';
+import { populate_cart } from '../../Store/Actions/CartActions';
 import { update_quantity } from '../../Store/Actions/CartActions';
 import { useDispatch, useSelector } from 'react-redux';
 import 'tippy.js/dist/tippy.css';
@@ -22,7 +23,7 @@ function Cart({ history }) {
     const user     = useSelector(state => state.authReducer.user);
     const dispatch = useDispatch();
 
-    const [cart, setCart]     = useState([]);
+    const [cart, setCart]         = useState([]);
     const [loading, setLoading]   = useState(true);
     const [message, setMessage]   = useState('');
     const [comError, setComError] = useState(false);
@@ -37,6 +38,7 @@ function Cart({ history }) {
                 Axios.post(getBaseURL() + 'get_cart', { customer_id: user ? user.customer_id : '' }, { signal: signal })
                     .then(response => {
                         setCart(response.data);
+                        dispatch(populate_cart(response.data));
                         setLoading(false);
                     })
                     .catch(error => {
@@ -53,7 +55,7 @@ function Cart({ history }) {
 
         return () => abortController.abort();
     }, [history, user]);
-
+    
     let rowsPerPage = [];
     const columns = [
         {
@@ -67,12 +69,15 @@ function Cart({ history }) {
             label: "Image",
             name: "image",
             options: {
-                filter: true,
+                filter: false,
+                sort: false,
+                empty: true,
+                customBodyRenderLite: (dataIndex, rowIndex) => <img className="table-img" src={cart.length ? getBaseURL()+cart[dataIndex].image : ''} alt={cart[dataIndex].frame} />
             }
         },
         {
             label: "Price",
-            name: "cart_price_raw",
+            name: "cart_price",
             options: {
                 filter: true,
             }
@@ -87,13 +92,6 @@ function Cart({ history }) {
         {
             label: "Cost",
             name: "total",
-            options: {
-                filter: true,
-            }
-        },
-        {
-            label: "Status",
-            name: "status",
             options: {
                 filter: true,
             }
@@ -164,7 +162,6 @@ function Cart({ history }) {
     }
     const updateCart = (dataIndex, quantity, type) => {
         dispatch(update_quantity(dataIndex, type));
-        // console.log('newQty: ', newQty)
     }
     const checkout = () => {
 

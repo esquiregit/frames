@@ -1007,6 +1007,12 @@ td.MuiTableCell-body button:not(first-child) {
 }
 /* END OF TABLE */
 
+/* CART TABLE */
+.table-img {
+    width: 100px;
+}
+/* END OF CART TABLE */
+
 /* EMPTY/NO DATA */
 .no {
     /* border: 3px double #334455; */
@@ -1148,12 +1154,6 @@ main#external form {
     bottom: 20px;
     left: auto;
     position: fixed;
-}
-.MuiFab-root.checkout {
-    position: sticky !important;
-    right: 20px !important;
-    top: 139px !important;
-    z-index: 1112;
 }
 /* END OF FAB */
 

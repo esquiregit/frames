@@ -19,6 +19,7 @@ const cartReducer = (state = initialState, action) => {
                     if(item.id === action.id) {
                         item.quantity = action.action === 'add' ? item.quantity + 1 : item.quantity - 1;
                     }
+                    return state;
                 });
             }
             return state;
