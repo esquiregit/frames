@@ -14,6 +14,7 @@ import MUIDataTable from "mui-datatables";
 import ExternalEmptyData from '../Extras/ExternalEmptyData';
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 import { getBaseURL } from '../Extras/server';
+import { remove_item } from '../../Store/Actions/CartActions';
 import { populate_cart } from '../../Store/Actions/CartActions';
 import { update_quantity } from '../../Store/Actions/CartActions';
 import { useDispatch, useSelector } from 'react-redux';
@@ -26,6 +27,7 @@ function Cart({ history }) {
     const [cart, setCart]         = useState([]);
     const [loading, setLoading]   = useState(true);
     const [message, setMessage]   = useState('');
+    const [success, setSuccess]   = useState(false);
     const [comError, setComError] = useState(false);
 
     React.useEffect(() => {
@@ -54,7 +56,7 @@ function Cart({ history }) {
         }
 
         return () => abortController.abort();
-    }, [history, user]);
+    }, [history, user, dispatch]);
     
     let rowsPerPage = [];
     const columns = [
@@ -113,17 +115,17 @@ function Cart({ history }) {
                     return (
                         <>
                             <Tippy content="Increase Quantity">
-                                <IconButton onClick={() => updateCart(dataIndex, cart[dataIndex].quantity, 'add')}>
+                                <IconButton onClick={() => updateCart(dataIndex, 'add')}>
                                     <AddIcon className="colour-success" />
                                 </IconButton>
                             </Tippy>
                             <Tippy content="Decrease Quantity">
-                                <IconButton onClick={() => updateCart(dataIndex, cart[dataIndex].quantity)}>
+                                <IconButton onClick={() => updateCart(dataIndex, null)}>
                                     <RemoveIcon />
                                 </IconButton>
                             </Tippy>
                             <Tippy content="Remove From Cart">
-                                <IconButton onClick={() => deleteItem(dataIndex)}>
+                                <IconButton onClick={() => deleteItem(cart[dataIndex].id)}>
                                     <DeleteOutlineOutlinedIcon color="secondary" />
                                 </IconButton>
                             </Tippy>
@@ -156,14 +158,44 @@ function Cart({ history }) {
         page: 0,
         selectableRows: 'none',
     };
-    const deleteItem = dataIndex => {
-        console.log('dataIndex: ', dataIndex)
-        console.log('item id: ', cart[dataIndex].id)
+    const deleteItem = id => {
+        // console.log('id: ', id)
+        // console.log('item id: ', cart[id].id)
+        setSuccess(false);
+        const abortController = new AbortController();
+        const signal  = abortController.signal;
+
+        console.log('id: ', id)
+        console.log('id+1: ', id+1)
+
+        let newCart = [];
+        cart.map(item => {
+            if(item.id !== (id)) {
+                newCart.push(item);
+            }
+        });
+        
+        if(user.customer_id) {
+            Axios.post(getBaseURL() + 'remove_from_cart', { id: id }, { signal: signal })
+                .then(response => {
+                    setCart(newCart);
+                    setMessage(response.data[0].message);
+                    setSuccess(true);
+                    dispatch(populate_cart(newCart));
+                })
+                .catch(error => {
+                    setLoading(false);
+                    setMessage('Network Error. Server Unreachable....');
+                    setComError(true);
+                });
+        } else {
+            history.push('/admin/unauthorized-access/');
+        }
+
+        return () => abortController.abort();
     }
-    const updateCart = (dataIndex, quantity, type) => {
-        console.log('dataIndex: ', dataIndex+1)
-        console.log('item: ', cart[dataIndex+1])
-        dispatch(update_quantity(dataIndex+1, type));
+    const updateCart = (dataIndex, action) => {
+        dispatch(update_quantity(dataIndex+1, action));
     }
     const checkout = () => {
 
@@ -171,7 +203,8 @@ function Cart({ history }) {
 
     return (
         <div className="back_gray">
-            {comError && <Toastrr message={message} type="info" />}
+            { success  && <Toastrr message={message} type="success" /> }
+            { comError && <Toastrr message={message} type="info"    /> }
             <Header user={user} />
             <main id="external">
                 <Card variant="outlined">

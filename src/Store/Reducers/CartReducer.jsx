@@ -17,9 +17,8 @@ const cartReducer = (state = initialState, action) => {
             if(state.cart.length) {
                 state.cart.map(item => {
                     if(item.id === action.id) {
-                        console.log('item.id: ', item.id)
-                        console.log('action.id: ', action.id)
                         item.quantity = action.action === 'add' ? item.quantity + 1 : item.quantity - 1;
+                        item.total    = item.quantity * item.cart_price_raw;
                     }
                     return state;
                 });
@@ -27,8 +26,13 @@ const cartReducer = (state = initialState, action) => {
             return state;
         case 'REMOVE_ITEM':
             if(state.cart.length) {
-                state.cart.map(item => item.id !== action.id);
+                state.cart.map(item => {
+                    // console.log('item.id: ', item.id)
+                    if(item.id !== action.id)
+                        return item;//newCart.push(item)
+                });
             }
+            // console.log('newCart: ', newCart)
             return state;
         default: return state;
     }
