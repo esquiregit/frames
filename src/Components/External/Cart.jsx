@@ -161,7 +161,9 @@ function Cart({ history }) {
         console.log('item id: ', cart[dataIndex].id)
     }
     const updateCart = (dataIndex, quantity, type) => {
-        dispatch(update_quantity(dataIndex, type));
+        console.log('dataIndex: ', dataIndex+1)
+        console.log('item: ', cart[dataIndex+1])
+        dispatch(update_quantity(dataIndex+1, type));
     }
     const checkout = () => {
 

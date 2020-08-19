@@ -17,6 +17,8 @@ const cartReducer = (state = initialState, action) => {
             if(state.cart.length) {
                 state.cart.map(item => {
                     if(item.id === action.id) {
+                        console.log('item.id: ', item.id)
+                        console.log('action.id: ', action.id)
                         item.quantity = action.action === 'add' ? item.quantity + 1 : item.quantity - 1;
                     }
                     return state;
