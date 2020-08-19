@@ -206,20 +206,22 @@ function Cart({ history }) {
         const signal  = abortController.signal;
         let item;
         let total;
+        let old_quantity;
         let quantity;
         let product_id;
 
         cart.map(element => {
             if(element.id === id) {
-                item       = element;
-                product_id = element.product_id;
-                quantity   = element.quantity;
-                quantity   = action === 'add' ? element.quantity + 1 : element.quantity - 1;
+                item         = element;
+                product_id   = element.product_id;
+                quantity     = element.quantity;
+                old_quantity = element.quantity;
+                quantity     = action === 'add' ? element.quantity + 1 : element.quantity - 1;
             }
         });  
         
         if(user.customer_id) {
-            Axios.post(getBaseURL() + 'update_cart_item', { id: item.id, quantity: item.quantity, product_id: item.product_id, action }, { signal: signal })
+            Axios.post(getBaseURL() + 'update_cart_item', { id: item.id, quantity: item.quantity, old_quantity, product_id: item.product_id, action }, { signal: signal })
                 .then(response => {
                     if(response.data[0].status.toLowerCase() === 'success') {
                         setSuccess(true);
