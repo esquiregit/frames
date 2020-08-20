@@ -20,10 +20,10 @@ import 'tippy.js/dist/tippy.css';
 const validationSchema = Yup.object().shape({
     testimony : Yup
         .string()
-        .required('Please Select Patient\'s Title'),
+        .required('Please Enter Testimony'),
 });
 
-function AddPatient({ closeModal }) {
+function AddTestimony({ closeModal }) {
     const classes = styles();
     const user    = useSelector(state => state.authReducer.user);
     
@@ -158,4 +158,4 @@ function AddPatient({ closeModal }) {
     );
 }
 
-export default AddPatient;
+export default AddTestimony;

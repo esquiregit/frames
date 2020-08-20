@@ -14,7 +14,7 @@ import { getBaseURL } from '../Extras/server';
 import { useSelector } from 'react-redux';
 
 function AuditTrail({ history }) {
-    const staff       = useSelector(state => state.authReducer.staff);
+    const user       = useSelector(state => state.authReducer.user);
     const classes     = styles();
     const visible     = useSelector(state => state.sidebarReducer.visible);
     const permissions = useSelector(state => state.authReducer.permissions);
@@ -29,33 +29,32 @@ function AuditTrail({ history }) {
         const abortController = new AbortController();
         const signal          = abortController.signal;
         
-        // if(staff) {
-        //     if(staff.role_name.toLowerCase() === 'administrator') {
+        if(user) {
+            if(user.role_name.toLowerCase() === 'administrator') {
                 Axios.post(getBaseURL()+'get_activity_logs', { signal: signal })
                     .then(response => {
                         setLogs(response.data);
-                        setLoading(false);
                     })
                     .catch(error => {
                         setMessage('Network Error. Server Unreachable....');
-                        setLoading(false);
                         setComError(true);
                     });
-        //     } else {
-        //         history.push('/unauthorized-access/');
-        //     }
-        // } else {
-        //     history.push('/');
-        // }
+                    setLoading(false);
+            } else {
+                history.push('/unauthorized-access/');
+            }
+        } else {
+            history.push('/');
+        }
 
         return () => abortController.abort();
-    }, [staff, permissions, history, loading]);
+    }, [user, permissions, history, loading]);
 
     let rowsPerPage = [];
     const columns   = [
         {
             label: "Staff ID",
-            name: "staff_id",
+            name: "user_id",
             options: {
                 filter: true,
             }
@@ -124,8 +123,8 @@ function AuditTrail({ history }) {
     return (
         <>
             { comError && <Toastrr message={message} type="info" /> }
-            <Header staff={staff} />
-            <Sidebar roleName={staff && staff.role_name} />
+            <Header user={user} />
+            <Sidebar roleName={user && user.role_name} />
             <main
                 id="internal"
                 className={clsx(classes.contentMedium, {

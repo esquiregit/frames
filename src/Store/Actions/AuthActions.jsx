@@ -1,7 +1,8 @@
-export const logIn = user => {
+export const logIn = (user, permissions) => {
     return {
         type: 'LOG_IN',
         user: user,
+        permissions: permissions,
     };
 }
 

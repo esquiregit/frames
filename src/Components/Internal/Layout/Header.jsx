@@ -38,14 +38,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Header = (props) => {
-    const { staff } = props;
+    const user      = useSelector(state => state.authReducer.user);
     const classes   = useStyles();
     const history   = useHistory();
     const visible   = useSelector(state => state.sidebarReducer.visible);
     const dispatch  = useDispatch();
 
-    const [anchorEl, setAnchorEl] = useState(null);
     const [open, setOpen]         = useState(false);
+    const [anchorEl, setAnchorEl] = useState(null);
     const [backdrop, setBackdrop] = useState(false);
 
     const handleDrawerOpen = () => { dispatch(toggleSidebar()); };
@@ -61,20 +61,20 @@ const Header = (props) => {
     const signOut          = () => {
         setAnchorEl(null);
         setBackdrop(true);
-        const data = { staff_id : staff && staff.staff_id }
+        const data = { user_id : user.user_id, type: user.type }
         Axios.post(getBaseURL()+'logout', data)
             .then(() => {
-                dispatch(logOut());
                 setTimeout(() => {
+                    dispatch(logOut());
                     setBackdrop(false);
-                    history.push('/');
+                    history.push('/login/');
                 }, Math.floor(Math.random() * 2000));
             })
             .catch(error => {
-                dispatch(logOut());
                 setTimeout(() => {
+                    dispatch(logOut());
                     setBackdrop(false);
-                    history.push('/');
+                    history.push('/login/');
                 }, Math.floor(Math.random() * 2000));
             });;
     }
@@ -113,7 +113,7 @@ const Header = (props) => {
                                 color="inherit"
                                 className="options">
                                 <Typography variant="h6" className={classes.title}>
-                                    {staff ? staff.name : 'Esquire'}
+                                    {user ? user.name : 'Esquire'}
                                 </Typography>
                                 <AccountCircle  className="ml-10" />
                             </IconButton>

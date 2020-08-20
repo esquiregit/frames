@@ -1,5 +1,6 @@
 const initialState = {
     user: null,
+    permissions: null,
     isLoggedIn: false,
 };
 const authReducer = (state = initialState, action) => {
@@ -8,6 +9,7 @@ const authReducer = (state = initialState, action) => {
             return {
                 ...state,
                 user: action.user,
+                permissions: action.permissions,
                 isLoggedIn: true,
             };
         case 'IS_LOGGED_IN':

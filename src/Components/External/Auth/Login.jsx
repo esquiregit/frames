@@ -68,10 +68,10 @@ const Login = ({ history }) => {
             .then(response => {
                 if(response.data[0].status.toLowerCase() === 'success') {
                     resetForm();
-                    setSuccess(true);//console.log('response.data[0]: ', response.data[0])
+                    setSuccess(true);
                     setMessage(response.data[0].message);
                     setTimeout(() => {
-                        dispatch(logIn(response.data[0].user));
+                        dispatch(logIn(response.data[0].user, response.data[0].permissions));
                         dispatch(populate_cart(response.data[0].cart));
                         if(response.data[0].type === '000') {
                             // history.push('/');

@@ -3,7 +3,7 @@ import Button from '@material-ui/core/Button';
 import { getBack } from './GoBack';
 
 const FourZeroFour = ({ history }) => {
-    useEffect(() => { document.title = 'Error 404'; }, []);
+    useEffect(() => { document.title = 'Error 404 | The Frames Shop'; }, []);
     const handleClick = () => {
         getBack(history);
     }

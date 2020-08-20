@@ -45,8 +45,7 @@ const useStyles = makeStyles((theme) => ({
 const Header = () => {
     const user     = useSelector(state => state.authReducer.user);
     const cart     = useSelector(state => state.cartReducer.cart);
-    // console.log('cart: ',cart && cart)
-    // console.log('cart.length: ',cart && cart.length)
+    
     const classes  = useStyles();
     const history  = useHistory();
     const dispatch = useDispatch();
@@ -75,7 +74,7 @@ const Header = () => {
         setAnchorEl(null);
         setBackdrop(true);
 
-        const data = { customer_id : user ? user.user_id : '123' }
+        const data = { customer_id : user.user_id }
         Axios.post(getBaseURL()+'logout', data)
             .then(() => {
                 setTimeout(() => {
