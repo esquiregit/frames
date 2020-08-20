@@ -113,7 +113,7 @@ function WishList({ history }) {
                                     <AddShoppingCartIcon className="colour-success" />
                                 </IconButton>
                             </Tippy>
-                            <Tippy content="Remove From Wish LIst">
+                            <Tippy content="Remove From Wish List">
                                 <IconButton onClick={() => deleteItem(wishlists[dataIndex].id)}>
                                     <DeleteOutlineOutlinedIcon color="secondary" />
                                 </IconButton>
@@ -208,9 +208,9 @@ function WishList({ history }) {
         const abortController = new AbortController();
         const signal  = abortController.signal;
 
-        wishlists.map(item => {
-            if(item.id !== (id)) {
-                newWishlist.push(item);
+        wishlists.forEach(wishlist => {
+            if(wishlist.id !== (id)) {
+                newWishlist.push(wishlist);
             }
         });
         
