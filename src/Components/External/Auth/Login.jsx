@@ -19,8 +19,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
 
 const initialValues = {
-    email_address : 'bismark@bediako.com.gh',
-    // email_address : 'esquire',
+    // email_address : 'bismark@bediako.com.gh',
+    email_address : 'esquire',
     password : 'qwertyui'
 }
 const validationSchema = Yup.object().shape({

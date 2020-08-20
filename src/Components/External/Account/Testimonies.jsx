@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Fab from '@material-ui/core/Fab';
 import Card from '@material-ui/core/Card';
 import Axios from 'axios';
 import Tippy from '@tippyjs/react';
@@ -10,8 +11,10 @@ import Toastrr from '../../Extras/Toastrr';
 import Backdrop from '@material-ui/core/Backdrop';
 import IconButton from '@material-ui/core/IconButton';
 import MUIDataTable from "mui-datatables";
+import AddTestimony from '../Account/AddTestimony';
 import EditTestimony from '../Account/EditTestimony';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import AddOutlinedIcon from '@material-ui/icons/AddOutlined';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import ExternalEmptyData from '../../Extras/ExternalEmptyData';
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
@@ -31,8 +34,9 @@ function Testimonies({ history }) {
     const [backdrop, setBackdrop]   = useState(false);
     const [comError, setComError]   = useState(false);
     const [testimony, setTestimony] = useState(null);
-    const [showModal, setShowModal]     = useState(false);
-    const [testimonies, setTestimonies] = useState([]);
+    const [testimonies, setTestimonies]     = useState([]);
+    const [showAddModal, setShowAddModal]   = useState(false);
+    const [showEditModal, setShowEditModal] = useState(false);
 
     React.useEffect(() => {
         document.title        = 'Your Testimonies | The Frame Shop';
@@ -119,23 +123,15 @@ function Testimonies({ history }) {
         resizableColumns: false,
         download: false,
         filter: false,
+        viewColumns: false,
+        print: false,
+        search: false,
         page: 0,
         selectableRows: 'none',
-        textLabels: {
-            body: {
-                noMatch: "No Matching Testimonies Found. Change Keywords and Try Again....",
-                columnHeaderTooltip: column => `Sort By ${column.label}`
-            },
-            toolbar: {
-                search: "Search Testimonies",
-                viewColumns: "Show/Hide Columns",
-                filterTable: "Filter Testimonies",
-            }
-        }
     };
     const editTestimony = testimony => {
         setTestimony(testimony);
-        setShowModal(true);
+        setShowEditModal(true);
     };
     const deleteTestimony = id => {
         setError(false);
@@ -170,15 +166,16 @@ function Testimonies({ history }) {
 
         return () => abortController.abort();
     };
-    const closeModal  = () => { setShowModal(false); };
+    const closeModal  = () => { setShowAddModal(false); setShowEditModal(false); };
 
     return (
         <div className="back_gray">
-            { error     && <Toastrr message={message} type="error"   /> }
-            { warning   && <Toastrr message={message} type="warning" /> }
-            { success   && <Toastrr message={message} type="success" /> }
-            { comError  && <Toastrr message={message} type="info"    /> }
-            { showModal && <EditTestimony testimony={testimony} closeModal={closeModal}     /> }
+            { error         && <Toastrr message={message} type="error"   /> }
+            { warning       && <Toastrr message={message} type="warning" /> }
+            { success       && <Toastrr message={message} type="success" /> }
+            { comError      && <Toastrr message={message} type="info"    /> }
+            { showAddModal  && <AddTestimony  closeModal={closeModal}    /> }
+            { showEditModal && <EditTestimony closeModal={closeModal} testimony={testimony} /> }
             <Backdrop  className={classes.backdrop} open={backdrop}>
                 <CircularProgress color="inherit" /> <span className='ml-15'>{message}. Please Wait....</span>
             </Backdrop>
@@ -187,14 +184,25 @@ function Testimonies({ history }) {
                 <Card variant="outlined">
                 {
                     loading ? <Loader /> :
-                        (testimonies && testimonies.length)
-                            ?
-                            <MUIDataTable
-                                title="Your Testimonies"
-                                data={testimonies}
-                                columns={columns}
-                                options={options} />
-                            : <ExternalEmptyData error={comError} message="You Have No Testimonies" />
+                    (testimonies && testimonies.length)
+                    ?
+                    <MUIDataTable
+                        title="Your Testimonies"
+                        data={testimonies}
+                        columns={columns}
+                        options={options} />
+                    : <ExternalEmptyData error={comError} message="You Have No Testimonies" />
+                }
+                {
+                    !comError && <Fab
+                        variant="extended"
+                        size="medium"
+                        aria-label="add"
+                        className="dark-btn tr-fab"
+                        onClick={() => setShowAddModal(true)}>
+                        <AddOutlinedIcon className="colour-white" />
+                        <span className="ml-10">Add Testimony</span>
+                    </Fab>
                 }
                 </Card>
             </main>

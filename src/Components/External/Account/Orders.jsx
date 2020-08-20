@@ -49,6 +49,16 @@ function Orders({ history }) {
     let rowsPerPage = [];
     const columns = [
         {
+            label: "Image",
+            name: "image",
+            options: {
+                filter: false,
+                sort: false,
+                empty: true,
+                customBodyRenderLite: (dataIndex, rowIndex) => <img className="table-img" src={orders.length ? getBaseURL()+orders[dataIndex].image : ''} alt={orders[dataIndex].frame} />
+            }
+        },
+        {
             label: "Frame",
             name: "frame",
             options: {
@@ -56,15 +66,8 @@ function Orders({ history }) {
             }
         },
         {
-            label: "Image",
-            name: "image",
-            options: {
-                filter: true,
-            }
-        },
-        {
             label: "Price",
-            name: "order_price_raw",
+            name: "order_price",
             options: {
                 filter: true,
             }
@@ -91,37 +94,17 @@ function Orders({ history }) {
             }
         },
         {
-            label: "Date",
+            label: "Order Date",
             name: "date",
             options: {
                 filter: true,
             }
         },
         {
-            name: "Action",
+            label: "Confirmation Date",
+            name: "confirmation_date",
             options: {
-                filter: false,
-                sort: false,
-                empty: true,
-                customBodyRenderLite: (dataIndex, rowIndex) => {
-                    return (
-                        <>
-                            <Button
-                                // onClick={}
-                                onClick={() => window.alert(`Clicked "Edit" for row ${rowIndex} with dataIndex of ${dataIndex}`)}
-                                variant="outlined"
-                                color="primary">
-                                Edit
-                            </Button>
-                            <Button
-                                // onClick={}
-                                variant="outlined"
-                                color="secondary">
-                                Cancel
-                            </Button>
-                        </>
-                    );
-                }
+                filter: true,
             }
         },
     ];
@@ -135,7 +118,6 @@ function Orders({ history }) {
         rowsPerPage = [10, 25, 50, 100];
     }
     const options = {
-        filterType: 'dropdown',
         responsive: 'standard',
         pagination: true,
         rowsPerPageOptions: rowsPerPage,
@@ -144,6 +126,8 @@ function Orders({ history }) {
         filter: false,
         page: 0,
         selectableRows: 'none',
+        viewColumns: false,
+        print: false,
         textLabels: {
             body: {
                 noMatch: "No Matching Orders Found. Change Keywords and Try Again....",

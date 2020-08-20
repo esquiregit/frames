@@ -1156,7 +1156,7 @@ main#external form {
     right: 20px;
     bottom: 20px;
     left: auto;
-    position: fixed;
+    position: sticky;
 }
 /* END OF FAB */
 

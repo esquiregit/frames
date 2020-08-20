@@ -65,7 +65,7 @@ function AddPatient({ closeModal }) {
         const abortController = new AbortController();
         const signal          = abortController.signal;
 
-        Axios.post(getBaseURL()+'edit_testimony', values, { signal: signal })
+        Axios.post(getBaseURL()+'add_testimony', values, { signal: signal })
             .then(response => {
                 if(response.data[0].status.toLowerCase() === 'success') {
                     setOpen(false);
