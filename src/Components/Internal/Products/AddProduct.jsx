@@ -61,6 +61,7 @@ function AddProduct({ closeModal }) {
     const user    = useSelector(state => state.authReducer.user);
     
     const initialValues = {
+        user_id : user.user_id,
         category_id : '',
         name : '',
         description : '',
@@ -105,8 +106,21 @@ function AddProduct({ closeModal }) {
         
         const abortController = new AbortController();
         const signal          = abortController.signal;
+            
+        let formData = new FormData();
+        formData.append('user_id',         values.user_id);
+        formData.append('category_id',     values.category_id);
+        formData.append('name',            values.name);
+        formData.append('description',     values.description);
+        // formData.append('image',           imageObject);
+        formData.append('price',           values.price);
+        formData.append('quantity',        values.quantity);
+        formData.append('interior_width',  values.interior_width);
+        formData.append('interior_height', values.interior_height);
+        formData.append('exterior_width',  values.exterior_width);
+        formData.append('exterior_height', values.exterior_height);
 
-        Axios.post(getBaseURL()+'add_product', values, { signal: signal })
+        Axios.post(getBaseURL()+'add_product', formData, { signal: signal })
             .then(response => {
                 if(response.data[0].status.toLowerCase() === 'success') {
                     setOpen(false);
@@ -160,122 +174,127 @@ function AddProduct({ closeModal }) {
                             </DialogTitle>
                             <DialogContent dividers>
                                 <Grid container spacing={3}>
-                                    <Grid item xs={12} sm={6}>
-                                        <FormikTextField
-                                            size="small"
-                                            variant="outlined"
-                                            margin="normal"
-                                            fullWidth
-                                            id="name"
-                                            label="Name"
-                                            placeholder="Name"
-                                            name="name" />
+                                    <Grid item xs={12} sm={5}>
+                                        
                                     </Grid>
-                                    <Grid item xs={12} sm={6}>
-                                        <FormikTextField
-                                            size="small"
-                                            select
-                                            variant="outlined"
-                                            margin="normal"
-                                            fullWidth
-                                            id="categories"
-                                            label="Title"
-                                            name="categories">
-                                            {categories.map((category, index) => (
-                                                <MenuItem key={index} value={category}>
-                                                    {category}
-                                                </MenuItem>
-                                            ))}
-                                        </FormikTextField>
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <FormikTextField
-                                            size="small"
-                                            multiline
-                                            rows={5}
-                                            variant="outlined"
-                                            margin="normal"
-                                            fullWidth
-                                            id="description"
-                                            label="Description"
-                                            placeholder="Description"
-                                            name="description" />
-                                    </Grid>
-                                    <Grid item xs={12} sm={6}>
-                                        <FormikTextField
-                                            size="small"
-                                            variant="outlined"
-                                            margin="normal"
-                                            fullWidth
-                                            id="price"
-                                            label="Price Per Unit"
-                                            placeholder="Price Per Unit"
-                                            name="price" />
-                                    </Grid>
-                                    <Grid item xs={12} sm={6}>
-                                        <FormikTextField
-                                            size="small"
-                                            variant="outlined"
-                                            margin="normal"
-                                            fullWidth
-                                            id="quantity"
-                                            label="Quantity"
-                                            placeholder="Quantity"
-                                            name="quantity"
-                                            type="number"
-                                            InputProps={{ inputProps: { min: 1, step: 0.5 } }} />
-                                    </Grid>
-                                    <Grid item xs={12} sm={6}>
-                                        <FormikTextField
-                                            size="small"
-                                            variant="outlined"
-                                            margin="normal"
-                                            fullWidth
-                                            id="interior_width"
-                                            label="Interior Width (In Inches)"
-                                            placeholder="Interior Width"
-                                            name="interior_width"
-                                            type="number"
-                                            InputProps={{ inputProps: { min: 1, step: 0.5 } }} />
-                                    </Grid>
-                                    <Grid item xs={12} sm={6}>
-                                        <FormikTextField
-                                            size="small"
-                                            variant="outlined"
-                                            margin="normal"
-                                            fullWidth
-                                            id="interior_height"
-                                            label="Interior Height (In Inches)"
-                                            placeholder="Interior Height"
-                                            name="interior_height"
-                                            type="number"
-                                            InputProps={{ inputProps: { min: 1, step: 0.5 } }} />
-                                    </Grid>
-                                    <Grid item xs={12} sm={6}>
-                                        <FormikTextField
-                                            size="small"
-                                            variant="outlined"
-                                            margin="normal"
-                                            fullWidth
-                                            id="exterior_width"
-                                            label="Exterior Width (In Inches)"
-                                            placeholder="Exterior Width"
-                                            name="exterior_width"
-                                            type="number"
-                                            InputProps={{ inputProps: { min: 1, step: 0.5 } }} />
-                                    </Grid>
-                                    <Grid item xs={12} sm={6}>
-                                        <FormikTextField
-                                            size="small"
-                                            variant="outlined"
-                                            margin="normal"
-                                            fullWidth
-                                            id="exterior_height"
-                                            label="Exterior Height (In Inches)"
-                                            placeholder="Exterior Height"
-                                            name="exterior_height"
-                                            type="number"
-                                            InputProps={{ inputProps: { min: 1, step: 0.5 } }} />
+                                    <Grid item xs={12} sm={7}>
+                                        <Grid item xs={12}>
+                                            <FormikTextField
+                                                size="small"
+                                                variant="outlined"
+                                                margin="normal"
+                                                fullWidth
+                                                id="name"
+                                                label="Name"
+                                                placeholder="Name"
+                                                name="name" />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <FormikTextField
+                                                size="small"
+                                                select
+                                                variant="outlined"
+                                                margin="normal"
+                                                fullWidth
+                                                id="categories"
+                                                label="Title"
+                                                name="categories">
+                                                {categories.map((category, index) => (
+                                                    <MenuItem key={index} value={category}>
+                                                        {category}
+                                                    </MenuItem>
+                                                ))}
+                                            </FormikTextField>
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <FormikTextField
+                                                size="small"
+                                                multiline
+                                                rows={5}
+                                                variant="outlined"
+                                                margin="normal"
+                                                fullWidth
+                                                id="description"
+                                                label="Description"
+                                                placeholder="Description"
+                                                name="description" />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <FormikTextField
+                                                size="small"
+                                                variant="outlined"
+                                                margin="normal"
+                                                fullWidth
+                                                id="price"
+                                                label="Price Per Unit"
+                                                placeholder="Price Per Unit"
+                                                name="price" />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <FormikTextField
+                                                size="small"
+                                                variant="outlined"
+                                                margin="normal"
+                                                fullWidth
+                                                id="quantity"
+                                                label="Quantity"
+                                                placeholder="Quantity"
+                                                name="quantity"
+                                                type="number"
+                                                InputProps={{ inputProps: { min: 1, step: 0.5 } }} />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <FormikTextField
+                                                size="small"
+                                                variant="outlined"
+                                                margin="normal"
+                                                fullWidth
+                                                id="interior_width"
+                                                label="Interior Width (In Inches)"
+                                                placeholder="Interior Width"
+                                                name="interior_width"
+                                                type="number"
+                                                InputProps={{ inputProps: { min: 1, step: 0.5 } }} />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <FormikTextField
+                                                size="small"
+                                                variant="outlined"
+                                                margin="normal"
+                                                fullWidth
+                                                id="interior_height"
+                                                label="Interior Height (In Inches)"
+                                                placeholder="Interior Height"
+                                                name="interior_height"
+                                                type="number"
+                                                InputProps={{ inputProps: { min: 1, step: 0.5 } }} />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <FormikTextField
+                                                size="small"
+                                                variant="outlined"
+                                                margin="normal"
+                                                fullWidth
+                                                id="exterior_width"
+                                                label="Exterior Width (In Inches)"
+                                                placeholder="Exterior Width"
+                                                name="exterior_width"
+                                                type="number"
+                                                InputProps={{ inputProps: { min: 1, step: 0.5 } }} />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <FormikTextField
+                                                size="small"
+                                                variant="outlined"
+                                                margin="normal"
+                                                fullWidth
+                                                id="exterior_height"
+                                                label="Exterior Height (In Inches)"
+                                                placeholder="Exterior Height"
+                                                name="exterior_height"
+                                                type="number"
+                                                InputProps={{ inputProps: { min: 1, step: 0.5 } }} />
+                                        </Grid>
                                     </Grid>
                                 </Grid>
                             </DialogContent>
