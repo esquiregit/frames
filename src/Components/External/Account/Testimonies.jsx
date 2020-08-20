@@ -10,6 +10,7 @@ import Toastrr from '../../Extras/Toastrr';
 import Backdrop from '@material-ui/core/Backdrop';
 import IconButton from '@material-ui/core/IconButton';
 import MUIDataTable from "mui-datatables";
+import EditTestimony from '../Account/EditTestimony';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import ExternalEmptyData from '../../Extras/ExternalEmptyData';
@@ -29,6 +30,8 @@ function Testimonies({ history }) {
     const [warning, setWarning]     = useState(false);
     const [backdrop, setBackdrop]   = useState(false);
     const [comError, setComError]   = useState(false);
+    const [testimony, setTestimony] = useState(null);
+    const [showModal, setShowModal]     = useState(false);
     const [testimonies, setTestimonies] = useState([]);
 
     React.useEffect(() => {
@@ -131,47 +134,8 @@ function Testimonies({ history }) {
         }
     };
     const editTestimony = testimony => {
-        setError(false);
-        setSuccess(false);
-        setWarning(false);
-        setBackdrop(true);
-        setComError(false);
-        const abortController = new AbortController();
-        const signal  = abortController.signal;
-        
-        // newTestimonies = [...testimonies];
-        // newTestimonies.push(testimony);
-        console.log('testimony: ', testimony)
-
-        const data = {
-            customer_id : user.customer_id,
-            product_id  : testimony.product_id,
-            quantity    : 1,
-        };
-        console.log('data: ', data)
-        
-        if(user.customer_id) {
-            Axios.post(getBaseURL() + 'add_item_to_cart', data, { signal: signal })
-                .then(response => {
-                    if(response.data[0].status.toLowerCase() === 'success') {
-                        setMessage(response.data[0].message);
-                        setSuccess(true);
-                    } else {
-                        setError(true);
-                        setMessage(response.data[0].message);
-                    }
-                    setBackdrop(false);
-                })
-                .catch(error => {
-                    setMessage('Network Error. Server Unreachable....');
-                    setComError(true);
-                    setBackdrop(false);
-                });
-        } else {
-            history.push('/admin/unauthorized-access/');
-        }
-
-        return () => abortController.abort();
+        setTestimony(testimony);
+        setShowModal(true);
     };
     const deleteTestimony = id => {
         setError(false);
@@ -181,18 +145,15 @@ function Testimonies({ history }) {
         setComError(false);
         const abortController = new AbortController();
         const signal  = abortController.signal;
-
-        newTestimonies = testimonies.map(item => item.id !== id);
-
-        // testimonies.map(item => {
-        //     if(item.id !== (id)) {
-        //         newTestimonies.push(item);
-        //     }
-        // });
         
         if(user.customer_id) {
-            Axios.post(getBaseURL() + 'remove_from_wishlist', { id: id }, { signal: signal })
+            Axios.post(getBaseURL() + 'remove_testimony', { id: id }, { signal: signal })
                 .then(response => {
+                    testimonies.forEach(testimony => {
+                        if(testimony.id !== (id)) {
+                            newTestimonies.push(testimony);
+                        }
+                    });
                     setTestimonies(newTestimonies);
                     setMessage(response.data[0].message);
                     setSuccess(true);
@@ -209,13 +170,15 @@ function Testimonies({ history }) {
 
         return () => abortController.abort();
     };
+    const closeModal  = () => { setShowModal(false); };
 
     return (
         <div className="back_gray">
-            { error    && <Toastrr message={message} type="error"   /> }
-            { warning  && <Toastrr message={message} type="warning" /> }
-            { success  && <Toastrr message={message} type="success" /> }
-            { comError && <Toastrr message={message} type="info"    /> }
+            { error     && <Toastrr message={message} type="error"   /> }
+            { warning   && <Toastrr message={message} type="warning" /> }
+            { success   && <Toastrr message={message} type="success" /> }
+            { comError  && <Toastrr message={message} type="info"    /> }
+            { showModal && <EditTestimony testimony={testimony} closeModal={closeModal}     /> }
             <Backdrop  className={classes.backdrop} open={backdrop}>
                 <CircularProgress color="inherit" /> <span className='ml-15'>{message}. Please Wait....</span>
             </Backdrop>

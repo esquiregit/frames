@@ -176,16 +176,15 @@ function Cart({ history }) {
         setComError(false);
         const abortController = new AbortController();
         const signal  = abortController.signal;
-        
-        cart.forEach(item => {
-            if(item.id !== id) {
-                newCart.push(item);
-            }
-        });
-        
+                
         if(user.customer_id) {
             Axios.post(getBaseURL() + 'remove_from_cart', { id: id }, { signal: signal })
                 .then(response => {
+                    cart.forEach(item => {
+                        if(item.id !== id) {
+                            newCart.push(item);
+                        }
+                    });
                     setCart(newCart);
                     setMessage(response.data[0].message);
                     setSuccess(true);

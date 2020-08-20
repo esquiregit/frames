@@ -15,7 +15,7 @@ import { useSelector } from 'react-redux';
 function GalleryWall() {
     const user = useSelector(state => state.authReducer.user);
 
-    const [loading, setLoading]         = useState(true); 
+    const [loading, setLoading]         = useState(true);
     const [showModal, setShowModal]     = useState(false);
     const [testimonies, setTestimonies] = useState([]);
 

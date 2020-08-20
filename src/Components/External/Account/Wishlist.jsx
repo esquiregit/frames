@@ -205,16 +205,15 @@ function WishList({ history }) {
         setComError(false);
         const abortController = new AbortController();
         const signal  = abortController.signal;
-
-        wishlists.forEach(wishlist => {
-            if(wishlist.id !== (id)) {
-                newWishlist.push(wishlist);
-            }
-        });
         
         if(user.customer_id) {
             Axios.post(getBaseURL() + 'remove_from_wishlist', { id: id }, { signal: signal })
                 .then(response => {
+                    wishlists.forEach(wishlist => {
+                        if(wishlist.id !== (id)) {
+                            newWishlist.push(wishlist);
+                        }
+                    });
                     setWishlists(newWishlist);
                     setMessage(response.data[0].message);
                     setSuccess(true);
