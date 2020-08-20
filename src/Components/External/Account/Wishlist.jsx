@@ -165,8 +165,6 @@ function WishList({ history }) {
         const abortController = new AbortController();
         const signal  = abortController.signal;
         
-        // newWishlist = [...wishlists];
-        // newWishlist.push(wishlist);
         console.log('wishlist: ', wishlist)
 
         const data = {

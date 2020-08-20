@@ -30,7 +30,6 @@ function Cart({ history }) {
     let total;
     let old_quantity;
     let quantity;
-    // let product_id;
 
     const [cart, setCart]         = useState([]);
     const [error, setError]       = useState(false);
@@ -177,12 +176,7 @@ function Cart({ history }) {
         setComError(false);
         const abortController = new AbortController();
         const signal  = abortController.signal;
-
-        // cart.map(item => {
-        //     if(item.id !== id) {
-        //         newCart.push(item);
-        //     }
-        // });
+        
         cart.forEach(item => {
             if(item.id !== id) {
                 newCart.push(item);
@@ -217,20 +211,10 @@ function Cart({ history }) {
         setComError(false);
         const abortController = new AbortController();
         const signal  = abortController.signal;
-
-        // cart.map(element => {
-        //     if(element.id === id) {
-        //         item         = element;
-        //         product_id   = element.product_id;
-        //         quantity     = element.quantity;
-        //         old_quantity = element.quantity;
-        //         quantity     = action === 'add' ? element.quantity + 1 : element.quantity - 1;
-        //     }
-        // });
+        
         cart.forEach(element => {
             if(item.id === id) {
                 item         = element;
-                // product_id   = element.product_id;
                 quantity     = element.quantity;
                 old_quantity = element.quantity;
                 quantity     = action === 'add' ? element.quantity + 1 : element.quantity - 1;
@@ -264,15 +248,6 @@ function Cart({ history }) {
             .then(response => {
                 if(response.data[0].status.toLowerCase() === 'success') {
                     setSuccess(true);
-                    // cart.map(item => {
-                    //     if(item.id === id) {
-                    //         item.quantity  = quantity;
-                    //         total          = item.quantity * item.cart_price_raw;
-                    //         item.total     = 'GHS '+total;
-                    //         item.total_raw = total;
-                    //     }
-                    //     newCart.push(item);
-                    // });
                     cart.forEach(item => {
                         if(item.id === id) {
                             item.quantity  = quantity;
