@@ -1158,6 +1158,33 @@ main#external form {
     left: auto;
     position: sticky;
 }
+.fullHeight {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid red;
+}
+.fullHeightDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+.MuiDialog-paper input.hidden,
+.MuiDialog-paper input.hidden:focus,
+.MuiDialog-paper input.hidden:active,
+.MuiFormControl-root.MuiTextField-root.hidden {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
 /* END OF FAB */
 
 /* FOOTER */

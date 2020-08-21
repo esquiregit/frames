@@ -94,7 +94,7 @@ function AddTestimony({ closeModal }) {
             { success      && <Toastrr message={message} type="success" /> }
             { warning      && <Toastrr message={message} type="warning" /> }
             { comError     && <Toastrr message={message} type="info"    /> }
-            { showDialogue && <ConfirmDialogue message={'Are You Sure You Want To Book?'} closeConfirm={closeConfirm} /> }
+            { showDialogue && <ConfirmDialogue message={'Are You Sure You Want To Add Testimony?'} closeConfirm={closeConfirm} /> }
             <Backdrop className={classes.backdrop} open={backdrop}>
                 <CircularProgress color="inherit" /> <span className='ml-15'>Adding Testimony. Please Wait....</span>
             </Backdrop>

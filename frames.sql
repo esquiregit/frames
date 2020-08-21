@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 17, 2020 at 07:41 PM
+-- Generation Time: Aug 21, 2020 at 04:23 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -584,10 +584,19 @@ CREATE TABLE `bookings` (
   `name` varchar(200) NOT NULL,
   `email_address` varchar(50) NOT NULL,
   `phone_number` char(10) NOT NULL,
+  `phone_number_two` char(10) DEFAULT NULL,
   `date` date NOT NULL,
   `time` time NOT NULL,
   `date_added` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `bookings`
+--
+
+INSERT INTO `bookings` (`booking_id`, `customer_id`, `name`, `email_address`, `phone_number`, `phone_number_two`, `date`, `time`, `date_added`) VALUES
+('HOvjq9s7-w5pdqAeE0-1597767392-n9qUt9au-fE0qsbWN', '', 'Shirley Mensah', 'shirley@mensah.com.gh', '0551212120', '', '2020-09-06', '18:19:00', '2020-08-18 16:16:32'),
+('yQZNo056-mk69txv3g-1597767113-XsnK9daX-eP6UyBcS', 'Q6j7ylin-v2wgbq4pi-1597689254-fqhxksg3-i4gfqcp3', 'Bismark Bediako', 'bismark@bediako.com.gh', '0231122334', '', '2020-08-25', '16:07:00', '2020-08-18 16:11:53');
 
 -- --------------------------------------------------------
 
@@ -603,6 +612,16 @@ CREATE TABLE `cart` (
   `quantity` int(11) NOT NULL,
   `date_added` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `cart`
+--
+
+INSERT INTO `cart` (`id`, `customer_id`, `product_id`, `price`, `quantity`, `date_added`) VALUES
+('06uYvgPn-wxzDTvkqu-1597916151-nmB3Q0Xd-KhTVgjhT', 'q6J7ylIN-v2WGBQ4PI-1597689254-fqhxkSG3-I4GfQcP3', '1', 0.00, 1, '2020-08-20 09:35:51'),
+('bNyeBLt8-0b4EYqAGs-1597915780-04AToZ4q-5Jax6hGt', 'q6J7ylIN-v2WGBQ4PI-1597689254-fqhxkSG3-I4GfQcP3', '1', 0.00, 1, '2020-08-20 09:29:40'),
+('q6J7ylIN-v2WGBQ4PI-1597689254-fqhxkSG3-I4GfQcP3', 'q6J7ylIN-v2WGBQ4PI-1597689254-fqhxkSG3-I4GfQcP3', 'q6J7ylIN-v2WGBQ4PI-1597689254-fqhxkSG3-I4GfQcP3', 20.00, 1, '2020-08-17 21:18:51'),
+('R8f4V0fb-tKxwR5g7t-1597913777-vcLZkE2Y-NufxGzjx', 'q6J7ylIN-v2WGBQ4PI-1597689254-fqhxkSG3-I4GfQcP3', '1', 0.00, 1, '2020-08-20 08:56:17');
 
 -- --------------------------------------------------------
 
@@ -698,9 +717,15 @@ CREATE TABLE `roles` (
   `id` int(14) NOT NULL,
   `name` varchar(255) NOT NULL,
   `permissions` text NOT NULL,
-  `user_id` varchar(50) NOT NULL,
   `status` varchar(9) NOT NULL DEFAULT 'Active'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `roles`
+--
+
+INSERT INTO `roles` (`id`, `name`, `permissions`, `status`) VALUES
+(1, 'Administrator', 'Can Create Product, Can Edit Product, Can View Product, Can View Products, Can View Order, Can View Orders, Can Create Category, Can Edit Category, Can View Category, Can View Categories, Can Block Customer, Can Unblock Customer, Can View Customer, Can View Customers, Can Create User, Can Edit User, Can View User, Can View Users, Can Block User, Can Unblock User, Can Create Reports', 'Active');
 
 -- --------------------------------------------------------
 
@@ -712,9 +737,16 @@ CREATE TABLE `testimonies` (
   `id` varchar(50) NOT NULL,
   `customer_id` varchar(50) NOT NULL,
   `testimony` text NOT NULL,
-  `type` varchar(20) NOT NULL,
+  `type` varchar(20) NOT NULL DEFAULT 'Front',
   `date` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `testimonies`
+--
+
+INSERT INTO `testimonies` (`id`, `customer_id`, `testimony`, `type`, `date`) VALUES
+('S2KAgRYD-lJAH085qg-1597926545-EdBPgk8j-4NYJFgy5', 'q6J7ylIN-v2WGBQ4PI-1597689254-fqhxkSG3-I4GfQcP3', 'Some Random Testimony', 'Front', '2020-08-20 12:29:05');
 
 -- --------------------------------------------------------
 
@@ -735,6 +767,13 @@ CREATE TABLE `users` (
   `created_on` datetime NOT NULL DEFAULT current_timestamp(),
   `reset_code` varchar(15) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `user_id`, `first_name`, `last_name`, `email_address`, `username`, `password`, `role`, `status`, `created_on`, `reset_code`) VALUES
+(1, 'dGgv4t6T-TCfZB3Bky-1597761845-VIuKDUhk-By5gytjw', 'Kofi', 'Esquire', 'kofi@esquire.com', 'esquire', '$2y$11$TtRPkTljTNcj6vlIzBkMRuPVByqGJCtbfP9fijtq91AfR1NRQcZFu', 1, 'Active', '2020-08-18 14:46:10', 'Nhbg65Trfd');
 
 -- --------------------------------------------------------
 
@@ -845,13 +884,13 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` int(14) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(14) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(14) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(14) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
