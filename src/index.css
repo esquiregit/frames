@@ -1163,7 +1163,7 @@ main#external form {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border: 1px solid red;
+    border: 1px solid #ddd;
 }
 .fullHeightDiv {
     display: flex;
@@ -1172,6 +1172,9 @@ main#external form {
     align-items: center;
     height: 100%;
     width: 100%;
+}
+.fullHeightDiv img {
+    height: 450px;
 }
 
 .MuiDialog-paper input.hidden,
