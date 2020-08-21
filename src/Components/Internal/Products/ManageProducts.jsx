@@ -9,12 +9,12 @@ import Loader from './../../Extras//Loadrr';
 import Toastrr from './../../Extras//Toastrr';
 import Sidebar from './../Layout/Sidebar';
 import EmptyData from './../../Extras/EmptyData';
+import AddProduct from './AddProduct';
 import Breadcrumb from './../Layout/Breadcrumb';
 import MUIDataTable from "mui-datatables";
 import AddOutlinedIcon from '@material-ui/icons/AddOutlined';
 import { getBaseURL } from './../../Extras//server';
 import { useSelector } from 'react-redux';
-import AddProduct from './AddProduct';
 
 function ManageProducts({ history }) {
     const user        = useSelector(state => state.authReducer.user);
@@ -39,13 +39,14 @@ function ManageProducts({ history }) {
             if(permissions && (permissions.includes("Can View Products") || permissions.includes("Can View Product"))) {
                 Axios.post(getBaseURL()+'get_products', { signal: signal })
                     .then(response => {
+                        setLoading(false);
                         setProducts(response.data);
                     })
                     .catch(error => {
+                        setLoading(false);
                         setMessage('Network Error. Server Unreachable....');
                         setComError(true);
                     });
-                    setLoading(false);
             } else {
                 history.push('/admin/unauthorized-access/');
             }
@@ -54,7 +55,7 @@ function ManageProducts({ history }) {
         }
 
         return () => abortController.abort();
-    }, [user, permissions, history, loading]);
+    }, [user, permissions, history, loading, showModal]);
 
     let rowsPerPage = [];
     const columns   = [

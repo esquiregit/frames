@@ -159,7 +159,7 @@ function AddProduct({ closeModal }) {
             { success      && <Toastrr message={message} type="success" /> }
             { warning      && <Toastrr message={message} type="warning" /> }
             { comError     && <Toastrr message={message} type="info"    /> }
-            { showDialogue && <ConfirmDialogue message={'Are You Sure You Want To Book?'} closeConfirm={closeConfirm} /> }
+            { showDialogue && <ConfirmDialogue message={'Are You Sure You Want To Add Product?'} closeConfirm={closeConfirm} /> }
             <Backdrop className={classes.backdrop} open={backdrop}>
                 <CircularProgress color="inherit" /> <span className='ml-15'>Adding Product. Please Wait....</span>
             </Backdrop>

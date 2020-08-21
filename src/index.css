@@ -1005,6 +1005,16 @@ td.MuiTableCell-body button:not(first-child) {
     color: rgba(0, 0, 0, 0.26) !important;
     background-color: transparent !important;
 }
+.categories-tbl table.MuiTable-root thead tr th:first-child {
+    width: 29%;
+}
+.categories-tbl table.MuiTable-root thead tr th:nth-child(2) {
+    width: 25%;
+    text-align: right;
+}
+.categories-tbl table.MuiTable-root tbody tr td:nth-child(3) {
+    text-align: justify;
+}
 /* END OF TABLE */
 
 /* CART TABLE */
