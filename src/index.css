@@ -1047,6 +1047,12 @@ div.detail-div iframe {
     width: 100%;
     height: 90%;
 }
+span.show {
+    display: block !important;
+}
+span.show {
+    display: none !important;
+}
 /* END OF TABLE */
 
 /* CART TABLE */

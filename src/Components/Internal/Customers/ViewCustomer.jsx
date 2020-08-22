@@ -1,15 +1,15 @@
 import React from 'react';
-import ProductPDF from './ProductPDF';
+import CustomerPDF from './CustomerPDF';
 import { PDFViewer } from "@react-pdf/renderer";
 import { TableRow, TableCell } from '@material-ui/core';
 
-function ViewProduct({ length, product }) {
+function ViewCustomer({ length, customer }) {
     return (
         <TableRow>
             <TableCell colSpan={length + 1}>
                 <div className="detail-div">
                     <PDFViewer>
-                        <ProductPDF product={product} />
+                        <CustomerPDF customer={customer} />
                     </PDFViewer>
                 </div>
             </TableCell>
@@ -17,4 +17,4 @@ function ViewProduct({ length, product }) {
     )
 }
 
-export default ViewProduct;
+export default ViewCustomer;
