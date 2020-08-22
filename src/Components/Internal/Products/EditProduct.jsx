@@ -9,6 +9,7 @@ import styles from '../../Extras/styles';
 import Toastrr from '../../Extras/Toastrr';
 import Backdrop from '@material-ui/core/Backdrop';
 import MenuItem from '@material-ui/core/MenuItem';
+import TextField from '@material-ui/core/TextField';
 import IconButton from '@material-ui/core/IconButton';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import ConfirmDialogue from '../../Extras/ConfirmDialogue';
@@ -60,23 +61,25 @@ const validationSchema = Yup.object().shape({
         .required('Please Upload Image'),
 });
 
-function AddProduct({ history, closeModal, reload, permissions }) {
+function EditProduct({ product, history, closeEditModal, reload, permissions }) {
     const classes    = styles();
     const user       = useSelector(state => state.authReducer.user);
-    const displayImg = '';
+    const displayImg = getBaseURL()+product.image;
     
     const initialValues = {
         user_id : user.user_id,
-        category_id : '',
-        name : '',
-        description : '',
-        price : '',
-        quantity : '',
-        interior_width : '',
-        interior_height : '',
-        exterior_width : '',
-        exterior_height : '',
-        image : '',
+        id: product.id,
+        product_id: product.product_id,
+        category_id: product.category_id,
+        name: product.frame,
+        description: product.description,
+        price: product.price_raw,
+        quantity: product.quantity,
+        interior_width: product.interior_width,
+        interior_height: product.interior_height,
+        exterior_width: product.exterior_width,
+        exterior_height: product.exterior_height,
+        image: product.image,
     };
 
     const [open, setOpen]         = useState(true);
@@ -92,13 +95,14 @@ function AddProduct({ history, closeModal, reload, permissions }) {
     const [imageObject, setImageObject]   = useState('');
     const [imagePreview, setImagePreview] = useState(displayImg);
     const [showDialogue, setShowDialogue] = useState(false);
-
+    console.log('imageObject: ', imageObject)
+    
     useEffect(() => {
         const abortController = new AbortController();
         const signal          = abortController.signal;
         
         if(user) {
-            if(permissions && (permissions.includes("Can Create Product"))) {
+            if(permissions && (permissions.includes("Can Edit Product"))) {
                 Axios.post(getBaseURL()+'get_categories_dropdown', { signal: signal })
                     .then(response => {
                         setLoading(false);
@@ -121,12 +125,12 @@ function AddProduct({ history, closeModal, reload, permissions }) {
 
     const handleClose  = () => {
         setOpen(true);
-        closeModal();
+        closeEditModal();
     };
     const displayImage = (event) => {
         setImageObject(event.target.files[0]);
         setImagePreview(URL.createObjectURL(event.target.files[0]));
-    }
+    };
     const closeConfirm = result => {
         setShowDialogue(false);
         result.toLowerCase() === 'yes' && onSubmit();
@@ -146,7 +150,9 @@ function AddProduct({ history, closeModal, reload, permissions }) {
         const signal          = abortController.signal;
             
         let formData = new FormData();
+        formData.append('id',              values.id);
         formData.append('user_id',         values.user_id);
+        formData.append('product_id',      values.product_id);
         formData.append('category_id',     values.category_id);
         formData.append('name',            values.name);
         formData.append('description',     values.description);
@@ -158,13 +164,13 @@ function AddProduct({ history, closeModal, reload, permissions }) {
         formData.append('exterior_width',  values.exterior_width);
         formData.append('exterior_height', values.exterior_height);
 
-        Axios.post(getBaseURL()+'add_product', formData, { signal: signal })
+        Axios.post(getBaseURL()+'edit_product', formData, { signal: signal })
             .then(response => {
                 if(response.data[0].status.toLowerCase() === 'success') {
-                    reload();
+                    
                     setSuccess(true);
                     setMessage(response.data[0].message);
-                    setTimeout(() => setOpen(false), 1500);
+                    setTimeout(() => { setOpen(false); reload(); }, 1500);
                 } else if(response.data[0].status.toLowerCase() === 'warning') {
                     setWarning(true);
                 } else {
@@ -188,9 +194,9 @@ function AddProduct({ history, closeModal, reload, permissions }) {
             { success      && <Toastrr message={message} type="success" /> }
             { warning      && <Toastrr message={message} type="warning" /> }
             { comError     && <Toastrr message={message} type="info"    /> }
-            { showDialogue && <ConfirmDialogue message={'Are You Sure You Want To Add Product?'} closeConfirm={closeConfirm} /> }
+            { showDialogue && <ConfirmDialogue message={'Are You Sure You Want To Update Product?'} closeConfirm={closeConfirm} /> }
             <Backdrop className={classes.backdrop} open={backdrop}>
-                <CircularProgress color="inherit" /> <span className='ml-15'>Adding Product. Please Wait....</span>
+                <CircularProgress color="inherit" /> <span className='ml-15'>Updating Product. Please Wait....</span>
             </Backdrop>
             <Dialog
                 TransitionComponent={Transition}
@@ -213,7 +219,7 @@ function AddProduct({ history, closeModal, reload, permissions }) {
                         {({ isValid, dirty, resetForm }) => (
                             <Form>
                                 <DialogTitle id="customized-dialog-product" onClose={handleClose}>
-                                    Add Product
+                                    Update Product
                                 </DialogTitle>
                                 <DialogContent dividers>
                                     <Grid container spacing={3}>
@@ -237,7 +243,7 @@ function AddProduct({ history, closeModal, reload, permissions }) {
                                                         </IconButton>
                                                     </label>
                                                 </Tippy>
-                                                <FormikTextField
+                                                <TextField
                                                     onChange={displayImage}
                                                     className="hidden"
                                                     id="image"
@@ -374,10 +380,10 @@ function AddProduct({ history, closeModal, reload, permissions }) {
                                             Reset
                                         </Button>
                                     </Tippy>
-                                    <Tippy content="Add Product">
+                                    <Tippy content="Update Product">
                                         <Button
                                             type="submit"
-                                            disabled={!(isValid && dirty)}
+                                            // disabled={!(isValid && dirty)}
                                             color="primary">
                                             submit
                                         </Button>
@@ -392,4 +398,4 @@ function AddProduct({ history, closeModal, reload, permissions }) {
     );
 }
 
-export default AddProduct;
+export default EditProduct;

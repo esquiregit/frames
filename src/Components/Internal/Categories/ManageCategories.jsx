@@ -3,11 +3,11 @@ import Fab from '@material-ui/core/Fab';
 import clsx from 'clsx';
 import Axios from 'axios';
 import Tippy from '@tippyjs/react';
-import styles from './../../Extras//styles';
+import styles from './../../Extras/styles';
 import Footer from './../Layout/Footer';
 import Header from './../Layout/Header';
-import Loader from './../../Extras//Loadrr';
-import Toastrr from './../../Extras//Toastrr';
+import Loader from './../../Extras/Loadrr';
+import Toastrr from './../../Extras/Toastrr';
 import Sidebar from './../Layout/Sidebar';
 import EmptyData from './../../Extras/EmptyData';
 import Breadcrumb from './../Layout/Breadcrumb';
@@ -17,7 +17,7 @@ import EditCategory from './EditCategory';
 import MUIDataTable from "mui-datatables";
 import AddOutlinedIcon from '@material-ui/icons/AddOutlined';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
-import { getBaseURL } from './../../Extras//server';
+import { getBaseURL } from './../../Extras/server';
 import { useSelector } from 'react-redux';
 import 'tippy.js/dist/tippy.css';
 
@@ -149,7 +149,7 @@ function ManageCategories({ history }) {
         <>
             { comError      && <Toastrr message={message} type="info" /> }
             { showAddModal  && <AddCategory  history={history} closeModal={closeModal} reload={reload} permissions={permissions} /> }
-            { showEditModal && <EditCategory history={history} closeModal={closeModal} reload={reload} category={category} permissions={permissions} /> }
+            { showEditModal && <EditCategory history={history} closeModal={closeModal} reload={reload} permissions={permissions} category={category} /> }
             <Header user={user} />
             <Sidebar roleName={user && user.role_name} />
             <main

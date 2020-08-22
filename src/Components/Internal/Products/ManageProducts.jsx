@@ -2,18 +2,19 @@ import React, { useEffect, useState } from 'react';
 import Fab from '@material-ui/core/Fab';
 import clsx from 'clsx';
 import Axios from 'axios';
-import styles from './../../Extras//styles';
+import styles from './../../Extras/styles';
 import Footer from './../Layout/Footer';
 import Header from './../Layout/Header';
-import Loader from './../../Extras//Loadrr';
-import Toastrr from './../../Extras//Toastrr';
+import Loader from './../../Extras/LoadrrInnerRow';
+import Toastrr from './../../Extras/Toastrr';
 import Sidebar from './../Layout/Sidebar';
 import EmptyData from './../../Extras/EmptyData';
 import AddProduct from './AddProduct';
 import Breadcrumb from './../Layout/Breadcrumb';
+import ViewProduct from './ViewProduct';
 import MUIDataTable from "mui-datatables";
 import AddOutlinedIcon from '@material-ui/icons/AddOutlined';
-import { getBaseURL } from './../../Extras//server';
+import { getBaseURL } from './../../Extras/server';
 import { useSelector } from 'react-redux';
 
 function ManageProducts({ history }) {
@@ -29,6 +30,10 @@ function ManageProducts({ history }) {
     const [showModal, setShowModal] = useState(false);
 
     const closeModal  = () => { setShowModal(false); };
+    const reload      = () => {
+        closeModal();
+        setLoading(true);
+    };
 
     useEffect(() => {
         document.title        = 'Products | The Frame Shop';
@@ -78,7 +83,7 @@ function ManageProducts({ history }) {
         },
         {
             label: "Name",
-            name: "name",
+            name: "frame",
             options: {
                 filter: true,
             }
@@ -117,10 +122,17 @@ function ManageProducts({ history }) {
     const options = {
         filter: true,
         filterType: 'dropdown',
-        responsive: 'standard',
+        responsive: 'vertical',
         pagination: true,
         rowsPerPageOptions: rowsPerPage,
         resizableColumns: false,
+        expandableRows: permissions && (permissions.includes("Can View Product") || permissions.includes("Can Edit Product")) ? true : false,
+        renderExpandableRow: (rowData, rowMeta) => <ViewProduct
+                                                        history={history}
+                                                        length={rowData.length}
+                                                        product={products[rowMeta.dataIndex]}
+                                                        reload={reload}
+                                                        permissions={permissions} />,
         downloadOptions: { filename: 'Products.csv', separator: ', ' },
         page: 0,
         selectableRows: 'none',
@@ -139,8 +151,8 @@ function ManageProducts({ history }) {
     
     return (
         <>
-            { showModal && <AddProduct closeModal={closeModal} /> }
-            { comError && <Toastrr message={message} type="info" /> }
+            { comError  && <Toastrr message={message} type="info" /> }
+            { showModal && <AddProduct history={history} closeModal={closeModal} reload={reload} permissions={permissions} /> }
             <Header user={user} />
             <Sidebar roleName={user && user.role_name} />
             <main
@@ -154,6 +166,7 @@ function ManageProducts({ history }) {
                     (products && products.length)
                     ?
                     <MUIDataTable
+                        className="products-tbl"
                         data={products}
                         columns={columns}
                         options={options} />

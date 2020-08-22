@@ -77,9 +77,9 @@ function AddCategory({ history, closeModal, reload, permissions }) {
         Axios.post(getBaseURL()+'add_category', values, { signal: signal })
             .then(response => {
                 if(response.data[0].status.toLowerCase() === 'success') {
-                    setOpen(false);
+                    reload();
                     setSuccess(true);
-                    setTimeout(() => reload(), 1500);
+                    setTimeout(() => setOpen(false), 1500);
                 } else if(response.data[0].status.toLowerCase() === 'warning') {
                     setWarning(true);
                 } else {
