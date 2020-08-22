@@ -1211,6 +1211,31 @@ main#external form {
     left: auto;
     position: sticky;
 }
+.add-to-wishlist {
+    position: absolute;
+    top: 40px;
+    left: -6px;
+}
+.no-products {
+    border: 1px solid #ddd;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 200px;
+    border-radius: 5px;
+    background-color: #ddd;
+    font-size: 20px;
+}
+.no-products a {
+    text-decoration: none;
+    margin-top: 10px;
+    color: rgba(0, 0, 255, 0.7);
+}
+.no-products a:hover {
+    text-decoration: underline;
+    color: rgba(0, 0, 255, 0.4);
+}
 .fullHeight {
     display: flex;
     flex-direction: column;
@@ -1229,7 +1254,6 @@ main#external form {
 .fullHeightDiv img {
     height: 450px;
 }
-
 .MuiDialog-paper input.hidden,
 .MuiDialog-paper input.hidden:focus,
 .MuiDialog-paper input.hidden:active,

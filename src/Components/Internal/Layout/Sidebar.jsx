@@ -12,10 +12,10 @@ import WcOutlinedIcon from '@material-ui/icons/WcOutlined';
 // import BuildOutlinedIcon from '@material-ui/icons/BuildOutlined';
 import ListAltOutlinedIcon from '@material-ui/icons/ListAltOutlined';
 import BurstModeOutlinedIcon from '@material-ui/icons/BurstModeOutlined';
-import DashboardOutlinedIcon from '@material-ui/icons/DashboardOutlined';
+// import DashboardOutlinedIcon from '@material-ui/icons/DashboardOutlined';
 // import PeopleAltOutlinedIcon from '@material-ui/icons/PeopleAltOutlined';
-import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
-import InsertChartOutlinedOutlinedIcon from '@material-ui/icons/InsertChartOutlinedOutlined';
+// import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
+// import InsertChartOutlinedOutlinedIcon from '@material-ui/icons/InsertChartOutlinedOutlined';
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
@@ -83,24 +83,24 @@ const menuItems   = [
     //     type: 'divider',
     //     key : 7
     // },
-    {
-        label: 'Report',
-        icon : <InsertChartOutlinedOutlinedIcon />,
-        url  : '/admin/report/'
-    },
-    {
-        type: 'divider',
-        key : 6
-    },
-    {
-        label: 'Activities',
-        icon : <VisibilityOutlinedIcon />,
-        url  : '/admin/activities/'
-    },
-    {
-        type: 'divider',
-        key : 7
-    }
+    // {
+    //     label: 'Report',
+    //     icon : <InsertChartOutlinedOutlinedIcon />,
+    //     url  : '/admin/report/'
+    // },
+    // {
+    //     type: 'divider',
+    //     key : 6
+    // },
+    // {
+    //     label: 'Activities',
+    //     icon : <VisibilityOutlinedIcon />,
+    //     url  : '/admin/activities/'
+    // },
+    // {
+    //     type: 'divider',
+    //     key : 7
+    // }
 ];
 
 const Sidebar     = () => {
