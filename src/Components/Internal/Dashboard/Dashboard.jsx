@@ -25,28 +25,23 @@ function Dashboard({ history }) {
     useEffect(() => {
         document.title = 'Dashboard | The Frame Shop';
 
-        if(user) {
-            if(user.user_id) {
-                // Axios.post(getBaseURL() + 'get_dashboard_stats')
-                //     .then(response => {
-                //         setState({
-                //             ...state,
-                //             stats: response.data[0],
-                //             loading: !loading
-                //         });
-                //     })
-                //     .catch(error => {
-                //         setState({
-                //             ...state,
-                //             loading : !loading,
-                //             message : 'Network Error. Server Unreachable....',
-                //             comError: true,
-                //         });
-                //     });
-            } else {
-                getBack(history);
-                // history.push('/unauthorized-access/');
-            }
+        if(user && user.user_id) {
+            // Axios.post(getBaseURL() + 'get_dashboard_stats')
+            //     .then(response => {
+            //         setState({
+            //             ...state,
+            //             stats: response.data[0],
+            //             loading: !loading
+            //         });
+            //     })
+            //     .catch(error => {
+            //         setState({
+            //             ...state,
+            //             loading : !loading,
+            //             message : 'Network Error. Server Unreachable....',
+            //             comError: true,
+            //         });
+            //     });
         } else {
             history.push('/');
         }

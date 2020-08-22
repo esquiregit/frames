@@ -42,7 +42,7 @@ function ManageProducts({ history }) {
         setLoading(true);
         setProducts(null);
     };
-    const editCategory = product => {
+    const editProduct = product => {
         setProduct(product);
         setShowEditModal(true);
     };
@@ -52,8 +52,8 @@ function ManageProducts({ history }) {
         const abortController = new AbortController();
         const signal          = abortController.signal;
         
-        if(user) {
-            if(permissions && (permissions.includes("Can View Products") || permissions.includes("Can View Product"))) {
+        if(user && user.user_id) {
+            // if(permissions && (permissions.includes("Can Create Product") || permissions.includes("Can View Products") || permissions.includes("Can View Product"))) {
                 Axios.post(getBaseURL()+'get_products', { signal: signal })
                     .then(response => {
                         setLoading(false);
@@ -64,9 +64,9 @@ function ManageProducts({ history }) {
                         setMessage('Network Error. Server Unreachable....');
                         setComError(true);
                     });
-            } else {
-                history.push('/admin/unauthorized-access/');
-            }
+            // } else {
+            //     history.push('/admin/unauthorized-access/');
+            // }
         } else {
             history.push('/');
         }
@@ -127,10 +127,12 @@ function ManageProducts({ history }) {
                 filter: false,
                 sort: false,
                 empty: true,
+                print: false,
+                download: false,
                 customBodyRenderLite: (dataIndex) => {
                     return (
                         permissions.includes("Can Edit Product") && <Tippy content={"Edit "+products[dataIndex].frame}>
-                                <IconButton onClick={() => editCategory(products[dataIndex])}>
+                                <IconButton onClick={() => editProduct(products[dataIndex])}>
                                     <EditOutlinedIcon color="primary" />
                                 </IconButton>
                             </Tippy>

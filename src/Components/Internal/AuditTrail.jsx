@@ -4,7 +4,7 @@ import Axios from 'axios';
 import styles from '../Extras/styles';
 import Footer from './Layout/Footer';
 import Header from './Layout/Header';
-import Loader from '../Extras/Loadrr';
+import Loader from '../Extras/LoadrrInnerRow';
 import Toastrr from '../Extras/Toastrr';
 import Sidebar from './Layout/Sidebar';
 import EmptyData from '../Extras/EmptyData';
@@ -14,34 +14,35 @@ import { getBaseURL } from '../Extras/server';
 import { useSelector } from 'react-redux';
 
 function AuditTrail({ history }) {
-    const user       = useSelector(state => state.authReducer.user);
+    const user        = useSelector(state => state.authReducer.user);
     const classes     = styles();
     const visible     = useSelector(state => state.sidebarReducer.visible);
     const permissions = useSelector(state => state.authReducer.permissions);
 
-    const [logs, setLogs]         = useState(true);
+    const [logs, setLogs]         = useState(null);
     const [loading, setLoading]   = useState(true);
     const [message, setMessage]   = useState('');
     const [comError, setComError] = useState(false);
 
     useEffect(() => {
-        document.title        = 'Acitivity Log | The Frame Shop';
+        document.title        = 'Activities | The Frame Shop';
         const abortController = new AbortController();
         const signal          = abortController.signal;
         
         if(user) {
-            if(user.role_name.toLowerCase() === 'administrator') {
+            if(user.user_id) {
                 Axios.post(getBaseURL()+'get_activity_logs', { signal: signal })
                     .then(response => {
                         setLogs(response.data);
+                        setLoading(false);
                     })
                     .catch(error => {
+                        setLoading(false);
                         setMessage('Network Error. Server Unreachable....');
                         setComError(true);
                     });
-                    setLoading(false);
             } else {
-                history.push('/unauthorized-access/');
+                history.push('/');
             }
         } else {
             history.push('/');
@@ -53,7 +54,7 @@ function AuditTrail({ history }) {
     let rowsPerPage = [];
     const columns   = [
         {
-            label: "Staff ID",
+            label: "User ID",
             name: "user_id",
             options: {
                 filter: true,
@@ -100,29 +101,29 @@ function AuditTrail({ history }) {
     const options = {
         filter: true,
         filterType: 'dropdown',
-        responsive: 'standard',
+        responsive: 'vertical',
         pagination: true,
         rowsPerPageOptions: rowsPerPage,
         resizableColumns: false,
-        downloadOptions: { filename: 'Activity Log.csv', separator: ', ' },
+        downloadOptions: { filename: 'Logs.csv', separator: ', ' },
         page: 0,
         selectableRows: 'none',
         textLabels: {
             body: {
-                noMatch: "No Matching Activity Found. Change Keywords and Try Again....",
+                noMatch: "No Matching Logs Found. Change Keywords and Try Again....",
                 columnHeaderTooltip: column => `Sort By ${column.label}`
             },
             toolbar: {
-                search: "Search Activity Log",
+                search: "Search Logs",
                 viewColumns: "Show/Hide Columns",
-                filterTable: "Filter Activity Log",
+                filterTable: "Filter Logs",
             }
         }
     };
     
     return (
         <>
-            { comError && <Toastrr message={message} type="info" /> }
+            { comError      && <Toastrr message={message} type="info" /> }
             <Header user={user} />
             <Sidebar roleName={user && user.role_name} />
             <main
@@ -130,16 +131,17 @@ function AuditTrail({ history }) {
                 className={clsx(classes.contentMedium, {
                     [classes.contentWide]: !visible,
                 })}>
-                <Breadcrumb page="Activity Log" />
+                <Breadcrumb page="Activities" />
                 {
                     loading ? <Loader /> :
-                        (logs && logs.length)
-                            ?
-                            <MUIDataTable
-                                data={logs}
-                                columns={columns}
-                                options={options} />
-                            : <EmptyData error={comError} single="Activity Log" plural="Activity Logs" />
+                    (logs && logs.length)
+                    ?
+                    <MUIDataTable
+                        className="activities-tbl"
+                        data={logs}
+                        columns={columns}
+                        options={options} />
+                    : <EmptyData error={comError} single="Activity Logs" plural="Activity Logs" />
                 }
             </main>
             <Footer />

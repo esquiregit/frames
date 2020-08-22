@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Axios from 'axios';
-import Tippy from '@tippy.js/react';
+import Tippy from '@tippyjs/react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import Switch from '@material-ui/core/Switch';

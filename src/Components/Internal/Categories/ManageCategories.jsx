@@ -50,8 +50,8 @@ function ManageCategories({ history }) {
         const abortController = new AbortController();
         const signal          = abortController.signal;
         
-        if(user) {
-            if(permissions && (permissions.includes("Can View Categories") || permissions.includes("Can View Category"))) {
+        if(user && user.user_id) {
+            // if(permissions && (permissions.includes("Can Create Category") || permissions.includes("Can View Categories") || permissions.includes("Can View Category"))) {
                 Axios.post(getBaseURL()+'get_categories', { signal: signal })
                     .then(response => {
                         setLoading(false);
@@ -62,9 +62,9 @@ function ManageCategories({ history }) {
                         setMessage('Network Error. Server Unreachable....');
                         setComError(true);
                     });
-            } else {
-                history.push('/admin/unauthorized-access/');
-            }
+            // } else {
+            //     history.push('/admin/unauthorized-access/');
+            // }
         } else {
             history.push('/');
         }
@@ -101,6 +101,8 @@ function ManageCategories({ history }) {
                 filter: false,
                 sort: false,
                 empty: true,
+                print: false,
+                download: false,
                 customBodyRenderLite: (dataIndex) => {
                     return (
                         <Tippy content={"Edit "+categories[dataIndex].name}>

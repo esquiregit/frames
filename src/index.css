@@ -1029,6 +1029,9 @@ td.MuiTableCell-body button:not(first-child) {
 .products-tbl table.MuiTable-root tbody tr td:nth-child(6) {
     width: 25%;
 }
+.activities-tbl table.MuiTable-root tbody tr td:nth-child(4) {
+    width: 40%;
+}
 table.MuiTable-root thead tr th .MuiSvgIcon-root {
     display: none;
 }

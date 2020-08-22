@@ -87,6 +87,8 @@ function Testimonies({ history }) {
                 filter: false,
                 sort: false,
                 empty: true,
+                print: false,
+                download: false,
                 customBodyRenderLite: (dataIndex, rowIndex) => {
                     return (
                         <>

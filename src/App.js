@@ -53,8 +53,8 @@ function App() {
                     <Route path='/start-a-frame/:type/'       component={ FrameType }      exact />
                     <Route path='/password-change/:id/:code/' component={ PasswordChange } exact />
                     
-                    <Route path='/admin/roles/'              component={ ManageRoles }        exact />
-                    <Route path='/admin/users/'              component={ ManageAdmins }       exact />
+                    {/* <Route path='/admin/roles/'              component={ ManageRoles }        exact />
+                    <Route path='/admin/users/'              component={ ManageAdmins }       exact /> */}
                     <Route path='/admin/report/'             component={ Report }             exact />
                     <Route path='/admin/orders/'             component={ ManageOrders }       exact />
                     <Route path='/admin/profile/'            component={ AdminProfile }       exact />

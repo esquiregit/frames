@@ -9,11 +9,11 @@ import ListItemText from '@material-ui/core/ListItemText';
 import drawerStyles from '../../Extras/drawerStyles';
 import WallpaperIcon from '@material-ui/icons/Wallpaper';
 import WcOutlinedIcon from '@material-ui/icons/WcOutlined';
-import BuildOutlinedIcon from '@material-ui/icons/BuildOutlined';
+// import BuildOutlinedIcon from '@material-ui/icons/BuildOutlined';
 import ListAltOutlinedIcon from '@material-ui/icons/ListAltOutlined';
 import BurstModeOutlinedIcon from '@material-ui/icons/BurstModeOutlined';
 import DashboardOutlinedIcon from '@material-ui/icons/DashboardOutlined';
-import PeopleAltOutlinedIcon from '@material-ui/icons/PeopleAltOutlined';
+// import PeopleAltOutlinedIcon from '@material-ui/icons/PeopleAltOutlined';
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import InsertChartOutlinedOutlinedIcon from '@material-ui/icons/InsertChartOutlinedOutlined';
 import { NavLink } from 'react-router-dom';
@@ -65,24 +65,24 @@ const menuItems   = [
         type: 'divider',
         key : 5
     },
-    {
-        label: 'Users',
-        icon : <PeopleAltOutlinedIcon />,
-        url  : '/admin/users/'
-    },
-    {
-        type: 'divider',
-        key : 6
-    },
-    {
-        label: 'Roles',
-        icon : <BuildOutlinedIcon />,
-        url  : '/admin/roles/'
-    },
-    {
-        type: 'divider',
-        key : 7
-    },
+    // {
+    //     label: 'Users',
+    //     icon : <PeopleAltOutlinedIcon />,
+    //     url  : '/admin/users/'
+    // },
+    // {
+    //     type: 'divider',
+    //     key : 6
+    // },
+    // {
+    //     label: 'Roles',
+    //     icon : <BuildOutlinedIcon />,
+    //     url  : '/admin/roles/'
+    // },
+    // {
+    //     type: 'divider',
+    //     key : 7
+    // },
     {
         label: 'Report',
         icon : <InsertChartOutlinedOutlinedIcon />,
@@ -90,7 +90,7 @@ const menuItems   = [
     },
     {
         type: 'divider',
-        key : 8
+        key : 6
     },
     {
         label: 'Activities',
@@ -99,7 +99,7 @@ const menuItems   = [
     },
     {
         type: 'divider',
-        key : 9
+        key : 7
     }
 ];
 

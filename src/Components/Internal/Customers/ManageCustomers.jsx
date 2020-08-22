@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import Axios from 'axios';
-import Tippy from '@tippyjs/react';
+// import Tippy from '@tippyjs/react';
 import styles from './../../Extras/styles';
 import Footer from './../Layout/Footer';
 import Header from './../Layout/Header';
@@ -9,11 +9,11 @@ import Loader from './../../Extras/LoadrrInnerRow';
 import Toastrr from './../../Extras/Toastrr';
 import Sidebar from './../Layout/Sidebar';
 import Backdrop from '@material-ui/core/Backdrop';
-import BlockIcon from '@material-ui/icons/Block';
+// import BlockIcon from '@material-ui/icons/Block';
 import EmptyData from './../../Extras/EmptyData';
 import Breadcrumb from './../Layout/Breadcrumb';
-import IconButton from '@material-ui/core/IconButton';
-import RefreshIcon from '@material-ui/icons/Refresh';
+// import IconButton from '@material-ui/core/IconButton';
+// import RefreshIcon from '@material-ui/icons/Refresh';
 import ViewCustomer from './ViewCustomer';
 import MUIDataTable from "mui-datatables";
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -36,35 +36,45 @@ function ManageCustomers({ history }) {
     const [customers, setCustomers] = useState(true);
     const [backdropMessage, setBackdropMessage] = useState('');
 
-    const customerAction     = (customer, action) => {
-        setBackdrop(true);
-        setError(false);
-        setSuccess(false);
-        setComError(false);
-        setBackdropMessage(action+'ing '+customer.name);
-        const data = {
-            customer_id: customer.customer_id,
-            name: customer.name,
-            action,
-            user_id: user.user_id
-        };
+    // const customerAction     = (customer, action) => {
+    //     setBackdrop(true);
+    //     setError(false);
+    //     setSuccess(false);
+    //     setComError(false);
+    //     setBackdropMessage(action+'ing '+customer.name);
+    //     const abortController = new AbortController();
+    //     const signal          = abortController.signal;
+    //     const data = {
+    //         id: customer.id,
+    //         customer_id: customer.customer_id,
+    //         name: customer.name,
+    //         action,
+    //         user_id: user.user_id
+    //     };
 
-        Axios.post(getBaseURL() + 'customer_action', data)
-            .then(response => {
-                if(response.data[0].status.toLowerCase() === 'success') {
-                    setSuccess(true);
-                    setMessage(response.data[0].message);
-                } else {
-                    setError(true);
-                    setMessage(response.data[0].message);
-                }
-                setBackdrop(false);
-            })
-            .catch(error => {
-                setMessage('Network Error. Server Unreachable....');
-                setBackdrop(false);
-                setComError(true);
-            });
+    //     Axios.post(getBaseURL() + 'customer_action', data, { signal: signal })
+    //         .then(response => {
+    //             if(response.data[0].status.toLowerCase() === 'success') {
+    //                 setSuccess(true);
+    //                 setMessage(response.data[0].message);
+    //                 reload();
+    //             } else {
+    //                 setError(true);
+    //                 setMessage(response.data[0].message);
+    //             }
+    //             setBackdrop(false);
+    //         })
+    //         .catch(error => {
+    //             setMessage('Network Error. Server Unreachable....');
+    //             setBackdrop(false);
+    //             setComError(true);
+    //         });
+
+    //     return () => abortController.abort();
+    // };
+    const reload       = () => {
+        setLoading(true);
+        setCustomers(null);
     };
 
     useEffect(() => {
@@ -72,8 +82,8 @@ function ManageCustomers({ history }) {
         const abortController = new AbortController();
         const signal          = abortController.signal;
         
-        if(user) {
-            if(permissions && (permissions.includes("Can View Customers") || permissions.includes("Can View Customer"))) {
+        if(user && user.user_id) {
+            // if(permissions && (permissions.includes("Can View Customers") || permissions.includes("Can View Customer"))) {
                 Axios.post(getBaseURL()+'get_customers', { signal: signal })
                     .then(response => {
                         setLoading(false);
@@ -84,9 +94,9 @@ function ManageCustomers({ history }) {
                         setMessage('Network Error. Server Unreachable....');
                         setComError(true);
                     });
-            } else {
-                history.push('/admin/unauthorized-access/');
-            }
+            // } else {
+            //     history.push('/admin/unauthorized-access/');
+            // }
         } else {
             history.push('/');
         }
@@ -131,34 +141,36 @@ function ManageCustomers({ history }) {
                 filter: true,
             }
         },
-        {
-            name: "Action",
-            options: {
-                filter: false,
-                sort: false,
-                empty: true,
-                customBodyRenderLite: (dataIndex) => {
-                    return (
-                        <>
-                            <span className={customers[dataIndex].status === 'Inactive' ? 'hide' : 'show' }>
-                                <Tippy content={"Block "+customers[dataIndex].first_name}>
-                                    <IconButton onClick={() => customerAction(customers[dataIndex], 'Block')}>
-                                        <BlockIcon color="secondary" />
-                                    </IconButton>
-                                </Tippy>
-                            </span>
-                            <span className={customers[dataIndex].status === 'Active' ? 'hide' : 'show' }>
-                                <Tippy content={"Unblock "+customers[dataIndex].first_name}>
-                                    <IconButton onClick={() => customerAction(customers[dataIndex], 'Unblock')}>
-                                        <RefreshIcon className="colour-success" />
-                                    </IconButton>
-                                </Tippy>
-                            </span>
-                        </>
-                    );
-                }
-            }
-        },
+        // {
+        //     name: "Action",
+        //     options: {
+        //         filter: false,
+        //         sort: false,
+        //         empty: true,
+        //         print: false,
+        //         download: false,
+        //         customBodyRenderLite: (dataIndex) => {
+        //             return (
+        //                 <>
+        //                     <span className={customers[dataIndex].status === 'Inactive' ? 'hide' : 'show' }>
+        //                         <Tippy content={"Block "+customers[dataIndex].first_name}>
+        //                             <IconButton onClick={() => customerAction(customers[dataIndex], 'Block')}>
+        //                                 <BlockIcon color="secondary" />
+        //                             </IconButton>
+        //                         </Tippy>
+        //                     </span>
+        //                     <span className={customers[dataIndex].status === 'Active' ? 'hide' : 'show' }>
+        //                         <Tippy content={"Unblock "+customers[dataIndex].first_name}>
+        //                             <IconButton onClick={() => customerAction(customers[dataIndex], 'Unblock')}>
+        //                                 <RefreshIcon className="colour-success" />
+        //                             </IconButton>
+        //                         </Tippy>
+        //                     </span>
+        //                 </>
+        //             );
+        //         }
+        //     }
+        // },
     ];
     if (customers) {
         if (customers.length < 100) {

@@ -1,6 +1,7 @@
 import React from 'react';
 import moment from "moment";
-import { Page, Text, View, Document, StyleSheet } from "@react-pdf/renderer";
+import { getBaseURL } from '../../Extras/server';
+import { Page, Text, View, Document, StyleSheet, Image } from "@react-pdf/renderer";
 
 const styles = StyleSheet.create({
     page: {
@@ -9,8 +10,17 @@ const styles = StyleSheet.create({
     container: {
         display: "flex",
         flexDirection: "row",
-        marginTop: '50px',
         padding: 15
+    },
+    image_div: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    image: {
+        width: 200,
+        height: 270,
+        marginBottom: 10,
     },
     two_column: {
         display: 'flex',
@@ -106,45 +116,57 @@ const styles = StyleSheet.create({
     }
 });
 
-function CustomerPDF({ customer }) {
+function OrderPDF({ order }) {
+    const image = getBaseURL()+order.image;
+
     return (
         <Document>
             <Page style={styles.page} size="A4" wrap>
                 <View style={styles.container}>
                     <View>
                         <View style={styles.two_column}>
-                            <Text style={styles.two_column_left}>Customer Info</Text>
+                            <Text style={styles.two_column_left}>Order Info</Text>
                             <Text style={styles.two_column_right}>{moment().format('dddd Do MMMM YYYY [at] HH:mm:ss')}</Text>
+                        </View>
+                        <View style={styles.image_div}>
+                            <Image
+                                style={styles.image}
+                                src={image}
+                                source={image} />
+                        </View>
+                        <View style={[styles.info_two_column, { backgroundColor: '#eee'}]}>
+                            <Text style={styles.info_one_column_left}>Order ID:</Text>
+                            <Text style={styles.info_one_column_right}>{order.order_id}</Text>
                         </View>
                         <View style={[styles.info_two_column, { backgroundColor: '#eee'}]}>
                             <Text style={styles.info_one_column_left}>Customer ID:</Text>
-                            <Text style={styles.info_one_column_right}>{customer.customer_id}</Text>
+                            <Text style={styles.info_one_column_right}>{order.customer_id}</Text>
                         </View>
-                        <View style={[styles.info_two_column]}>
-                            <Text style={styles.info_one_column_left}>Customer:</Text>
-                            <Text style={styles.info_one_column_right}>{customer.name}</Text>
+                        <View style={styles.info_two_column}>
+                            <Text style={styles.info_two_column_left}>Customer:</Text>
+                            <Text style={styles.info_two_column_right}>{order.name}</Text>
+                            <Text style={styles.info_two_column_left}>Frame:</Text>
+                            <Text style={styles.info_two_column_right}>{order.frame}</Text>
                         </View>
                         <View style={[styles.info_two_column, { backgroundColor: '#eee'}]}>
+                            <Text style={styles.info_two_column_left}>Price:</Text>
+                            <Text style={styles.info_two_column_right}>{order.order_price}</Text>
+                            <Text style={styles.info_two_column_left}>Quantity:</Text>
+                            <Text style={styles.info_two_column_right}>{order.quantity}</Text>
+                        </View>
+                        <View style={[styles.info_two_column]}>
                             <Text style={styles.info_two_column_left}>Email Address:</Text>
-                            <Text style={styles.info_two_column_right}>{customer.email_address}</Text>
+                            <Text style={styles.info_two_column_right}>{order.email_address}</Text>
                             <Text style={styles.info_two_column_left}>Phone Numbers:</Text>
-                            <Text style={styles.info_two_column_right}>{customer.phone_numbers}</Text>
-                        </View>
-                        <View style={[styles.info_two_column]}>
-                            <Text style={styles.info_two_column_left}>Address:</Text>
-                            <Text style={styles.info_two_column_right}>{customer.address}</Text>
-                            <Text style={styles.info_two_column_left}>District:</Text>
-                            <Text style={styles.info_two_column_right}>{customer.district}</Text>
+                            <Text style={styles.info_two_column_right}>{order.phone_numbers}</Text>
                         </View>
                         <View style={[styles.info_two_column, { backgroundColor: '#eee'}]}>
-                            <Text style={styles.info_two_column_left}>City:</Text>
-                            <Text style={styles.info_two_column_right}>{customer.city}</Text>
-                            <Text style={styles.info_two_column_left}>Region:</Text>
-                            <Text style={styles.info_two_column_right}>{customer.region}</Text>
+                            <Text style={styles.info_two_column_left}>Address:</Text>
+                            <Text style={styles.info_two_column_right_wide}>{order.address_long}</Text>
                         </View>
                         <View style={[styles.info_two_column_last]}>
-                            <Text style={styles.info_two_column_left}>Date Created:</Text>
-                            <Text style={styles.info_two_column_right_wide}>{customer.created_on}</Text>
+                            <Text style={styles.info_two_column_left}>Date Added:</Text>
+                            <Text style={styles.info_two_column_right_wide}>{order.date_added}</Text>
                         </View>
                     </View>
                 </View>
@@ -153,4 +175,4 @@ function CustomerPDF({ customer }) {
     )
 }
 
-export default CustomerPDF;
+export default OrderPDF;

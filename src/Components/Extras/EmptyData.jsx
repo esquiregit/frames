@@ -24,7 +24,7 @@ function EmptyData({ error, single, plural }) {
                             plural === 'Report' &&
                             <span>Change Search Parameters And Try Again</span>
                         }
-                        { plural.endsWith('Labs') || plural === 'Activity Logs' || plural === 'Report' ? null : <span>click the "add {single}" button below to add one</span> }
+                        { plural.endsWith('Labs') || plural === 'Activity Logs' || plural === 'Orders' || plural === 'Report' ? null : <span>click the "add {single}" button below to add one</span> }
                     </span>
                 </>
             }
