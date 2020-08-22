@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Fab from '@material-ui/core/Fab';
 import clsx from 'clsx';
 import Axios from 'axios';
+import Tippy from '@tippyjs/react';
 import styles from './../../Extras/styles';
 import Footer from './../Layout/Footer';
 import Header from './../Layout/Header';
@@ -11,11 +12,15 @@ import Sidebar from './../Layout/Sidebar';
 import EmptyData from './../../Extras/EmptyData';
 import AddProduct from './AddProduct';
 import Breadcrumb from './../Layout/Breadcrumb';
+import IconButton from '@material-ui/core/IconButton';
+import EditProduct from './EditProduct';
 import ViewProduct from './ViewProduct';
 import MUIDataTable from "mui-datatables";
 import AddOutlinedIcon from '@material-ui/icons/AddOutlined';
+import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import { getBaseURL } from './../../Extras/server';
 import { useSelector } from 'react-redux';
+import 'tippy.js/dist/tippy.css';
 
 function ManageProducts({ history }) {
     const user        = useSelector(state => state.authReducer.user);
@@ -25,14 +30,21 @@ function ManageProducts({ history }) {
 
     const [loading, setLoading]   = useState(true);
     const [message, setMessage]   = useState('');
+    const [product, setProduct]   = useState(null);
     const [comError, setComError] = useState(false);
     const [products, setProducts] = useState(true);
-    const [showModal, setShowModal] = useState(false);
-
-    const closeModal  = () => { setShowModal(false); };
-    const reload      = () => {
+    const [showAddModal, setShowAddModal]   = useState(false);
+    const [showEditModal, setShowEditModal] = useState(false);
+    
+    const closeModal   = () => { setShowAddModal(false); setShowEditModal(false); };
+    const reload       = () => {
         closeModal();
         setLoading(true);
+        setProducts(null);
+    };
+    const editCategory = product => {
+        setProduct(product);
+        setShowEditModal(true);
     };
 
     useEffect(() => {
@@ -60,7 +72,7 @@ function ManageProducts({ history }) {
         }
 
         return () => abortController.abort();
-    }, [user, permissions, history, loading, showModal]);
+    }, [user, permissions, history, loading]);
 
     let rowsPerPage = [];
     const columns   = [
@@ -109,6 +121,23 @@ function ManageProducts({ history }) {
                 filter: true,
             }
         },
+        {
+            name: "Action",
+            options: {
+                filter: false,
+                sort: false,
+                empty: true,
+                customBodyRenderLite: (dataIndex) => {
+                    return (
+                        permissions.includes("Can Edit Product") && <Tippy content={"Edit "+products[dataIndex].frame}>
+                                <IconButton onClick={() => editCategory(products[dataIndex])}>
+                                    <EditOutlinedIcon color="primary" />
+                                </IconButton>
+                            </Tippy>
+                    );
+                }
+            }
+        },
     ];
     if (products) {
         if (products.length < 100) {
@@ -127,12 +156,7 @@ function ManageProducts({ history }) {
         rowsPerPageOptions: rowsPerPage,
         resizableColumns: false,
         expandableRows: permissions && (permissions.includes("Can View Product") || permissions.includes("Can Edit Product")) ? true : false,
-        renderExpandableRow: (rowData, rowMeta) => <ViewProduct
-                                                        history={history}
-                                                        length={rowData.length}
-                                                        product={products[rowMeta.dataIndex]}
-                                                        reload={reload}
-                                                        permissions={permissions} />,
+        renderExpandableRow: (rowData, rowMeta) => <ViewProduct length={rowData.length} product={products[rowMeta.dataIndex]} />,
         downloadOptions: { filename: 'Products.csv', separator: ', ' },
         page: 0,
         selectableRows: 'none',
@@ -151,8 +175,9 @@ function ManageProducts({ history }) {
     
     return (
         <>
-            { comError  && <Toastrr message={message} type="info" /> }
-            { showModal && <AddProduct history={history} closeModal={closeModal} reload={reload} permissions={permissions} /> }
+            { comError      && <Toastrr message={message} type="info" /> }
+            { showAddModal  && <AddProduct  history={history} closeModal={closeModal} reload={reload} permissions={permissions} /> }
+            { showEditModal && <EditProduct history={history} closeModal={closeModal} reload={reload} permissions={permissions} product={product} /> }
             <Header user={user} />
             <Sidebar roleName={user && user.role_name} />
             <main
@@ -178,7 +203,7 @@ function ManageProducts({ history }) {
                         size="medium"
                         aria-label="add"
                         className="dark-btn"
-                        onClick={() => setShowModal(true)}>
+                        onClick={() => setShowAddModal(true)}>
                         <AddOutlinedIcon className="colour-white" />
                         <span className="ml-10">Add Product</span>
                     </Fab>

@@ -20,16 +20,12 @@ const styles = StyleSheet.create({
     image: {
         width: 200,
         height: 270,
-        // borderRadius: 120,
-        // border: '2px solid #aaa',
         marginBottom: 10,
     },
     two_column: {
         display: 'flex',
         flexDirection: 'row',
-        // marginTop: 10,
         marginBottom: 20,
-        // borderTop: '1px solid #666',
         borderBottom: '1px solid #666',
         paddingTop: '5px',
         paddingBottom: '6px',
@@ -55,6 +51,21 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         paddingBottom: 0,
         border: '1px solid #333',
+    },
+    info_one_column_left: {
+        textAlign: 'right',
+        fontSize: 11,
+        padding: 10,
+        flex: '1 1 20%',
+        marginRight: 10,
+        color: '#555',
+    },
+    info_one_column_right: {
+        textAlign: 'left',
+        fontSize: 11,
+        padding: 10,
+        paddingLeft: 0,
+        flex: '1 2 80%',
     },
     info_two_column_left: {
         textAlign: 'right',
@@ -124,38 +135,40 @@ function ProductPDF({ product }) {
                                 source={image} />
                         </View>
                         <View style={[styles.info_two_column, { backgroundColor: '#eee'}]}>
-                            <Text style={styles.info_two_column_left}>Product ID:</Text>
-                            <Text style={styles.info_two_column_right}>{product.product_id}</Text>
+                            <Text style={styles.info_one_column_left}>Product ID:</Text>
+                            <Text style={styles.info_one_column_right}>{product.product_id}</Text>
+                        </View>
+                        <View style={styles.info_two_column}>
                             <Text style={styles.info_two_column_left}>Product:</Text>
-                            <Text style={styles.info_two_column_right}>{product.name}</Text>
-                        </View>
-                        <View style={styles.info_two_column}>
-                            <Text style={styles.info_two_column_left}>Gender:</Text>
-                            <Text style={styles.info_two_column_right}>{product.gender}</Text>
-                            <Text style={styles.info_two_column_left}>Email Address:</Text>
-                            <Text style={styles.info_two_column_right}>{product.email_address}</Text>
+                            <Text style={styles.info_two_column_right}>{product.frame}</Text>
+                            <Text style={styles.info_two_column_left}>Category:</Text>
+                            <Text style={styles.info_two_column_right}>{product.category}</Text>
                         </View>
                         <View style={[styles.info_two_column, { backgroundColor: '#eee'}]}>
-                            <Text style={styles.info_two_column_left}>Phone Number:</Text>
-                            <Text style={styles.info_two_column_right}>{product.phone_number}</Text>
-                            <Text style={styles.info_two_column_left}>Alternate Phone Number:</Text>
-                            <Text style={styles.info_two_column_right}>{product.phone_number_two}</Text>
+                            <Text style={styles.info_one_column_left}>Description:</Text>
+                            <Text style={styles.info_one_column_right}>{product.description}</Text>
                         </View>
-                        <View style={styles.info_two_column}>
-                            <Text style={styles.info_two_column_left}>Role:</Text>
-                            <Text style={styles.info_two_column_right}>{product.role}</Text>
-                            <Text style={styles.info_two_column_left}>Branch:</Text>
-                            <Text style={styles.info_two_column_right}>{product.branch}</Text>
+                        <View style={[styles.info_two_column]}>
+                            <Text style={styles.info_two_column_left}>Price:</Text>
+                            <Text style={styles.info_two_column_right}>{product.price}</Text>
+                            <Text style={styles.info_two_column_left}>Quantity:</Text>
+                            <Text style={styles.info_two_column_right}>{product.quantity}</Text>
                         </View>
                         <View style={[styles.info_two_column, { backgroundColor: '#eee'}]}>
-                            <Text style={styles.info_two_column_left}>Username:</Text>
-                            <Text style={styles.info_two_column_right}>{product.username}</Text>
-                            <Text style={styles.info_two_column_left}>Status:</Text>
-                            <Text style={styles.info_two_column_right}>{product.status}</Text>
+                            <Text style={styles.info_two_column_left}>Interior Width:</Text>
+                            <Text style={styles.info_two_column_right}>{product.interior_width}</Text>
+                            <Text style={styles.info_two_column_left}>Interior Height:</Text>
+                            <Text style={styles.info_two_column_right}>{product.interior_height}</Text>
                         </View>
-                        <View style={styles.info_two_column_last}>
-                            <Text style={styles.info_two_column_left}>Date Created:</Text>
-                            <Text style={styles.info_two_column_right_wide}>{product.created_at}</Text>
+                        <View style={[styles.info_two_column]}>
+                            <Text style={styles.info_two_column_left}>Exterior Width:</Text>
+                            <Text style={styles.info_two_column_right}>{product.exterior_width}</Text>
+                            <Text style={styles.info_two_column_left}>Exterior Height:</Text>
+                            <Text style={styles.info_two_column_right}>{product.exterior_height}</Text>
+                        </View>
+                        <View style={[styles.info_two_column_last, { backgroundColor: '#eee'}]}>
+                            <Text style={styles.info_two_column_left}>Date Added:</Text>
+                            <Text style={styles.info_two_column_right_wide}>{product.date_added}</Text>
                         </View>
                     </View>
                 </View>

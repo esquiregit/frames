@@ -61,7 +61,7 @@ const validationSchema = Yup.object().shape({
         .required('Please Upload Image'),
 });
 
-function EditProduct({ product, history, closeEditModal, reload, permissions }) {
+function EditProduct({ product, history, closeModal, reload, permissions }) {
     const classes    = styles();
     const user       = useSelector(state => state.authReducer.user);
     const displayImg = getBaseURL()+product.image;
@@ -95,7 +95,6 @@ function EditProduct({ product, history, closeEditModal, reload, permissions }) 
     const [imageObject, setImageObject]   = useState('');
     const [imagePreview, setImagePreview] = useState(displayImg);
     const [showDialogue, setShowDialogue] = useState(false);
-    console.log('imageObject: ', imageObject)
     
     useEffect(() => {
         const abortController = new AbortController();
@@ -125,7 +124,7 @@ function EditProduct({ product, history, closeEditModal, reload, permissions }) 
 
     const handleClose  = () => {
         setOpen(true);
-        closeEditModal();
+        closeModal();
     };
     const displayImage = (event) => {
         setImageObject(event.target.files[0]);
@@ -167,16 +166,16 @@ function EditProduct({ product, history, closeEditModal, reload, permissions }) 
         Axios.post(getBaseURL()+'edit_product', formData, { signal: signal })
             .then(response => {
                 if(response.data[0].status.toLowerCase() === 'success') {
-                    
                     setSuccess(true);
                     setMessage(response.data[0].message);
                     setTimeout(() => { setOpen(false); reload(); }, 1500);
                 } else if(response.data[0].status.toLowerCase() === 'warning') {
                     setWarning(true);
+                    setMessage(response.data[0].message);
                 } else {
                     setError(true);
+                    setMessage(response.data[0].message);
                 }
-                setMessage(response.data[0].message);
                 setBackdrop(false);
             })
             .catch(error => {

@@ -161,16 +161,16 @@ function AddProduct({ history, closeModal, reload, permissions }) {
         Axios.post(getBaseURL()+'add_product', formData, { signal: signal })
             .then(response => {
                 if(response.data[0].status.toLowerCase() === 'success') {
-                    reload();
                     setSuccess(true);
                     setMessage(response.data[0].message);
-                    setTimeout(() => setOpen(false), 1500);
+                    setTimeout(() => { setOpen(false); reload(); }, 1500);
                 } else if(response.data[0].status.toLowerCase() === 'warning') {
                     setWarning(true);
+                    setMessage(response.data[0].message);
                 } else {
                     setError(true);
+                    setMessage(response.data[0].message);
                 }
-                setMessage(response.data[0].message);
                 setBackdrop(false);
             })
             .catch(error => {
