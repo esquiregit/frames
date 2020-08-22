@@ -189,7 +189,7 @@ function FrameType({ match }) {
                                     }
                                 </Grid>
                             </>
-                            : <div className="no-products">No  Products Found<br /><NavLink to="/start-a-frame/">Please Try Other Categories</NavLink></div>
+                            : <div className="no-products">No {getHeading(type)} Frames Found<br /><NavLink to="/start-a-frame/">Please Try Other Categories</NavLink></div>
                         }
                     </div>
                 </Card>
