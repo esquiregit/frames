@@ -20,11 +20,11 @@ import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 const menuItems   = [
-    {
-        label: 'Dashboard',
-        icon : <DashboardOutlinedIcon />,
-        url  : '/admin/dashboard/'
-    },
+    // {
+    //     label: 'Dashboard',
+    //     icon : <DashboardOutlinedIcon />,
+    //     url  : '/admin/dashboard/'
+    // },
     {
         type: 'divider',
         key : 1

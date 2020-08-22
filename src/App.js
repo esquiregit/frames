@@ -60,7 +60,7 @@ function App() {
                     <Route path='/admin/profile/'            component={ AdminProfile }       exact />
                     <Route path='/admin/products/'           component={ ManageProducts }     exact />
                     <Route path='/admin/customers/'          component={ ManageCustomers }    exact />
-                    <Route path='/admin/dashboard/'          component={ Dashboard }          exact />
+                    {/* <Route path='/admin/dashboard/'          component={ Dashboard }          exact /> */}
                     <Route path='/admin/categories/'         component={ ManageCategories }   exact />
                     <Route path='/admin/activities/'         component={ AuditTrail }         exact />
                     <Route path='/admin/unauthorized-access/' component={ UnauthorizedAccess } exact />

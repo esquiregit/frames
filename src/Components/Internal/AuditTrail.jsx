@@ -29,21 +29,17 @@ function AuditTrail({ history }) {
         const abortController = new AbortController();
         const signal          = abortController.signal;
         
-        if(user) {
-            if(user.user_id) {
-                Axios.post(getBaseURL()+'get_activity_logs', { signal: signal })
-                    .then(response => {
-                        setLogs(response.data);
-                        setLoading(false);
-                    })
-                    .catch(error => {
-                        setLoading(false);
-                        setMessage('Network Error. Server Unreachable....');
-                        setComError(true);
-                    });
-            } else {
-                history.push('/');
-            }
+        if(user && user.user_id) {
+            Axios.post(getBaseURL()+'get_activity_logs', { signal: signal })
+                .then(response => {
+                    setLogs(response.data);
+                    setLoading(false);
+                })
+                .catch(error => {
+                    setLoading(false);
+                    setMessage('Network Error. Server Unreachable....');
+                    setComError(true);
+                });
         } else {
             history.push('/');
         }

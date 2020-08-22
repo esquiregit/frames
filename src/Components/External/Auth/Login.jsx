@@ -77,7 +77,7 @@ const Login = ({ history }) => {
                             // history.push('/');
                             getBack(history);
                         } else {
-                            history.push('/admin/dashboard');
+                            history.push('/admin/products');
                         }
                     }, 2000);
                 } else {
