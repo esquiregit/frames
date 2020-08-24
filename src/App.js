@@ -50,7 +50,7 @@ function App() {
                     <Route path='/design/:product_id'         component={ Design }         exact />
                     <Route path='/password-recovery/'         component={ Recovery }       exact />
                     <Route path='/account/testimonies/'       component={ Testimonies }    exact />
-                    <Route path='/start-a-frame/:type/'       component={ FrameType }      exact />
+                    <Route path='/start-a-frame/:category/'   component={ FrameType }      exact />
                     <Route path='/password-change/:id/:code/' component={ PasswordChange } exact />
                     
                     {/* <Route path='/admin/roles/'              component={ ManageRoles }        exact />

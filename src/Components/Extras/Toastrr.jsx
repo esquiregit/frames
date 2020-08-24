@@ -15,7 +15,7 @@ const Alert = (props) => {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-const Toastrr = ({ type, message }) => {
+const Toastrr = ({ severity, message }) => {
     const classes          = useStyles();
     const [open, setOpen]  = useState(true);
     const handleClose      = (event, reason) => {
@@ -33,7 +33,7 @@ const Toastrr = ({ type, message }) => {
                 open={open}
                 autoHideDuration={4000}
                 onClose={handleClose}>
-                <Alert onClose={handleClose} severity={type}>
+                <Alert onClose={handleClose} severity={severity}>
                     {message}
                 </Alert>
             </Snackbar>

@@ -252,23 +252,23 @@ export const getHangingHardware = () => {
         { label: 'Wire - Strong tension wire, wrapped around D-rings, is stretched on the back of the frame', value: 'Wire' },
     ];
 }
-export const getHeading = type => {
-    let newType = type.toLowerCase().replace("-", " ");
-    newType     = newType.toLowerCase().replace("-", " ");
-    return toCapitalCase(newType);
+export const getHeading = category => {
+    let newCategory = category.toLowerCase().replace("-", " ");
+    newCategory     = newCategory.toLowerCase().replace("-", " ");
+    return toCapitalCase(newCategory);
 }
-export const getHeadingFull = type => {
-    let newType = type.toLowerCase().replace("-", " ");
-    newType     = newType.toLowerCase().replace("-", " ");
+export const getHeadingFull = category => {
+    let newCategory = category.toLowerCase().replace("-", " ");
+    newCategory     = newCategory.toLowerCase().replace("-", " ");
     
-    newType = newType.startsWith('a') ||
-    newType.startsWith('e') ||
-    newType.startsWith('i') ||
-    newType.startsWith('o') ||
-    newType.startsWith('u') ? 'an '+newType : 'a '+newType;
+    newCategory = newCategory.startsWith('a') ||
+    newCategory.startsWith('e') ||
+    newCategory.startsWith('i') ||
+    newCategory.startsWith('o') ||
+    newCategory.startsWith('u') ? 'an '+newCategory : 'a '+newCategory;
     
-    newType = toCapitalCase('Frame '+newType);
-    return newType;
+    newCategory = toCapitalCase('Frame '+newCategory);
+    return newCategory;
 }
 export const getRegions = () => {
     return [
