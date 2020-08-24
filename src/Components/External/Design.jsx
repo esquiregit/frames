@@ -161,7 +161,7 @@ function Design({ match }) {
 
     return (
         <>
-            { error         && <Toastrr message={message} type="error" /> }
+            { error         && <Toastrr message={message} severity="error" /> }
             { openEditModal && <UploadImage
                 setDisplayImage={setDisplayImage}
                 image={unprocessedImage}

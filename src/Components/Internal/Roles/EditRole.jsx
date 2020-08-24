@@ -226,9 +226,9 @@ function EditRole({ role, closeEditModal, closeExpandable }) {
     
     return (
         <>
-            { error    && <Toastrr message={message} type="error"   /> }
-            { warning  && <Toastrr message={message} type="warning" /> }
-            { comError && <Toastrr message={message} type="info"    /> }
+            { error    && <Toastrr message={message} severity="error"   /> }
+            { warning  && <Toastrr message={message} severity="warning" /> }
+            { comError && <Toastrr message={message} severity="info"    /> }
             <Backdrop className={classes.backdrop} open={backdrop}>
                 <CircularProgress color="inherit" /> <span className='ml-15'>Updating Role. Please Wait....</span>
             </Backdrop>

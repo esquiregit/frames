@@ -22,13 +22,14 @@ function FrameType({ match }) {
     const category    = match.params.category;
     const heading     = getHeadingFull(category);
     const user        = useSelector(state => state.authReducer.user);
+    const wishlist    = useSelector(state => state.authReducer.wishlist);//console.log('wishlist: ', wishlist)
     const classes     = styles();
     const newCategory = getHeading(category);
 
     const [error, setError]       = useState(false);
     const [frames, setFrames]     = useState(false);
     const [loading, setLoading]   = useState(true);
-    const [message, setMessage]   = useState('hello from message');
+    const [message, setMessage]   = useState('');
     const [success, setSuccess]   = useState(false);
     const [backdrop, setBackdrop] = useState(false);
     const [comError, setComError] = useState(false);
@@ -97,7 +98,7 @@ function FrameType({ match }) {
             <Backdrop className={classes.backdrop} open={backdrop}>
                 <CircularProgress color="inherit" /> <span className='ml-15'>{backdropMessage}. Please Wait....</span>
             </Backdrop>
-            <div>
+            <div className="back_gray">
                 <Header user={user} />
                 <main id="external">
                     <Card variant="outlined">
@@ -158,7 +159,8 @@ function FrameType({ match }) {
                                                             user &&
                                                             <span>
                                                                 {
-                                                                    index % 2 === 0 ?
+                                                                    wishlist && wishlist.includes(frame.product_id) ?
+                                                                    // true ?
                                                                     <IconButton
                                                                         className="add-to-wishlist"
                                                                         onClick={() => wishlistAction(frame.id, frame.product_id, 'add')}>
@@ -189,7 +191,6 @@ function FrameType({ match }) {
                         </div>
                     </Card>
                 </main>
-                frame type selection - {category}
                 <Footer />
             </div>
         </>

@@ -177,7 +177,7 @@ function ManageProducts({ history }) {
     
     return (
         <>
-            { comError      && <Toastrr message={message} type="info" /> }
+            { comError      && <Toastrr message={message} severity="info" /> }
             { showAddModal  && <AddProduct  history={history} closeModal={closeModal} reload={reload} permissions={permissions} /> }
             { showEditModal && <EditProduct history={history} closeModal={closeModal} reload={reload} permissions={permissions} product={product} /> }
             <Header user={user} />

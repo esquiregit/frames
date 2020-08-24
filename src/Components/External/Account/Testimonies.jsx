@@ -172,10 +172,10 @@ function Testimonies({ history }) {
 
     return (
         <div className="back_gray">
-            { error         && <Toastrr message={message} type="error"   /> }
-            { warning       && <Toastrr message={message} type="warning" /> }
-            { success       && <Toastrr message={message} type="success" /> }
-            { comError      && <Toastrr message={message} type="info"    /> }
+            { error         && <Toastrr message={message} severity="error"   /> }
+            { warning       && <Toastrr message={message} severity="warning" /> }
+            { success       && <Toastrr message={message} severity="success" /> }
+            { comError      && <Toastrr message={message} severity="info"    /> }
             { showAddModal  && <AddTestimony  closeModal={closeModal}    /> }
             { showEditModal && <EditTestimony closeModal={closeModal} testimony={testimony} /> }
             <Backdrop  className={classes.backdrop} open={backdrop}>

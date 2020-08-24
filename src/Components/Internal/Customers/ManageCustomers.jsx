@@ -208,9 +208,9 @@ function ManageCustomers({ history }) {
     
     return (
         <>
-            { error    && <Toastrr message={message} type="error"   /> }
-            { success  && <Toastrr message={message} type="success" /> }
-            { comError && <Toastrr message={message} type="info"    /> }
+            { error    && <Toastrr message={message} severity="error"   /> }
+            { success  && <Toastrr message={message} severity="success" /> }
+            { comError && <Toastrr message={message} severity="info"    /> }
             <Backdrop className={classes.backdrop} open={backdrop}>
                 <CircularProgress color="inherit" /> <span className='ml-15'>{backdropMessage}. Please Wait....</span>
             </Backdrop>

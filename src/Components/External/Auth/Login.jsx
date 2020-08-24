@@ -15,6 +15,7 @@ import { getBaseURL } from '../../Extras/server';
 import { Form, Formik } from 'formik';
 import { populate_cart } from '../../../Store/Actions/CartActions';
 import { FormikTextField } from 'formik-material-fields';
+import { populate_wishlist } from '../../../Store/Actions/WishlistActions';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
 
@@ -73,6 +74,7 @@ const Login = ({ history }) => {
                     setTimeout(() => {
                         dispatch(logIn(response.data[0].user, response.data[0].permissions));
                         dispatch(populate_cart(response.data[0].cart));
+                        dispatch(populate_wishlist(response.data[0].wishlist));
                         if(response.data[0].type === '000') {
                             // history.push('/');
                             getBack(history);
@@ -97,10 +99,10 @@ const Login = ({ history }) => {
 
     return (
         <>
-            { error    && <Toastrr message={message} type="error"   /> }
-            { success  && <Toastrr message={message} type="success" /> }
-            { warning  && <Toastrr message={message} type="warning" /> }
-            { comError && <Toastrr message={message} type="info"    /> }
+            { error    && <Toastrr message={message} severity="error"   /> }
+            { success  && <Toastrr message={message} severity="success" /> }
+            { warning  && <Toastrr message={message} severity="warning" /> }
+            { comError && <Toastrr message={message} severity="info"    /> }
             <Backdrop className={classes.backdrop} open={backdrop}>
                 <CircularProgress color="inherit" /> <span className='ml-15'>Logging In. Please Wait....</span>
             </Backdrop>

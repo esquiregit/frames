@@ -184,10 +184,10 @@ function AddProduct({ history, closeModal, reload, permissions }) {
 
     return (
         <>
-            { error        && <Toastrr message={message} type="error"   /> }
-            { success      && <Toastrr message={message} type="success" /> }
-            { warning      && <Toastrr message={message} type="warning" /> }
-            { comError     && <Toastrr message={message} type="info"    /> }
+            { error        && <Toastrr message={message} severity="error"   /> }
+            { success      && <Toastrr message={message} severity="success" /> }
+            { warning      && <Toastrr message={message} severity="warning" /> }
+            { comError     && <Toastrr message={message} severity="info"    /> }
             { showDialogue && <ConfirmDialogue message={'Are You Sure You Want To Add Product?'} closeConfirm={closeConfirm} /> }
             <Backdrop className={classes.backdrop} open={backdrop}>
                 <CircularProgress color="inherit" /> <span className='ml-15'>Adding Product. Please Wait....</span>

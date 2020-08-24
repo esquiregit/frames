@@ -150,7 +150,7 @@ function ManageRoles({ history }) {
     
     return (
         <>
-            { comError      && <Toastrr message={message} type="info" /> }
+            { comError      && <Toastrr message={message} severity="info" /> }
             { showAddModal  && <AddRole  history={history} closeModal={closeModal} reload={reload} permissions={permissions} /> }
             { showEditModal && <EditRole history={history} closeModal={closeModal} reload={reload} permissions={permissions} role={role} /> }
             <Header user={user} />

@@ -110,9 +110,9 @@ const PasswordChange = ({ match, history }) => {
 
     return (
         <>
-            { error    && <Toastrr message={message} type="warning" /> }
-            { success  && <Toastrr message={message} type="success" /> }
-            { comError && <Toastrr message={message} type="info"    /> }
+            { error    && <Toastrr message={message} severity="warning" /> }
+            { success  && <Toastrr message={message} severity="success" /> }
+            { comError && <Toastrr message={message} severity="info"    /> }
             <Backdrop className={classes.backdrop} open={open}>
                 <CircularProgress color="inherit" /> <span className='ml-15'>Changing Password. Please Wait....</span>
             </Backdrop>

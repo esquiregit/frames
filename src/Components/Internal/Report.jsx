@@ -223,8 +223,8 @@ function Report({ history }) {
     
     return (
         <>
-            { error    && <Toastrr message={message} type="error" /> }
-            { comError && <Toastrr message={message} type="info"  /> }
+            { error    && <Toastrr message={message} severity="error" /> }
+            { comError && <Toastrr message={message} severity="info"  /> }
             <Header staff={staff} />
             <Sidebar roleName={staff && staff.role_name} />
             <main

@@ -119,7 +119,7 @@ function AuditTrail({ history }) {
     
     return (
         <>
-            { comError      && <Toastrr message={message} type="info" /> }
+            { comError      && <Toastrr message={message} severity="info" /> }
             <Header user={user} />
             <Sidebar roleName={user && user.role_name} />
             <main

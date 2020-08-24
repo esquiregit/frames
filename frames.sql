@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 21, 2020 at 04:23 PM
+-- Generation Time: Aug 24, 2020 at 10:23 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `audit_trail` (
   `id` int(14) NOT NULL,
-  `user_id` varchar(25) NOT NULL,
+  `user_id` varchar(50) NOT NULL,
   `activity` text NOT NULL,
   `date` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -570,7 +570,28 @@ INSERT INTO `audit_trail` (`id`, `user_id`, `activity`, `date`) VALUES
 (4743, 'LMLS-0000', 'Viewed Report From 05 August 2020 To 06 August 2020', '2020-08-05 19:04:38'),
 (4744, 'LMLS-0000', 'Logged Out', '2020-08-05 19:04:53'),
 (4745, 'LMLS-0000', 'Logged In', '2020-08-11 22:14:38'),
-(4746, 'LMLS-0000', 'Logged Out', '2020-08-11 23:01:28');
+(4746, 'LMLS-0000', 'Logged Out', '2020-08-11 23:01:28'),
+(4747, 'dGgv4t6T-TCfZB3Bky-1597761845-VIuKDUhk-By5gytjw', 'Blocked Ben Sabah', '2020-08-22 13:16:47'),
+(4748, 'dGgv4t6T-TCfZB3Bky-1597761845-VIuKDUhk-By5gytjw', 'Blocked Ben Sabah', '2020-08-22 13:16:59'),
+(4749, 'dGgv4t6T-TCfZB3Bky-1597761845-VIuKDUhk-By5gytjw', 'Blocked Bismark Bediako', '2020-08-22 13:17:01'),
+(4750, 'dGgv4t6T-TCfZB3Bky-1597761845-VIuKDUhk-By5gytjw', 'Blocked Ben Sabah', '2020-08-22 13:17:12'),
+(4751, 'dGgv4t6T-TCfZB3Bky-1597761845-VIuKDUhk-By5gytjw', 'Blocked Bismark Bediako', '2020-08-22 13:17:33'),
+(4752, 'dGgv4t6T-TCfZB3Bky-1597761845-VIuKDUhk-By5gytjw', 'Blocked Bismark Bediako', '2020-08-22 13:17:36'),
+(4753, 'dGgv4t6T-TCfZB3Bky-1597761845-VIuKDUhk-By5gytjw', 'Blocked Ben Sabah', '2020-08-22 13:20:34'),
+(4754, 'dGgv4t6T-TCfZB3Bky-1597761845-VIuKDUhk-By5gytjw', 'Blocked Ben Sabah', '2020-08-22 13:20:36'),
+(4755, 'dGgv4t6T-TCfZB3Bky-1597761845-VIuKDUhk-By5gytjw', 'Blocked Ben Sabah', '2020-08-22 13:20:37'),
+(4756, 'user_id', 'Blocked name', '2020-08-22 13:22:08'),
+(4757, 'user_id', 'Blocked name', '2020-08-22 13:22:25'),
+(4758, 'user_id', 'Blocked bismark', '2020-08-22 13:22:40'),
+(4759, 'dGgv4t6T-TCfZB3Bky-1597761845-VIuKDUhk-By5gytjw', 'Tried To Block Ben Sabah', '2020-08-22 13:32:33'),
+(4760, 'dGgv4t6T-TCfZB3Bky-1597761845-VIuKDUhk-By5gytjw', 'Tried To Block Ben Sabah', '2020-08-22 13:32:44'),
+(4761, 'dGgv4t6T-TCfZB3Bky-1597761845-VIuKDUhk-By5gytjw', 'Blocked Ben Sabah', '2020-08-22 13:34:38'),
+(4762, 'dGgv4t6T-TCfZB3Bky-1597761845-VIuKDUhk-By5gytjw', 'Blocked Ben Sabah', '2020-08-22 13:34:43'),
+(4763, 'dGgv4t6T-TCfZB3Bky-1597761845-VIuKDUhk-By5gytjw', 'Blocked Bismark Bediako', '2020-08-22 13:34:46'),
+(4764, 'dGgv4t6T-TCfZB3Bky-1597761845-VIuKDUhk-By5gytjw', 'Blocked Ben Sabah', '2020-08-22 13:35:01'),
+(4765, 'dGgv4t6T-TCfZB3Bky-1597761845-VIuKDUhk-By5gytjw', 'Logged In', '2020-08-22 18:01:23'),
+(4766, 'dGgv4t6T-TCfZB3Bky-1597761845-VIuKDUhk-By5gytjw', 'Logged In', '2020-08-22 18:45:01'),
+(4767, 'dGgv4t6T-TCfZB3Bky-1597761845-VIuKDUhk-By5gytjw', 'Updated \"Golden Rim\" To Categories', '2020-08-22 18:48:05');
 
 -- --------------------------------------------------------
 
@@ -635,6 +656,14 @@ CREATE TABLE `categories` (
   `description` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `categories`
+--
+
+INSERT INTO `categories` (`category_id`, `name`, `description`) VALUES
+('M0H5InS6-zCeL2NL6I-1598035679-WPFvMlxN-OV3NelDd', 'Golden Rim', 'Has Golden Rim :)'),
+('yhpn9FBJ-ZRkNS9tWe-1598035738-hqz9C3kf-VAlWeb8f', 'Golden Rim 2', 'Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing Elit, Sed Do Eiusmod Tempor Incididunt Ut Labore Et Dolore Magna Aliqua. Ut Enim Ad Minim Veniam, Quis Nostrud Exercitation Ullamco Laboris Nisi Ut Aliquip Ex Ea Commodo Consequat. Duis Aute Irure Dolor In Reprehenderit In Voluptate Velit Esse Cillum Dolore Eu Fugiat Nulla Pariatur. Excepteur Sint Occaecat Cupidatat Non Proident, Sunt In Culpa Qui Officia Deserunt Mollit Anim Id Est Laborum.');
+
 -- --------------------------------------------------------
 
 --
@@ -654,7 +683,7 @@ CREATE TABLE `customers` (
   `district` varchar(50) DEFAULT NULL,
   `region` varchar(50) DEFAULT NULL,
   `password` varchar(60) NOT NULL,
-  `status` varchar(7) NOT NULL DEFAULT 'Active',
+  `status` varchar(10) NOT NULL DEFAULT 'Active',
   `created_on` datetime NOT NULL DEFAULT current_timestamp(),
   `activation_code` varchar(15) DEFAULT NULL,
   `reset_code` varchar(15) DEFAULT NULL
@@ -665,7 +694,8 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`id`, `customer_id`, `first_name`, `last_name`, `email_address`, `phone_number`, `phone_number_two`, `address`, `city`, `district`, `region`, `password`, `status`, `created_on`, `activation_code`, `reset_code`) VALUES
-(1, 'q6J7ylIN-v2WGBQ4PI-1597689254-fqhxkSG3-I4GfQcP3', 'Bismark', 'Bediako', 'bismark@bediako.com.gh', '0231122334', '', 'Anyaa Palas Town', 'Accra', 'Ablekuma North', 'Greater Accra', '$2y$11$TtRPkTljTNcj6vlIzBkMRuPVByqGJCtbfP9fijtq91AfR1NRQcZFu', 'Active', '2020-08-17 18:34:14', NULL, '6Uj9p6IGLaNI');
+(1, 'q6J7ylIN-v2WGBQ4PI-1597689254-fqhxkSG3-I4GfQcP3', 'Bismark', 'Bediako', 'bismark@bediako.com.gh', '0231122334', '0231232123', 'Anyaa Palas Town', 'Active', 'Ablekuma North', 'Greater Accra', '$2y$11$TtRPkTljTNcj6vlIzBkMRuPVByqGJCtbfP9fijtq91AfR1NRQcZFu', 'Active', '2020-08-17 18:34:14', NULL, '6Uj9p6IGLaNI'),
+(3, 'uMmgYsmC-1v3jP0Lk0-1598120079-4mX3UFW6-bP7grGqD', 'Ben', 'Sabah', 'ben@sabah.com.gh', NULL, NULL, NULL, NULL, NULL, NULL, '$2y$11$GQDzv6Q5Its0/0ZLBhDLIelK8CacBpcQfWrFeMm0Dfu3YU2f/ECtW', 'Active', '2020-08-22 18:14:39', NULL, 'hnAaHDWP40nq');
 
 -- --------------------------------------------------------
 
@@ -707,6 +737,13 @@ CREATE TABLE `products` (
   `date_added` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `products`
+--
+
+INSERT INTO `products` (`id`, `product_id`, `category_id`, `name`, `description`, `price`, `quantity`, `interior_width`, `interior_height`, `exterior_width`, `exterior_height`, `image`, `date_added`) VALUES
+(1, '1WAhCUbj-Wg2xRE97n-1598095746-OGNoQi32-zkMEfXG9', 'M0H5InS6-zCeL2NL6I-1598035679-WPFvMlxN-OV3NelDd', 'Beautiful Nice Frame', 'Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing Elit, Sed Do Eiusmod Tempor Incididunt Ut Labore Et Dolore Magna Aliqua. Ut Enim Ad Minim Veniam, Quis Nostrud Exercitation Ullamco', 12, 1222, 11.00, 11.00, 12.00, 12.00, 'pictures/products/beautiful_nice_frame.jpg', '2020-08-22 11:29:06');
+
 -- --------------------------------------------------------
 
 --
@@ -746,6 +783,7 @@ CREATE TABLE `testimonies` (
 --
 
 INSERT INTO `testimonies` (`id`, `customer_id`, `testimony`, `type`, `date`) VALUES
+('DoTe6VkI-0oUzMs0Zb-1598028985-0bIuVsdX-tuhsmzt3', 'uMmgYsmC-1v3jP0Lk0-1598120079-4mX3UFW6-bP7grGqD', 'Great Selection Of Products. Really Lovely. Keep It Up Guys....', 'Front', '2020-08-21 16:56:25'),
 ('S2KAgRYD-lJAH085qg-1597926545-EdBPgk8j-4NYJFgy5', 'q6J7ylIN-v2WGBQ4PI-1597689254-fqhxkSG3-I4GfQcP3', 'Some Random Testimony', 'Front', '2020-08-20 12:29:05');
 
 -- --------------------------------------------------------
@@ -866,19 +904,19 @@ ALTER TABLE `wishlist`
 -- AUTO_INCREMENT for table `audit_trail`
 --
 ALTER TABLE `audit_trail`
-  MODIFY `id` int(14) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4747;
+  MODIFY `id` int(14) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4768;
 
 --
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` int(14) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(14) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(14) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(14) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `roles`

@@ -142,7 +142,7 @@ function Orders({ history }) {
 
     return (
         <div className="back_gray">
-            {comError && <Toastrr message={message} type="info" />}
+            {comError && <Toastrr message={message} severity="info" />}
             <Header user={user} />
             <main id="external">
                 <Card variant="outlined">

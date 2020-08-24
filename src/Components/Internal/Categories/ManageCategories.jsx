@@ -149,7 +149,7 @@ function ManageCategories({ history }) {
     
     return (
         <>
-            { comError      && <Toastrr message={message} type="info" /> }
+            { comError      && <Toastrr message={message} severity="info" /> }
             { showAddModal  && <AddCategory  history={history} closeModal={closeModal} reload={reload} permissions={permissions} /> }
             { showEditModal && <EditCategory history={history} closeModal={closeModal} reload={reload} permissions={permissions} category={category} /> }
             <Header user={user} />
