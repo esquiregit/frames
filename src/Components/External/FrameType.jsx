@@ -9,14 +9,12 @@ import Loadrr from '../Extras/Loadrr';
 import styles from '../Extras/styles';
 import Toastrr from '../Extras/Toastrr';
 import Backdrop from '@material-ui/core/Backdrop';
-import IconButton from '@material-ui/core/IconButton';
-import FavoriteIcon from '@material-ui/icons/Favorite';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
 import { NavLink } from 'react-router-dom';
 import { getBaseURL } from '../Extras/server';
 import { useSelector } from 'react-redux';
 import { getHeadingFull, getHeading } from '../Extras/Functions';
+import FrameTemplate from './FrameTemplate';
 
 function FrameType({ match }) {
     const category    = match.params.category;
@@ -154,33 +152,12 @@ function FrameType({ match }) {
                                         {
                                             frames.map((frame, index) => {
                                                 return (
-                                                    <Grid key={index} item xs={6} sm={4} lg={2}>
-                                                        {
-                                                            user &&
-                                                            <span>
-                                                                {
-                                                                    wishlist && wishlist.includes(frame.product_id) ?
-                                                                    // true ?
-                                                                    <IconButton
-                                                                        className="add-to-wishlist"
-                                                                        onClick={() => wishlistAction(frame.id, frame.product_id, 'add')}>
-                                                                        <FavoriteBorderOutlinedIcon color="primary" />
-                                                                    </IconButton> :
-                                                                    <IconButton
-                                                                        className="add-to-wishlist"
-                                                                        onClick={() => wishlistAction(frame.id, frame.product_id, 'remove')}>
-                                                                        <FavoriteIcon color="primary" />
-                                                                    </IconButton>
-                                                                }
-                                                            </span>
-                                                        }
-                                                        <NavLink to={`/design/${frame.product_id}`}>
-                                                            <div>
-                                                                <img src={getBaseURL()+frame.image} alt={frame.name} />
-                                                            </div>
-                                                            <p style={{textDecoration: 'none'}}>{frame.name}</p>
-                                                        </NavLink>
-                                                    </Grid>
+                                                    <FrameTemplate
+                                                        index={index}
+                                                        frame={frame}
+                                                        user={user}
+                                                        wishlist={wishlist}
+                                                        wishlistAction={wishlistAction} />
                                                 );
                                             })
                                         }

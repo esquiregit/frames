@@ -1211,7 +1211,7 @@ main#external form {
     left: auto;
     position: sticky;
 }
-.add-to-wishlist {
+.wishlist-action {
     position: absolute;
     top: 40px;
     left: -6px;
